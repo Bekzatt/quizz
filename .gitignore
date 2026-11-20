@@ -1,0 +1,27 @@
+# Firebase: кэш деплоя, логи эмулятора и CLI
+.firebase/
+*-debug.log
+firebase-debug.*.log
+database-debug.log
+ui-debug.log
+.runtimeconfig.json
+
+# Ключи сервисного аккаунта и переменные окружения — никогда не коммитить
+*serviceAccount*.json
+*-adminsdk-*.json
+.env
+.env.*
+
+# Node / Python
+node_modules/
+__pycache__/
+*.pyc
+.venv/
+
+# Редакторы и системные файлы
+.vscode/
+.idea/
+.claude/settings.local.json
+Thumbs.db
+desktop.ini
+.DS_Store

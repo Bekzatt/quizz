@@ -1,0 +1,1273 @@
+<!doctype html>
+<html lang="kk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#F2F2F7">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Білім жарысы</title>
+<style>
+:root{
+  --bg:#F2F2F7; --card:#FFFFFF; --label:#000000; --label2:#3C3C4399; --label3:#3C3C434D; --sep:#C6C6C8;
+  --fill:#7676801F; --fill2:#74748014;
+  --blue:#007AFF; --green:#34C759; --red:#FF3B30; --orange:#FF9500; --yellow:#FFCC00;
+  --purple:#AF52DE; --indigo:#5856D6; --pink:#FF2D55; --teal:#30B0C7;
+  --r-lg:22px; --r-md:14px; --r-sm:10px;
+  --font:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Segoe UI Variable Text","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --glass:rgba(255,255,255,.78);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--label);font-family:var(--font);
+  -webkit-font-smoothing:antialiased;overflow:hidden;user-select:none;-webkit-user-select:none;letter-spacing:-.01em}
+button{font:inherit;cursor:pointer;color:inherit}
+input,textarea,select{font:inherit}
+
+/* ---------- кнопки ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:50px;padding:0 26px;border:0;border-radius:999px;
+  background:var(--blue);color:#fff;font-size:17px;font-weight:600;transition:transform .1s,filter .15s}
+.btn:active{transform:scale(.97);filter:brightness(.92)}
+.btn:disabled{opacity:.4;cursor:default}
+.btn.tinted{background:rgba(0,122,255,.12);color:var(--blue)}
+.btn.gray{background:var(--fill);color:var(--label)}
+.btn.danger{background:rgba(255,59,48,.12);color:var(--red)}
+.btn.wide{width:100%}
+.btn[hidden]{display:none}
+.link{background:none;border:0;color:var(--blue);font-size:15px;padding:6px}
+.ibtn{width:36px;height:36px;border-radius:50%;border:0;background:var(--fill);font-size:16px;display:inline-flex;align-items:center;justify-content:center}
+.ibtn:active{transform:scale(.92)}
+
+/* ---------- верхняя панель ---------- */
+#topbar{position:fixed;left:0;right:0;top:0;height:52px;display:flex;align-items:center;gap:8px;padding:0 12px;
+  background:var(--glass);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);
+  border-bottom:.5px solid var(--sep);z-index:5}
+#topbar .title{font-weight:600;font-size:16px;white-space:nowrap;flex:1}
+#timer{position:absolute;left:50%;transform:translateX(-50%);font-size:24px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+#timer.low{color:var(--red)}
+#topbar .right{display:flex;gap:8px;margin-left:auto}
+
+/* ---------- ойын алаңы ---------- */
+#cv{position:fixed;left:0;top:52px;display:block}
+#lanes{position:fixed;left:0;right:0;top:52px;bottom:0}
+.lane{position:absolute;left:0;right:0;touch-action:none;--fs:16px;font-size:var(--fs)}
+.hud{position:absolute;left:10px;top:8px;display:flex;align-items:center;gap:.45em;pointer-events:none;max-width:calc(100% - 20px)}
+.pill{background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:999px;padding:.28em .8em;
+  font-weight:600;display:inline-flex;align-items:center;gap:.4em;white-space:nowrap;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.hud .av{font-size:1.15em}
+.hud .nm{overflow:hidden;text-overflow:ellipsis;max-width:9em}
+.hud .sc{font-variant-numeric:tabular-nums;color:var(--blue);font-weight:700}
+.hud .st:empty,.hud .rk:empty{display:none}
+.hud .st{color:var(--orange)}
+.hud .rk{color:var(--label2);font-weight:600}
+.keys{position:absolute;right:10px;top:8px;pointer-events:none;font-size:.78em;color:var(--label2)}
+.keys b{display:inline-block;min-width:1.7em;text-align:center;background:#fff;color:var(--label);border-radius:6px;margin:0 1px;padding:.05em .3em;box-shadow:0 1px 0 rgba(0,0,0,.15)}
+.jumpbtn{position:absolute;right:12px;bottom:10px;height:var(--jb,64px);min-width:calc(var(--jb,64px)*1.6);padding:0 1.2em;border-radius:999px;border:0;
+  background:var(--pc,#007AFF);color:#fff;font-weight:700;font-size:calc(var(--jb,64px)*.3);box-shadow:0 6px 18px rgba(0,0,0,.18);
+  touch-action:none;display:flex;align-items:center;justify-content:center;gap:.3em}
+.jumpbtn:active,.jumpbtn.press{transform:scale(.95);filter:brightness(.92)}
+.jumpbtn.wide{left:16px;right:16px;width:auto;height:auto;font-size:24px;min-width:0;border-radius:28px}
+@media (hover:hover) and (pointer:fine){ .jumpbtn{display:none} }
+@media (pointer:coarse){ .keys{display:none} }
+
+/* сұрақ панелі */
+.panel{position:absolute;left:24%;right:2%;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.92);
+  backdrop-filter:saturate(180%) blur(24px);-webkit-backdrop-filter:saturate(180%) blur(24px);
+  border-radius:var(--r-lg);padding:.7em .8em .75em;box-shadow:0 12px 40px rgba(0,0,0,.16);
+  display:none;max-height:calc(100% - 8px);overflow:auto;z-index:2}
+.panel.show{display:block;animation:pop .22s cubic-bezier(.2,.9,.3,1.2)}
+@keyframes pop{from{transform:translateY(-50%) scale(.92);opacity:0}to{transform:translateY(-50%) scale(1);opacity:1}}
+.qhead{font-size:.72em;font-weight:600;color:var(--label2);text-transform:uppercase;letter-spacing:.04em}
+.qtext{font-weight:700;font-size:1.1em;margin:.1em 0 .55em;line-height:1.25}
+.opts{display:flex;gap:.45em}
+.opt{flex:1;display:flex;align-items:center;gap:.5em;text-align:left;background:var(--fill2);border:0;border-radius:12px;
+  padding:.55em .65em;color:var(--label);font-weight:500;line-height:1.2;touch-action:manipulation;position:relative}
+.opt:active{background:var(--fill)}
+.opt .k{flex:none;width:1.7em;height:1.7em;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;
+  background:var(--pc,#007AFF);color:#fff;font-weight:700;font-size:.85em}
+.opt .t{flex:1}
+.opt.ok{background:rgba(52,199,89,.16);color:#1E7B34}
+.opt.ok .k{background:var(--green)}
+.opt.ok::after{content:"✓";font-weight:800;color:var(--green)}
+.opt.bad{background:rgba(255,59,48,.14);color:#B3261E}
+.opt.bad .k{background:var(--red)}
+.opt.bad::after{content:"✕";font-weight:800;color:var(--red)}
+.lane.solo .panel{left:12px;right:12px}
+.lane.solo .opts{flex-direction:column;gap:0;background:var(--fill2);border-radius:14px;overflow:hidden}
+.lane.solo .opt{border-radius:0;background:transparent;padding:.85em .9em;font-size:1.08em}
+.lane.solo .opt + .opt{border-top:.5px solid var(--sep)}
+.lane.solo .opt.ok{background:rgba(52,199,89,.16)}
+.lane.solo .opt.bad{background:rgba(255,59,48,.14)}
+
+#count{position:fixed;inset:52px 0 0 0;display:none;align-items:center;justify-content:center;z-index:8;pointer-events:none}
+#count.show{display:flex}
+#count span{min-width:min(220px,46vw);height:min(220px,46vw);padding:0 30px;border-radius:999px;background:var(--glass);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);display:flex;align-items:center;justify-content:center;
+  font-size:min(110px,22vw);font-weight:800;color:var(--blue);box-shadow:0 20px 60px rgba(0,0,0,.18);animation:pop2 .3s ease-out;letter-spacing:-.04em}
+#count span.go{font-size:min(64px,13vw);color:var(--green)}
+@keyframes pop2{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
+
+/* ---------- экрандар (бет) ---------- */
+.overlay{position:fixed;inset:0;display:none;justify-content:center;align-items:flex-start;background:var(--bg);z-index:10;overflow:auto;
+  padding:max(20px,env(safe-area-inset-top)) 16px 40px}
+.overlay.show{display:flex}
+.overlay.modal{background:rgba(0,0,0,.3);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);align-items:center}
+.page{width:100%;max-width:680px;user-select:text;-webkit-user-select:text}
+.large{font-size:34px;font-weight:800;letter-spacing:-.03em;margin:8px 4px 2px;line-height:1.1}
+.sub{color:var(--label2);font-size:16px;margin:4px 4px 18px;line-height:1.4}
+.ghead{font-size:13px;color:var(--label2);text-transform:uppercase;letter-spacing:.03em;margin:22px 16px 7px}
+.gfoot{font-size:13px;color:var(--label2);margin:7px 16px 0;line-height:1.4}
+.group{background:var(--card);border-radius:var(--r-md);overflow:hidden}
+.row{display:flex;align-items:center;gap:12px;min-height:48px;padding:8px 16px;position:relative}
+.row + .row::before{content:"";position:absolute;top:0;right:0;left:60px;border-top:.5px solid var(--sep)}
+.group.plain .row + .row::before{left:16px}
+.row .grow{flex:1;min-width:0}
+.row .grow small{display:block;color:var(--label2);font-size:13px;margin-top:1px}
+.row input[type=text]{border:0;outline:0;background:transparent;font-size:17px;width:100%;padding:6px 0;color:var(--label)}
+.tile{flex:none;width:32px;height:32px;border-radius:8px;background:var(--c,#007AFF);display:inline-flex;align-items:center;justify-content:center;font-size:18px}
+.tile.lg{width:44px;height:44px;border-radius:11px;font-size:24px}
+.kbd{flex:none;white-space:nowrap}
+.kbd b{display:inline-block;min-width:22px;text-align:center;background:var(--fill2);border-radius:6px;padding:2px 5px;font-size:13px;margin-left:3px;color:var(--label2)}
+.seg{display:flex;background:var(--fill);border-radius:10px;padding:2px;gap:2px}
+.seg button,.seg span{flex:1;border:0;background:transparent;border-radius:8px;padding:7px 8px;font-size:14px;font-weight:500;color:var(--label);text-align:center;white-space:nowrap}
+.seg .on{background:#fff;box-shadow:0 3px 8px rgba(0,0,0,.12),0 .5px 1px rgba(0,0,0,.08);font-weight:600}
+.seg.big button{padding:10px 8px;font-size:15px}
+.seg.steps span{color:var(--label2)}
+.seg.steps .on{color:var(--label)}
+.seg.steps .done{color:var(--green)}
+details.row{display:block;padding:0}
+details.row summary{list-style:none;display:flex;align-items:center;gap:12px;min-height:48px;padding:8px 16px;cursor:pointer}
+details.row summary::-webkit-details-marker{display:none}
+details.row summary::after{content:"›";margin-left:auto;color:var(--label3);font-size:22px;transition:transform .2s}
+details.row[open] summary::after{transform:rotate(90deg)}
+details.row .inner{padding:0 16px 14px}
+textarea{width:100%;min-height:150px;font:14px/1.45 ui-monospace,Menlo,Consolas,monospace;border:0;border-radius:10px;padding:10px;background:var(--fill2);outline:0;resize:vertical}
+code{font:13px ui-monospace,Menlo,Consolas,monospace;background:var(--fill2);border-radius:5px;padding:1px 5px}
+.switch{position:relative;width:51px;height:31px;flex:none}
+.switch input{opacity:0;width:0;height:0}
+.switch span{position:absolute;inset:0;background:#E9E9EA;border-radius:999px;transition:.2s}
+.switch span::after{content:"";position:absolute;left:2px;top:2px;width:27px;height:27px;border-radius:50%;background:#fff;box-shadow:0 3px 8px rgba(0,0,0,.15);transition:.2s}
+.switch input:checked + span{background:var(--green)}
+.switch input:checked + span::after{transform:translateX(20px)}
+.num{flex:none;width:28px;height:28px;border-radius:50%;background:var(--blue);color:#fff;font-weight:700;font-size:14px;display:inline-flex;align-items:center;justify-content:center}
+.actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:22px}
+.center{text-align:center}
+.muted{color:var(--label2)}
+
+/* қалай ойнау */
+.howto{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.howto .h{background:var(--card);border-radius:var(--r-md);padding:14px 12px;text-align:center}
+.howto .h .tile{margin:0 auto 8px}
+.howto .h b{display:block;font-size:15px}
+.howto .h small{display:block;color:var(--label2);font-size:13px;margin-top:3px;line-height:1.3}
+@media (max-width:480px){ .howto{grid-template-columns:1fr} .howto .h{display:flex;gap:12px;text-align:left;align-items:center} .howto .h .tile{margin:0} }
+
+/* модаль карточка */
+.sheet{background:var(--card);border-radius:28px;padding:26px 22px 22px;width:100%;max-width:560px;box-shadow:0 30px 80px rgba(0,0,0,.25);max-height:100%;overflow:auto}
+.sheet.small{max-width:340px;text-align:center}
+
+/* нәтиже: подиум */
+.podium{display:flex;justify-content:center;align-items:flex-end;gap:10px;margin:18px 0 6px}
+.pod{width:31%;max-width:150px;text-align:center}
+.pod .pav{width:56px;height:56px;margin:0 auto 6px;border-radius:50%;background:var(--c);display:flex;align-items:center;justify-content:center;font-size:30px;box-shadow:0 4px 12px rgba(0,0,0,.12)}
+.pod.p1 .pav{width:70px;height:70px;font-size:38px;outline:4px solid var(--yellow);outline-offset:2px}
+.pod .pname{font-weight:600;font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pod .pscore{color:var(--blue);font-weight:700;font-size:17px;margin-bottom:6px}
+.pod .pblock{border-radius:14px 14px 6px 6px;color:#fff;font-weight:800;font-size:28px;display:flex;align-items:flex-start;justify-content:center;padding-top:8px}
+.pod.p1 .pblock{height:110px;background:linear-gradient(#FFD60A,#FF9F0A)}
+.pod.p2 .pblock{height:80px;background:linear-gradient(#D1D1D6,#AEAEB2)}
+.pod.p3 .pblock{height:60px;background:linear-gradient(#E3A869,#C07A3E)}
+.pod.me .pname{color:var(--blue)}
+.rank{flex:none;width:28px;height:28px;border-radius:50%;background:var(--fill);font-weight:700;font-size:14px;display:inline-flex;align-items:center;justify-content:center}
+.rank.r1{background:var(--yellow);color:#5c4500}.rank.r2{background:#D1D1D6}.rank.r3{background:#E3A869;color:#fff}
+.score{font-weight:700;font-size:19px;font-variant-numeric:tabular-nums}
+.row.me{background:rgba(0,122,255,.08)}
+.row.off{opacity:.45}
+.bar{height:4px;border-radius:2px;background:var(--fill);margin-top:5px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--c,#007AFF);border-radius:2px;transition:width .5s}
+
+/* лобби */
+.bigav{width:110px;height:110px;border-radius:50%;margin:10px auto 8px;display:flex;align-items:center;justify-content:center;font-size:60px;background:var(--c,#007AFF);box-shadow:0 10px 30px rgba(0,0,0,.15)}
+.status{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:15px;background:var(--card);border-radius:999px;padding:8px 16px}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--green);animation:pulse 1.2s infinite}
+.dot.off{background:var(--red)}
+@keyframes pulse{50%{opacity:.3}}
+.chips{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.chips span{background:var(--card);border-radius:999px;padding:5px 12px;font-size:14px;font-weight:500}
+.field{background:var(--card);border-radius:var(--r-md);padding:4px 16px;margin:0 0 14px}
+.field input{width:100%;border:0;outline:0;font-size:22px;text-align:center;padding:12px 0;background:transparent}
+.err{color:var(--red);font-size:14px;min-height:20px;margin-top:8px}
+
+/* ---------- мұғалім экраны ---------- */
+#host{position:fixed;inset:0;display:none;overflow:auto;background:var(--bg);padding:16px 20px 40px;z-index:9;user-select:text}
+#host.show{display:block}
+.hbar{max-width:1400px;margin:0 auto 14px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.hbar .large{margin:0;flex:1}
+.hbar .seg{min-width:340px}
+.hwrap{max-width:1400px;margin:0 auto;display:grid;grid-template-columns:340px 1fr;gap:18px;align-items:start}
+@media (max-width:960px){ .hwrap{grid-template-columns:1fr} .hbar .seg{min-width:0;width:100%} }
+.hcard{background:var(--card);border-radius:var(--r-lg);padding:18px}
+.hcard h3{margin:0 0 4px;font-size:20px;font-weight:700;letter-spacing:-.02em}
+#qr{display:flex;justify-content:center;margin:14px 0 10px;padding:12px;background:#fff;border-radius:18px}
+#qr img,#qr canvas{width:260px;height:260px}
+.url{font-size:26px;font-weight:800;text-align:center;word-break:break-all;color:var(--blue);letter-spacing:-.02em}
+.htimer{font-size:72px;font-weight:800;text-align:center;font-variant-numeric:tabular-nums;letter-spacing:-.04em;line-height:1}
+.htimer.low{color:var(--red)}
+.hsub{text-align:center;color:var(--label2);margin:4px 0 14px;font-weight:500}
+.board{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:0 14px}
+.board .row{background:var(--card)}
+.hp{display:inline-flex;align-items:center;gap:8px;background:var(--fill2);border-radius:999px;padding:5px 6px 5px 6px;font-weight:600;font-size:15px}
+.hp .tile{width:28px;height:28px;border-radius:50%;font-size:16px}
+.hp button{border:0;background:var(--fill);border-radius:50%;width:24px;height:24px;line-height:1;color:var(--label2);font-size:13px}
+.hp.off{opacity:.4}
+.hp .unban{width:auto;border-radius:999px;padding:0 10px;color:var(--blue);font-weight:600;font-size:13px;height:26px}
+.linkbox{display:flex;gap:8px;margin-top:14px}
+.linkbox input{flex:1;min-width:0;border:0;outline:0;background:var(--fill2);border-radius:10px;padding:0 12px;height:44px;font-size:14px;color:var(--label)}
+.linkbox .btn{height:44px;padding:0 14px;font-size:15px;flex:none}
+/* сұрақ формасы */
+.qed .qform{display:grid;gap:8px;margin-bottom:12px}
+.qed .qform input[type=text]{width:100%;border:0;outline:0;background:var(--fill2);border-radius:10px;padding:11px 12px;font-size:16px;color:var(--label)}
+.qed .qform input[type=text]:focus{box-shadow:0 0 0 2px rgba(0,122,255,.35)}
+.qed .qf-q{font-weight:600}
+.qf-row{display:flex;align-items:center;gap:8px}
+.qf-row > span{flex:none;width:26px;height:26px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:13px}
+.qf-row.ok > span{background:var(--green)} .qf-row.bad > span{background:var(--red)}
+.qf-actions{display:flex;gap:8px;flex-wrap:wrap}
+.qf-actions .btn{height:42px;font-size:15px;padding:0 18px}
+.qf-err{text-align:left;margin-top:0;min-height:0}
+.qlist{background:var(--fill2);border-radius:12px;overflow:hidden}
+.qitem{display:flex;align-items:center;gap:10px;padding:9px 10px}
+.qitem + .qitem{border-top:.5px solid var(--sep)}
+.qitem .num{width:24px;height:24px;font-size:12px}
+.qitem .grow{flex:1;min-width:0}
+.qitem b{font-weight:600;font-size:15px;display:block;overflow-wrap:anywhere}
+.qitem small{display:block;font-size:13px;color:var(--label2);margin-top:2px;overflow-wrap:anywhere}
+.qitem .ok{color:#1E7B34}.qitem .bad{color:#B3261E}
+.qitem .ibtn{width:32px;height:32px;font-size:14px;flex:none}
+.qitem.editing{background:rgba(0,122,255,.08)}
+.qempty{padding:14px;text-align:center;font-size:14px}
+.qhint{font-size:13px;color:var(--label2);margin:0 0 8px}
+details.bulk{margin-top:12px}
+details.bulk summary{cursor:pointer;color:var(--blue);font-size:14px;font-weight:500;list-style:none;display:block;min-height:0;padding:4px 0}
+details.bulk summary::after{content:none}
+details.bulk summary::-webkit-details-marker{display:none}
+details.bulk[open] summary{margin-bottom:8px}
+.warn{background:rgba(255,149,0,.14);color:#8a5200;border-radius:var(--r-md);padding:12px 16px;margin:0 0 14px;font-weight:600}
+.empty{color:var(--label2);text-align:center;padding:30px 10px}
+.empty b{display:block;color:var(--label);font-size:17px;margin-bottom:4px}
+@media (max-width:600px){ .large{font-size:28px} #topbar .title{display:none} .board{grid-template-columns:1fr} }
+</style>
+</head>
+<body>
+<div id="topbar">
+  <span class="title">Білім жарысы</span>
+  <span id="timer">0:00</span>
+  <div class="right">
+    <button class="ibtn" id="bPause" aria-label="Пауза">⏸</button>
+    <button class="ibtn" id="bMute" aria-label="Дыбыс">🔊</button>
+    <button class="ibtn" id="bMenu" aria-label="Шығу">✕</button>
+  </div>
+</div>
+<canvas id="cv"></canvas>
+<div id="lanes"></div>
+<div id="count"></div>
+
+<!-- ============ Басты экран ============ -->
+<div class="overlay" id="setup">
+  <div class="page">
+    <div class="large">Білім жарысы</div>
+    <p class="sub">Кедергілерден секіріп өт, сұрақтарға жауап бер, ең көп ұпай жина.</p>
+
+    <div class="seg big" id="modeSeg">
+      <button data-tab="local" class="on">📱 Бір құрылғыда</button>
+      <button data-tab="wifi">📶 Әркім өз телефонында</button>
+    </div>
+
+    <div class="ghead">Қалай ойнау керек</div>
+    <div class="howto-slot"></div>
+
+    <div id="tabLocal">
+      <div class="ghead">Ойыншылар</div>
+      <div class="group plain"><div class="row"><div class="seg" id="nSeg" style="flex:1"></div></div></div>
+      <div class="group" id="pList" style="margin-top:10px"></div>
+      <div class="gfoot" id="keysFoot">Компьютерде әр ойыншы өз 3 пернесін басады: жүгіргенде — секіру, сұрақта — 1, 2, 3-жауап.</div>
+
+      <div class="ghead">Ойын уақыты</div>
+      <div class="group plain"><div class="row"><div class="seg" id="durSeg" style="flex:1"></div></div></div>
+
+      <div class="ghead">Сұрақтар</div>
+      <div class="group">
+        <details class="row" id="qDetails">
+          <summary><span class="tile" style="--c:var(--orange)">✏️</span><span class="grow">Өз сұрақтарым<small id="poolInfo"></small></span></summary>
+          <div class="inner">
+            <div class="qed" id="qEd"></div>
+            <details class="bulk"><summary>📋 Көп сұрақты мәтінмен қою (Word/Excel-ден)</summary>
+              <p class="qhint">Әр жолға бір сұрақ: <code>Сұрақ | Дұрыс | Қате | Қате</code></p>
+              <textarea id="qText" placeholder="Python: 3 + 4 * 2 = ? | 11 | 14 | 10"></textarea>
+            </details>
+            <div class="row" style="padding:10px 0 0"><span class="grow">Тек өз сұрақтарым<small id="qInfo"></small></span>
+              <label class="switch"><input type="checkbox" id="qOnly"><span></span></label></div>
+          </div>
+        </details>
+      </div>
+
+      <div class="actions"><button class="btn wide" id="bStart">▶ Бастау</button></div>
+    </div>
+
+    <div id="tabWifi" style="display:none">
+      <div id="wifiSrv" style="display:none">
+        <div class="ghead">Сервер қосулы</div>
+        <div class="group">
+          <div class="row"><span class="tile" style="--c:var(--green)">✅</span><span class="grow">Сервер жұмыс істеп тұр<small>Мұғалім экранын ашып, оқушыларды қосыңыз</small></span></div>
+        </div>
+        <div class="actions"><a href="/host" style="flex:1"><button class="btn wide">🖥 Мұғалім экраны</button></a>
+          <button class="btn tinted" id="bJoinMe" style="flex:1">📱 Ойыншы ретінде кіру</button></div>
+      </div>
+      <div id="wifiNoSrv">
+        <div class="ghead">Мұғалімге: 4 қадам</div>
+        <div class="group">
+          <div class="row"><span class="num">1</span><span class="grow">Осы папкадағы <b>start.bat</b> файлын екі рет басыңыз<small>Компьютерде Python болуы керек</small></span></div>
+          <div class="row"><span class="num">2</span><span class="grow">Windows сұраса — <b>«Рұқсат беру»</b><small>Әйтпесе телефондар қосыла алмайды</small></span></div>
+          <div class="row"><span class="num">3</span><span class="grow">Оқушылар <b>сол Wi-Fi</b>-ға қосылып, QR-кодты сканерлейді<small>QR-код мұғалім экранында шығады</small></span></div>
+          <div class="row"><span class="num">4</span><span class="grow">Барлығы қосылғанда <b>«Бастау»</b> басыңыз<small>Барлығы бір уақытта бастайды</small></span></div>
+        </div>
+        <div class="gfoot">Ойынға интернет қажет емес — тек бір Wi-Fi желісі.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ Телефоннан кіру ============ -->
+<div class="overlay" id="join">
+  <div class="page" style="max-width:460px">
+    <div id="joinForm">
+      <div class="bigav" style="--c:var(--blue)">🏁</div>
+      <div class="large center">Ойынға қосыл</div>
+      <p class="sub center">Атыңды жазып, «Қосылу» бас</p>
+      <div class="field"><input type="text" id="myName" maxlength="16" placeholder="Атың" autocomplete="off"></div>
+      <button class="btn wide" id="bJoin">Қосылу</button>
+      <div class="err center" id="joinErr"></div>
+    </div>
+    <div id="joinLobby" style="display:none" class="center">
+      <div class="bigav" id="myAv">🦊</div>
+      <div class="large" id="myNameShow" style="margin-bottom:12px"></div>
+      <span class="status"><span class="dot" id="connDot"></span><span id="lobbyMsg">Мұғалім бастауын күт...</span></span>
+      <div class="ghead" style="text-align:left">Қалай ойнау керек</div>
+      <div class="howto-slot" style="text-align:left"></div>
+      <div class="ghead" style="text-align:left" id="lobbyCount">Қосылғандар</div>
+      <div class="chips" id="lobbyNames"></div>
+      <div style="margin-top:16px"><button class="link" id="bRename">Атымды өзгерту</button></div>
+    </div>
+    <div class="center" style="margin-top:10px"><button class="link" id="bLocalMode">Бір құрылғыда ойнау</button></div>
+  </div>
+</div>
+
+<!-- Оқушыны шығару -->
+<div class="overlay modal" id="kickSheet">
+  <div class="sheet small">
+    <div class="bigav" id="kAv" style="width:72px;height:72px;font-size:40px;margin-top:0"></div>
+    <h2 id="kName" style="margin:6px 0 4px"></h2>
+    <p class="muted" style="margin:0 0 16px;font-size:14px;line-height:1.45"><b>Шығару</b> — қайта кіре алады.<br><b>Бұғаттау</b> — бұл бөлмеге кіре алмайды (кейін қайтаруға болады).</p>
+    <div style="display:grid;gap:8px">
+      <button class="btn tinted wide" id="kKick">Шығару</button>
+      <button class="btn danger wide" id="kBan">🚫 Бұғаттау</button>
+      <button class="btn gray wide" id="kCancel">Болдырмау</button>
+    </div>
+  </div>
+</div>
+
+<!-- Пауза -->
+<div class="overlay modal" id="pause">
+  <div class="sheet small">
+    <div style="font-size:44px">⏸</div>
+    <h2 style="margin:6px 0 4px">Пауза</h2>
+    <p class="muted" style="margin:0 0 18px">Жалғастыру үшін Esc немесе батырманы басыңыз</p>
+    <button class="btn wide" id="bResume">Жалғастыру</button>
+  </div>
+</div>
+
+<!-- Нәтиже -->
+<div class="overlay modal" id="end">
+  <div class="sheet">
+    <div class="center" style="font-size:15px;font-weight:600;color:var(--label2);text-transform:uppercase;letter-spacing:.04em">Ойын аяқталды</div>
+    <div class="large center" id="winner" style="font-size:28px"></div>
+    <div id="res"></div>
+    <div class="actions">
+      <button class="btn" id="bAgain">Қайта ойнау</button>
+      <button class="btn gray" id="bToMenu">Мәзір</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ Мұғалім экраны ============ -->
+<div id="host">
+  <div class="hbar">
+    <div class="large">Білім жарысы</div>
+    <div class="seg steps" id="hSteps"><span data-ph="lobby">1 · Қосылу</span><span data-ph="play">2 · Ойын</span><span data-ph="end">3 · Нәтиже</span></div>
+    <button class="btn gray" id="hFull" style="height:40px;padding:0 16px;font-size:15px">⛶ Толық экран</button>
+  </div>
+  <div class="hwrap">
+    <div class="hcard">
+      <h3>Телефоннан кіру</h3>
+      <div class="muted" style="font-size:14px">Телефонды осы компьютердің <b>Wi-Fi</b>-ына қосып, QR-кодты сканерлеңіз</div>
+      <div id="qr"></div>
+      <div class="url" id="hUrl"></div>
+      <div class="linkbox"><input type="text" id="hLink" readonly aria-label="Ойынға сілтеме"><button class="btn tinted" id="hCopy">📋 Көшіру</button></div>
+      <div class="muted center" style="font-size:13px;margin-top:6px">Сілтемені WhatsApp/Telegram арқылы оқушыларға жіберуге болады (бір Wi-Fi-да болуы керек)</div>
+      <div class="center" id="hShareWrap" style="display:none;margin-top:4px"><button class="link" id="hShare">↗ Бөлісу</button></div>
+      <div class="muted center" id="hUrlAlt" style="font-size:13px;margin-top:6px"></div>
+    </div>
+    <div>
+      <div id="hWarn" class="warn" style="display:none"></div>
+      <!-- 1. Лобби -->
+      <div id="hLobby">
+        <div class="hcard">
+          <h3>Қосылған оқушылар · <span id="hCount">0</span></h3>
+          <div class="chips" id="hPlayers" style="justify-content:flex-start;margin-top:12px"></div>
+          <div id="hBannedWrap" style="display:none;margin-top:16px">
+            <div class="muted" style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.03em;margin-bottom:6px">🚫 Бұғатталғандар</div>
+            <div class="chips" id="hBanned" style="justify-content:flex-start"></div>
+          </div>
+        </div>
+        <div class="ghead">Ойын уақыты</div>
+        <div class="group plain"><div class="row"><div class="seg" id="hDurSeg" style="flex:1"></div></div></div>
+        <div class="ghead">Сұрақтар</div>
+        <div class="group">
+          <details class="row" id="hqDetails">
+            <summary><span class="tile" style="--c:var(--orange)">✏️</span><span class="grow">Өз сұрақтарым<small id="hPoolInfo"></small></span></summary>
+            <div class="inner">
+              <div class="qed" id="hqEd"></div>
+              <details class="bulk"><summary>📋 Көп сұрақты мәтінмен қою (Word/Excel-ден)</summary>
+                <p class="qhint">Әр жолға бір сұрақ: <code>Сұрақ | Дұрыс | Қате | Қате</code></p>
+                <textarea id="hqText" placeholder="Python: 3 + 4 * 2 = ? | 11 | 14 | 10"></textarea>
+              </details>
+              <div class="row" style="padding:10px 0 0"><span class="grow">Тек өз сұрақтарым<small id="hqInfo"></small></span>
+                <label class="switch"><input type="checkbox" id="hqOnly"><span></span></label></div>
+            </div>
+          </details>
+        </div>
+        <div class="actions"><button class="btn wide" id="hStart" disabled style="height:56px;font-size:19px">▶ Ойынды бастау</button></div>
+      </div>
+      <!-- 2. Ойын -->
+      <div id="hPlay" style="display:none">
+        <div class="hcard" style="margin-bottom:14px">
+          <div class="htimer" id="hTimer">0:00</div>
+          <div class="hsub" id="hTimerSub">қалды</div>
+          <div class="center"><button class="btn danger" id="hStop" style="height:40px;font-size:15px">Ойынды аяқтау</button></div>
+        </div>
+        <div class="ghead">Тікелей рейтинг</div>
+        <div class="board group" id="hBoard"></div>
+      </div>
+      <!-- 3. Нәтиже -->
+      <div id="hEnd" style="display:none">
+        <div class="hcard">
+          <div class="large center" id="hWinner" style="font-size:30px"></div>
+          <div id="hRes"></div>
+          <div class="actions">
+            <button class="btn" id="hAgain">🔁 Қайта бастау</button>
+            <button class="btn gray" id="hReset">Оқушылар тізіміне</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+"use strict";
+// ================= СҰРАҚТАР =================
+// Формат: Сұрақ | Дұрыс | Қате | Қате
+const BASE_Q = `
+1 байт неше битке тең? | 8 | 2 | 16
+Екілік жүйедегі 101 саны ондық жүйеде нешеге тең? | 5 | 3 | 101
+Ондық 8 саны екілік жүйеде қалай жазылады? | 1000 | 111 | 1010
+Екілік 1111 саны ондық жүйеде нешеге тең? | 15 | 16 | 4
+Екілік жүйеде қандай цифрлар қолданылады? | 0 және 1 | 0-ден 9-ға дейін | 1 және 2
+1 Кбайт неше байтқа тең? | 1024 | 1000 | 512
+Қайсысы ең үлкен өлшем бірлігі? | Гигабайт | Мегабайт | Килобайт
+Қайсысы енгізу құрылғысы? | Пернетақта | Монитор | Принтер
+Қайсысы шығару құрылғысы? | Принтер | Тышқан | Микрофон
+Компьютердің «миы» деп нені атайды? | Процессор | Монитор | Колонка
+Қуат өшкенде қай жадтағы мәлімет жоғалады? | Жедел жад (RAM) | Қатты диск | Флешка
+Алгоритм дегеніміз не? | Әрекеттердің нақты реті | Компьютер бөлшегі | Бағдарлама терезесі
+Блок-схемада шарт қандай фигурамен белгіленеді? | Ромб | Тіктөртбұрыш | Сопақ
+Python тілінде экранға шығару командасы: | print() | input() | show()
+Python: input() не істейді? | Пернетақтадан мән енгізеді | Экранға шығарады | Файлды жояды
+Python: 7 // 2 нәтижесі? | 3 | 3.5 | 1
+Python: 7 % 2 нәтижесі? | 1 | 3 | 3.5
+Python: 2 ** 3 нәтижесі? | 8 | 6 | 9
+Python: len("сәлем") нәтижесі? | 5 | 4 | 6
+Python: x = 5, содан соң x = x + 3. x неге тең? | 8 | 5 | 53
+Python: "ab" * 3 нәтижесі? | ababab | ab3 | Қате шығады
+Python: тізімнің бірінші элементінің индексі? | 0 | 1 | -1
+Python тілінде шартты оператор: | if | for | print
+Python тілінде цикл операторы: | for | if | else
+Логика: 1 ЖӘНЕ 0 = ? | 0 | 1 | 10
+Логика: 1 НЕМЕСЕ 0 = ? | 1 | 0 | 2
+Логика: ЕМЕС 1 = ? | 0 | 1 | -1
+.mp3 кеңейтуі бар файл қандай? | Дыбыс | Мәтін | Сурет
+.jpg кеңейтуі бар файл қандай? | Сурет | Бейне | Кесте
+Вирустан қорғайтын бағдарлама: | Антивирус | Браузер | Калькулятор
+Интернет беттерін ашатын бағдарлама: | Браузер | Блокнот | Paint
+Мәтінді көшіру пернелері: | Ctrl + C | Ctrl + V | Ctrl + Z
+Көшірілген мәтінді қою пернелері: | Ctrl + V | Ctrl + C | Ctrl + S
+Соңғы әрекетті болдырмау пернелері: | Ctrl + Z | Ctrl + X | Ctrl + A
+Құжатты сақтау пернелері: | Ctrl + S | Ctrl + P | Ctrl + O
+Кесте түрінде есептейтін бағдарлама: | Excel | Word | Paint
+Сенімді пароль қандай болады? | Ұзын, әріп пен цифр аралас | 123456 | Өз атың
+IP-адрес не үшін керек? | Желідегі құрылғыны анықтау | Әріп жазу | Экранды жарықтандыру
+Пиксель дегеніміз не? | Суреттің ең кіші нүктесі | Дыбыс бірлігі | Файл түрі
+Өзара байланысқан компьютерлер жиыны: | Компьютерлік желі | Процессор | Алгоритм
+`;
+
+function parseQuestions(text){
+  return String(text||'').split(/\r?\n/).map(l=>l.trim()).filter(l=>l && !l.startsWith('#'))
+    .map(l=>l.split(/[|\t]/).map(s=>s.trim())).filter(p=>p.length>=3 && p.slice(0,4).every(Boolean))
+    .map(p=>({q:p[0], a:p[1], w:p.slice(2,4)}));
+}
+const BASE = parseQuestions(BASE_Q);
+
+// ================= ОЙЫНШЫЛАР (iOS түстері) =================
+const DEFS = [
+  {color:'#FF3B30', sky:['#FFE5E3','#FFF8F7'], ground:'#FFD3CF', edge:'#FFB0A8', keys:['KeyQ','KeyW','KeyE'], labels:['Q','W','E'], av:'🦊'},
+  {color:'#007AFF', sky:['#DCEBFF','#F5F9FF'], ground:'#CDE8C6', edge:'#9BD38E', keys:['KeyZ','KeyX','KeyC'], labels:['Z','X','C'], av:'🐼'},
+  {color:'#34C759', sky:['#DDF6E3','#F6FDF8'], ground:'#F2E4C8', edge:'#E2C893', keys:['KeyI','KeyO','KeyP'], labels:['I','O','P'], av:'🐸'},
+  {color:'#AF52DE', sky:['#F1E3FA','#FBF7FE'], ground:'#CFEFF2', edge:'#95D9E0', keys:['ArrowLeft','ArrowDown','ArrowRight'], labels:['←','↓','→'], av:'🐯'},
+];
+const DURS=[[60,'1 мин'],[120,'2 мин'],[180,'3 мин'],[300,'5 мин']];
+const HOWTO_HTML=`<div class="howto">
+  <div class="h"><span class="tile lg" style="--c:#5856D6">👾</span><span><b>Секіріп өт</b><small>Вирусқа соғылсаң −3 ұпай</small></span></div>
+  <div class="h"><span class="tile lg" style="--c:#007AFF">❓</span><span><b>Жауап бер</b><small>Дұрыс жауап +10 ұпай және ⚡ жылдамдық</small></span></div>
+  <div class="h"><span class="tile lg" style="--c:#FF9500;color:#fff;font-weight:800">₸</span><span><b>Теңге жина</b><small>Әр теңге +1, қатарынан дұрыс — бонус 🔥</small></span></div>
+</div>`;
+document.querySelectorAll('.howto-slot').forEach(e=>e.innerHTML=HOWTO_HTML);
+
+// Физика (бірлік: «u»)
+const SPEED=40, GRAV=320, JUMP=130, PW=7, PH=12, BOOST=1.6;
+// Көрініс өлшемдері: ойыншы суретінің үлкейтуі және теңге радиусы
+const PLAYER_SCALE=1.45, COIN_R=4.2;
+const FONT='-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Roboto,sans-serif';
+const EMOJI='"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif';
+
+// ================= КӨМЕКШІЛЕР =================
+const $=s=>document.querySelector(s);
+const show=(s,on=true)=>$(s).classList.toggle('show',on);
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function shuffle(arr,r=Math.random){const a=arr.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+const safeColor=c=>/^#[0-9a-fA-F]{6}$/.test(String(c))?c:'#8E8E93';
+function store(k,v){try{ if(v===undefined) return localStorage.getItem(k); localStorage.setItem(k,v);}catch(e){return null}}
+function fmtTime(sec){ const t=Math.max(0,Math.ceil(sec)); return `${Math.floor(t/60)}:${String(t%60).padStart(2,'0')}`; }
+function segment(el, items, value, onChange){
+  el.innerHTML=items.map(([v,l])=>`<button data-v="${v}" class="${String(v)===String(value)?'on':''}">${l}</button>`).join('');
+  el.onclick=e=>{ const b=e.target.closest('[data-v]'); if(!b) return;
+    el.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b)); onChange(b.dataset.v); };
+}
+function places(list){ const out=[]; let pl=0; list.forEach((p,k)=>{ if(k===0||p.score!==list[k-1].score) pl=k; out.push(pl); }); return out; }
+function resultsHTML(list, meId){
+  if(!list.length) return '<div class="empty"><b>Нәтиже жоқ</b>Бұл ойынға ешкім қатыспады</div>';
+  const pl=places(list), top=list.slice(0,3);
+  const order= top.length===1?[0] : top.length===2?[1,0] : [1,0,2];
+  const pod=order.map(k=>{ const p=top[k];
+    return `<div class="pod p${pl[k]+1} ${p.id&&p.id===meId?'me':''}"><div class="pav" style="--c:${safeColor(p.color)}">${esc(p.av)}</div>
+      <div class="pname">${esc(p.name)}</div><div class="pscore">${p.score}</div><div class="pblock">${pl[k]+1}</div></div>`; }).join('');
+  const rows=list.map((p,k)=>`<div class="row ${p.id&&p.id===meId?'me':''}"><span class="rank r${pl[k]+1}">${pl[k]+1}</span>
+      <span class="tile" style="--c:${safeColor(p.color)}">${esc(p.av)}</span>
+      <span class="grow"><b>${esc(p.name)}</b><small>✅ ${p.correct} дұрыс · ❌ ${p.wrong} қате · 👾 ${p.hits} · ${p.coins} ₸</small></span>
+      <span class="score">${p.score}</span></div>`).join('');
+  return `<div class="podium">${pod}</div><div class="group" style="margin-top:14px;background:var(--bg)">${rows}</div>`;
+}
+function winnerText(list){
+  if(!list.length) return 'Ойын аяқталды';
+  if(list.length===1) return `${list[0].score} ұпай жинадың!`;
+  const top=list.filter(p=>p.score===list[0].score);
+  return top.length>1 ? `Тең түсті: ${top.map(p=>p.name).join(', ')} 🤝` : `${list[0].name} жеңді 🏆`;
+}
+
+// Дыбыс
+let AC=null, muted=false;
+function sfx(type){
+  if(muted) return;
+  try{
+    AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+    const m={jump:[500,.07,'sine',.04],coin:[1046,.09,'sine',.07],ok:[660,.26,'sine',.12],
+      bad:[220,.28,'triangle',.08],hit:[150,.14,'triangle',.08],go:[523,.2,'sine',.12],end:[523,.6,'sine',.12]}[type];
+    const t=AC.currentTime,o=AC.createOscillator(),g=AC.createGain();
+    o.type=m[2]; o.frequency.setValueAtTime(m[0],t);
+    if(type==='ok'||type==='end') o.frequency.linearRampToValueAtTime(m[0]*1.5,t+m[1]);
+    if(type==='bad'||type==='hit') o.frequency.linearRampToValueAtTime(m[0]*.6,t+m[1]);
+    g.gain.setValueAtTime(m[3],t); g.gain.exponentialRampToValueAtTime(.001,t+m[1]);
+    o.connect(g).connect(AC.destination); o.start(t); o.stop(t+m[1]);
+  }catch(e){}
+}
+
+// Сұрақтар жиыны
+function buildPool(textEl, onlyEl, infoEl){
+  const own=parseQuestions(textEl.value);
+  if(infoEl) infoEl.textContent = own.length? `Сіздің сұрақтарыңыз: ${own.length}` : 'Әзірге жоқ';
+  if(onlyEl.checked && own.length) return own;
+  return BASE.concat(own);
+}
+function bindQuestionEditor(textEl, onlyEl, detailsEl, onChange){
+  textEl.value = store('ij_q') || '';
+  onlyEl.checked = store('ij_qonly')==='1';
+  if(textEl.value.trim()) detailsEl.open = true;
+  textEl.addEventListener('input',()=>{store('ij_q',textEl.value); onChange();});
+  onlyEl.addEventListener('change',()=>{store('ij_qonly',onlyEl.checked?'1':'0'); onChange();});
+  onChange();
+}
+
+// Ыңғайлы сұрақ формасы: сұрақ + дұрыс + қате жауаптар → тізім (өзгерту/өшіру)
+function mountQEditor(root, textEl){
+  root.innerHTML=`
+    <div class="qform">
+      <input type="text" class="qf-q" maxlength="200" placeholder="Сұрақ, мысалы: 2 + 2 = ?" autocomplete="off">
+      <div class="qf-row ok"><span>✓</span><input type="text" class="qf-a" maxlength="80" placeholder="Дұрыс жауап" autocomplete="off"></div>
+      <div class="qf-row bad"><span>✕</span><input type="text" class="qf-w1" maxlength="80" placeholder="Қате жауап" autocomplete="off"></div>
+      <div class="qf-row bad"><span>✕</span><input type="text" class="qf-w2" maxlength="80" placeholder="Тағы бір қате жауап (міндетті емес)" autocomplete="off"></div>
+      <div class="qf-actions"><button type="button" class="btn qf-add">＋ Сұрақ қосу</button><button type="button" class="btn gray qf-cancel" hidden>Болдырмау</button></div>
+      <div class="err qf-err"></div>
+    </div>
+    <div class="qlist"></div>`;
+  const q=s=>root.querySelector(s), F=['.qf-q','.qf-a','.qf-w1','.qf-w2'];
+  let editIdx=-1;
+  const clean=s=>String(s).replace(/[|\t]/g,'/').replace(/\s+/g,' ').trim();
+  const lines=()=>textEl.value.split(/\r?\n/);
+  function items(){
+    const out=[];
+    lines().forEach((l,i)=>{ const t=l.trim(); if(!t||t.startsWith('#')) return;
+      const p=t.split(/[|\t]/).map(s=>s.trim()); if(p.length>=3&&p.slice(0,4).every(Boolean)) out.push({i,q:p[0],a:p[1],w:p.slice(2,4)}); });
+    return out;
+  }
+  function save(L){ textEl.value=L.filter((l,k)=>l.trim()||k<L.length-1).join('\n').replace(/\n{3,}/g,'\n\n').replace(/^\n+|\n+$/g,''); textEl.dispatchEvent(new Event('input')); render(); }
+  function render(){
+    const it=items();
+    q('.qlist').innerHTML = it.length ? it.map((x,k)=>`<div class="qitem ${x.i===editIdx?'editing':''}"><span class="num">${k+1}</span>
+        <span class="grow"><b>${esc(x.q)}</b><small><span class="ok">✓ ${esc(x.a)}</span> · ${x.w.map(w=>`<span class="bad">✕ ${esc(w)}</span>`).join(' · ')}</small></span>
+        <button type="button" class="ibtn" data-edit="${x.i}" aria-label="Өзгерту">✎</button><button type="button" class="ibtn" data-del="${x.i}" aria-label="Өшіру">🗑</button></div>`).join('')
+      : '<div class="muted qempty">Әзірге өз сұрағыңыз жоқ — жоғарыдағы формамен қосыңыз</div>';
+  }
+  function resetForm(){ F.forEach(s=>q(s).value=''); editIdx=-1; q('.qf-add').textContent='＋ Сұрақ қосу'; q('.qf-cancel').hidden=true; q('.qf-err').textContent=''; render(); }
+  function fail(t,sel){ q('.qf-err').textContent=t; q(sel).focus(); }
+  q('.qf-add').onclick=()=>{
+    const [qq,a,w1,w2]=F.map(s=>clean(q(s).value));
+    if(!qq) return fail('Сұрақты жазыңыз','.qf-q');
+    if(!a) return fail('Дұрыс жауапты жазыңыз','.qf-a');
+    if(!w1) return fail('Кемінде бір қате жауап жазыңыз','.qf-w1');
+    if(a===w1||a===w2) return fail('Қате жауап дұрыс жауаппен бірдей болмауы керек',a===w1?'.qf-w1':'.qf-w2');
+    const line=[qq,a,w1,w2].filter(Boolean).join(' | '), L=lines();
+    if(editIdx>=0) L[editIdx]=line; else { if(L.length===1&&!L[0].trim()) L[0]=line; else L.push(line); }
+    resetForm(); save(L); q('.qf-q').focus();
+  };
+  q('.qf-cancel').onclick=resetForm;
+  F.forEach((s,k)=>{ const inp=q(s);
+    inp.addEventListener('input',()=>q('.qf-err').textContent='');
+    inp.addEventListener('keydown',e=>{ if(e.key!=='Enter') return; e.preventDefault(); if(k<3) q(F[k+1]).focus(); else q('.qf-add').click(); }); });
+  q('.qlist').addEventListener('click',e=>{
+    const ed=e.target.closest('[data-edit]'), del=e.target.closest('[data-del]');
+    if(ed){ const x=items().find(y=>y.i===+ed.dataset.edit); if(!x) return;
+      q('.qf-q').value=x.q; q('.qf-a').value=x.a; q('.qf-w1').value=x.w[0]||''; q('.qf-w2').value=x.w[1]||'';
+      editIdx=x.i; q('.qf-add').textContent='✓ Сақтау'; q('.qf-cancel').hidden=false; render(); q('.qf-q').focus(); }
+    if(del){ const i=+del.dataset.del; if(!confirm('Бұл сұрақты өшіру керек пе?')) return;
+      const L=lines(); L.splice(i,1); if(editIdx===i) { editIdx=-1; resetForm(); } else if(editIdx>i) editIdx--; save(L); }
+  });
+  textEl.addEventListener('input',e=>{ if(e.isTrusted){ if(editIdx>=0) resetForm(); else render(); } });
+  render();
+  return {reload(){ textEl.value=store('ij_q')||''; resetForm(); }};
+}
+
+// ================= БАСТЫ ЭКРАН (бір құрылғы) =================
+let nPlayers = +(store('ij_n')||2) || 2;
+let localDur = +(store('ij_dur')||180) || 180;
+let names = (()=>{try{return JSON.parse(store('ij_names')||'null')||[]}catch(e){return []}})();
+function localPool(){ return buildPool($('#qText'),$('#qOnly'),$('#qInfo')); }
+function updatePoolInfo(){ $('#poolInfo').textContent = `Барлығы ${localPool().length} сұрақ`; }
+bindQuestionEditor($('#qText'),$('#qOnly'),$('#qDetails'),updatePoolInfo);
+const qEdLocal=mountQEditor($('#qEd'),$('#qText'));
+segment($('#durSeg'),DURS,localDur,v=>{localDur=+v; store('ij_dur',v);});
+
+function renderSetup(){
+  segment($('#nSeg'),[[1,'1'],[2,'2'],[3,'3'],[4,'4 ойыншы']],nPlayers,v=>{ saveNames(); nPlayers=+v; store('ij_n',v); renderSetup(); });
+  $('#pList').innerHTML=DEFS.slice(0,nPlayers).map((d,i)=>`
+    <div class="row"><span class="tile" style="--c:${d.color}">${esc(d.av)}</span>
+      <input type="text" data-i="${i}" maxlength="14" value="${esc(names[i]||('Ойыншы '+(i+1)))}">
+      <span class="kbd">${d.labels.map(l=>`<b>${l}</b>`).join('')}</span></div>`).join('');
+  updatePoolInfo();
+}
+function saveNames(){ document.querySelectorAll('#pList input').forEach(inp=>names[+inp.dataset.i]=inp.value.trim()); store('ij_names',JSON.stringify(names)); }
+segment($('#modeSeg'),[['local','📱 Бір құрылғыда'],['wifi','📶 Әркім өз телефонында']],'local',v=>{
+  $('#tabLocal').style.display=v==='local'?'':'none';
+  $('#tabWifi').style.display=v==='wifi'?'':'none';
+});
+function startLocal(){
+  saveNames();
+  const pool=localPool();
+  if(!pool.length){ alert('Сұрақ жоқ! Кемінде бір сұрақ жазыңыз.'); return; }
+  startGame({
+    players: DEFS.slice(0,nPlayers).map((d,i)=>({def:d, name:names[i]||('Ойыншы '+(i+1))})),
+    pool, dur:localDur, seed:(Math.random()*1e9)|0
+  });
+}
+$('#bStart').addEventListener('click',startLocal);
+function showSetup(){ hideAll(); qEdLocal.reload(); renderSetup(); show('#setup'); $('#topbar').style.display='none'; }
+
+// ================= ОЙЫН ҚОЗҒАЛТҚЫШЫ =================
+const canvas=$('#cv'), ctx=canvas.getContext('2d');
+let W=0,H=0,DPR=1,LH=0,DH=0,SC=1, G=null, lastT=0, raf=0;
+
+function makeCourse(seed){
+  const r=mulberry32(seed), items=[]; let x=70;
+  for(let i=0;i<900;i++){
+    const gap=48+r()*42; x+=gap;
+    if(i%5===4){ items.push({type:'gate',x,w:6}); x+=10; continue; }
+    const w=5+r()*4, h=6+r()*6;
+    items.push({type:'block',x,w,h});
+    if(r()<.55) items.push({type:'coin',x:x+w/2,y:h+11});
+    if(r()<.45) items.push({type:'coin',x:x-gap/2,y:5});
+  }
+  return items.sort((a,b)=>a.x-b.x);
+}
+
+// o = {players:[{def,name,id?}], pool, dur, seed, online?:{startAt,gameId}}
+function startGame(o){
+  hideAll(); $('#topbar').style.display='';
+  $('#bPause').style.display=o.online?'none':'';
+  const lanes=$('#lanes'); lanes.innerHTML='';
+  const players=o.players.map((pp,i)=>{
+    const d=pp.def;
+    const lane=document.createElement('div'); lane.className='lane'; lane.style.setProperty('--pc',d.color);
+    lane.innerHTML=`
+      <div class="hud"><span class="pill"><span class="av">${esc(d.av)}</span><span class="nm">${esc(pp.name)}</span></span>
+        <span class="pill"><span class="sc">0</span></span><span class="pill st"></span><span class="pill rk"></span></div>
+      <div class="keys">${d.labels.map(l=>`<b>${l}</b>`).join('')}</div>
+      <button class="jumpbtn">⬆ Секіру</button>
+      <div class="panel"><div class="qhead">Сұрақ</div><div class="qtext"></div><div class="opts"></div></div>`;
+    lanes.appendChild(lane);
+    const p={i,def:d,name:pp.name,id:pp.id,x:0,y:0,vy:0,score:0,streak:0,correct:0,wrong:0,hits:0,coins:0,
+      state:'run',t:0,boost:0,ci:0,done:new Set(),res:new Map(),queue:shuffle(o.pool.map((_,k)=>k)),qi:0,qn:0,opts:[],qAge:0,pops:[],
+      el:{lane,score:lane.querySelector('.sc'),streak:lane.querySelector('.st'),rank:lane.querySelector('.rk'),panel:lane.querySelector('.panel'),
+          qhead:lane.querySelector('.qhead'),qtext:lane.querySelector('.qtext'),opts:lane.querySelector('.opts'),jump:lane.querySelector('.jumpbtn')}};
+    lane.addEventListener('pointerdown',e=>{ if(e.target.closest('.panel')) return; e.preventDefault(); tryJump(p);
+      if(e.target.closest('.jumpbtn')){ p.el.jump.classList.add('press'); setTimeout(()=>p.el.jump.classList.remove('press'),120);} });
+    p.el.opts.addEventListener('click',e=>{const b=e.target.closest('[data-k]'); if(b) answer(p,+b.dataset.k);});
+    return p;
+  });
+  G={players,items:makeCourse(o.seed),pool:o.pool,dur:o.dur,timeLeft:o.dur,paused:false,over:false,
+     countdown:3.99,lastCd:0,goShown:false,online:o.online||null};
+  resize(); updateTimer();
+  lastT=performance.now(); cancelAnimationFrame(raf); raf=requestAnimationFrame(loop);
+}
+
+function stopGameView(){
+  cancelAnimationFrame(raf); G=null;
+  $('#lanes').innerHTML=''; ctx.setTransform(1,0,0,1,0,0); ctx.clearRect(0,0,canvas.width,canvas.height);
+  show('#count',false); $('#timer').textContent='0:00'; $('#timer').classList.remove('low');
+}
+
+function resize(){
+  DPR=Math.min(window.devicePixelRatio||1,2);
+  W=innerWidth; H=innerHeight-52;
+  canvas.width=W*DPR; canvas.height=H*DPR; canvas.style.width=W+'px'; canvas.style.height=H+'px';
+  if(!G) return;
+  const n=G.players.length;
+  LH=H/n;
+  const solo = n===1 && H>W*1.05;
+  DH = solo ? LH*0.64 : LH;
+  SC = Math.min(DH/72, W/(W<760?115:190));
+  G.players.forEach((p,i)=>{
+    const s=p.el.lane.style; s.top=(i*LH)+'px'; s.height=LH+'px';
+    s.setProperty('--fs', Math.max(11, Math.min(solo?20:22, LH*(solo?.04:.085), W/(solo?22:52)))+'px');
+    s.setProperty('--jb', Math.round(Math.max(44, Math.min(76, LH*.36)))+'px');
+    p.el.lane.classList.toggle('solo', solo || (n===1 && W<760));
+    const jb=p.el.jump; jb.classList.toggle('wide',solo);
+    jb.style.top = solo ? (DH*.86+16)+'px' : ''; jb.style.bottom = solo ? 'max(16px, env(safe-area-inset-bottom))' : '';
+  });
+}
+addEventListener('resize',resize);
+
+function tryJump(p){
+  if(!G||G.paused||G.over||G.countdown>0) return;
+  if(p.state!=='run') return;
+  if(p.y<=0.01){ p.vy=JUMP; p.y=0.02; sfx('jump'); }
+}
+
+function askQuestion(p){
+  if(p.qi>=p.queue.length){ p.queue=shuffle(G.pool.map((_,k)=>k)); p.qi=0; }
+  const q=G.pool[p.queue[p.qi++]];
+  p.qn++;
+  p.opts=shuffle([{t:q.a,ok:true},...q.w.map(t=>({t,ok:false}))]);
+  p.state='question'; p.qAge=0;
+  p.el.qhead.textContent=`Сұрақ ${p.qn}`+(p.streak>=2?` · 🔥 қатарынан ${p.streak}`:'');
+  p.el.qtext.textContent=q.q;
+  p.el.opts.innerHTML=p.opts.map((o,k)=>`<button class="opt" data-k="${k}"><span class="k">${G.online?(k+1):p.def.labels[k]}</span><span class="t">${esc(o.t)}</span></button>`).join('');
+  p.el.panel.classList.add('show');
+}
+
+function answer(p,k){
+  if(!G||G.paused||G.over||p.state!=='question'||k>=p.opts.length) return;
+  if(p.qAge<0.45) return;
+  const btns=p.el.opts.querySelectorAll('.opt');
+  const ok=p.opts[k].ok;
+  p.opts.forEach((o,j)=>{ if(o.ok) btns[j].classList.add('ok'); });
+  if(ok){
+    const bonus=Math.min(p.streak,5)*2, pts=10+bonus;
+    p.score+=pts; p.correct++; p.streak++; p.boost=3;
+    p.el.qhead.textContent = bonus ? `Дұрыс! +10 және бонус +${bonus}` : 'Дұрыс! +10 ұпай';
+    pop(p, `+${pts}`, '#34C759'); sfx('ok');
+    p.t=0.9;
+  }else{
+    btns[k].classList.add('bad');
+    p.wrong++; p.streak=0; p.el.qhead.textContent='Қате — дұрыс жауап жасылмен белгіленді';
+    pop(p,'Қате','#FF3B30'); sfx('bad');
+    p.t=1.9;
+  }
+  p.res.set(p.gateIdx, ok);
+  p.state='feedback';
+}
+
+function hit(p){
+  p.hits++; p.streak=0; p.score=Math.max(0,p.score-3);
+  p.state='stun'; p.t=0.9; p.boost=0;
+  pop(p,'−3','#FF3B30'); sfx('hit');
+  if(navigator.vibrate) try{navigator.vibrate(100)}catch(e){}
+}
+function pop(p,text,color){ p.pops.push({text,color,t:0}); }
+
+function updatePlayer(p,dt){
+  p.pops.forEach(o=>o.t+=dt); p.pops=p.pops.filter(o=>o.t<1.2);
+  p.vy-=GRAV*dt; p.y+=p.vy*dt; if(p.y<=0){p.y=0;p.vy=0;}
+  if(p.state==='question'){ p.qAge+=dt; return; }
+  if(p.state==='stun'){ p.t-=dt; if(p.t<=0) p.state='run'; return; }
+  if(p.state==='feedback'){ p.t-=dt; if(p.t<=0){ p.el.panel.classList.remove('show'); p.state='run'; } return; }
+  if(p.boost>0) p.boost-=dt;
+  p.x+=SPEED*(p.boost>0?BOOST:1)*dt;
+  const it=G.items;
+  while(p.ci<it.length && it[p.ci].x+(it[p.ci].w||4) < p.x-6) p.ci++;
+  for(let i=p.ci;i<it.length;i++){
+    const o=it[i]; if(o.x>p.x+PW+3) break; if(p.done.has(i)) continue;
+    if(o.type==='gate'){
+      if(p.x+PW>=o.x){ p.x=o.x-PW; p.done.add(i); p.gateIdx=i; askQuestion(p); return; }
+    }else if(o.type==='block'){
+      if(p.x+PW-1.2>o.x && p.x+1.2<o.x+o.w && p.y<o.h-1){ p.done.add(i); hit(p); return; }
+    }else if(o.type==='coin'){
+      if(Math.abs(p.x+PW/2-o.x)<COIN_R+3.5 && Math.abs(p.y+PH/2-o.y)<COIN_R+7){ p.done.add(i); p.coins++; p.score++; sfx('coin'); pop(p,'+1','#FF9500'); }
+    }
+  }
+}
+
+// ================= СУРЕТ САЛУ =================
+function rr(x,y,w,h,r){ctx.beginPath();ctx.roundRect?ctx.roundRect(x,y,w,h,r):ctx.rect(x,y,w,h);}
+function drawLane(p,i){
+  const top=i*LH, s=SC, gy=top+DH*.86, px0=W*.16, d=p.def;
+  ctx.save(); ctx.beginPath(); ctx.rect(0,top,W,LH); ctx.clip();
+  const g=ctx.createLinearGradient(0,top,0,gy); g.addColorStop(0,d.sky[0]); g.addColorStop(1,d.sky[1]);
+  ctx.fillStyle=g; ctx.fillRect(0,top,W,gy-top);
+  const span=Math.max(W*.55,s*120);
+  ctx.fillStyle='rgba(255,255,255,.85)';
+  let off=(p.x*s*.12)%span;
+  for(let k=-1;k<Math.ceil(W/span)+2;k++){ const cx=k*span-off+span*.3, cy=top+DH*.3+((k&1)?DH*.08:0);
+    rr(cx-s*12,cy-s*3,s*26,s*7,s*3.5); ctx.fill(); rr(cx-s*4,cy-s*7,s*13,s*8,s*4); ctx.fill(); }
+  ctx.fillStyle='rgba(0,0,0,.035)';
+  off=(p.x*s*.3)%span;
+  for(let k=-1;k<Math.ceil(W/span)+2;k++){ ctx.beginPath(); ctx.ellipse(k*span-off,gy,span*.45,DH*.26,0,Math.PI,0); ctx.fill(); }
+  ctx.fillStyle=d.ground; ctx.fillRect(0,gy,W,top+LH-gy);
+  ctx.fillStyle=d.edge; ctx.fillRect(0,gy,W,Math.max(3,s*1.1));
+  ctx.fillStyle='rgba(255,255,255,.45)';
+  const st=s*12; off=(p.x*s)%st;
+  for(let x=-off;x<W;x+=st){ rr(x,gy+s*3,st*.35,Math.max(2,s*.9),s); ctx.fill(); }
+
+  const wx0=p.x-px0/s-15, wx1=p.x+(W-px0)/s+15;
+  for(let j=Math.max(0,p.ci-25);j<G.items.length;j++){
+    const o=G.items[j]; if(o.x>wx1) break; if(o.x<wx0) continue;
+    const sx=px0+(o.x-p.x)*s, done=p.done.has(j);
+    if(o.type==='block'){
+      ctx.globalAlpha=done?.3:1;
+      ctx.fillStyle='rgba(0,0,0,.08)'; rr(sx+s*.6,gy-o.h*s+s*.8,o.w*s,o.h*s,s*2); ctx.fill();
+      ctx.fillStyle='#5856D6'; rr(sx,gy-o.h*s,o.w*s,o.h*s,s*2); ctx.fill();
+      ctx.fillStyle='rgba(255,255,255,.18)'; rr(sx+s*.8,gy-o.h*s+s*.8,o.w*s-s*1.6,o.h*s*.35,s*1.4); ctx.fill();
+      const fs=Math.min(o.w,o.h)*s*.8;
+      ctx.font=`${fs}px ${EMOJI}`; ctx.textAlign='center'; ctx.textBaseline='middle';
+      ctx.fillText('👾',sx+o.w*s/2,gy-o.h*s/2);
+      ctx.globalAlpha=1;
+    }else if(o.type==='coin'){
+      if(done) continue;
+      const cy=gy-o.y*s, r=s*COIN_R, bob=Math.sin(performance.now()/250+j)*s*.6;
+      ctx.fillStyle='#FF9500'; ctx.beginPath(); ctx.arc(sx,cy+bob,r,0,7); ctx.fill();
+      ctx.fillStyle='#FFCC00'; ctx.beginPath(); ctx.arc(sx,cy+bob-s*.3,r*.82,0,7); ctx.fill();
+      ctx.fillStyle='#fff'; ctx.font=`700 ${r*1.15}px ${FONT}`; ctx.textAlign='center'; ctx.textBaseline='middle';
+      ctx.fillText('₸',sx,cy+bob-s*.2);
+    }else if(o.type==='gate'){
+      const res=p.res.get(j), col=res===true?'#34C759':res===false?'#FF3B30':'#007AFF';
+      const gh=40*s, inner=o.w*s+PW*s;
+      ctx.fillStyle=col;
+      rr(sx-s*1.2,gy-gh,s*2.4,gh,s*1.2); ctx.fill(); rr(sx+inner-s*1.2,gy-gh,s*2.4,gh,s*1.2); ctx.fill();
+      rr(sx-s*4,gy-gh-s*8,inner+s*8,s*9,s*4.5); ctx.fill();
+      ctx.fillStyle='#fff'; ctx.font=`800 ${s*6}px ${FONT}`; ctx.textAlign='center'; ctx.textBaseline='middle';
+      ctx.fillText(res===true?'✓':res===false?'✕':'?', sx+inner/2, gy-gh-s*3.4);
+      if(!done){ ctx.fillStyle='rgba(0,122,255,.1)'; ctx.fillRect(sx+s*1.2,gy-gh,inner-s*2.4,gh); }
+    }
+  }
+
+  const ph=PH*s*PLAYER_SCALE, pw=PW*s*PLAYER_SCALE, onG=p.y<=0.01, running=p.state==='run'&&onG;
+  const bob=running?Math.abs(Math.sin(p.x*.5))*s*1.4:0;
+  const py=gy-p.y*s-ph-bob;
+  ctx.save(); ctx.translate(PW*s/2-pw/2,0); // үлкен суретті хитбокс ортасына туралау
+  ctx.fillStyle='rgba(0,0,0,.12)'; ctx.beginPath();
+  ctx.ellipse(px0+pw/2,gy+s*.6,pw*.75*Math.max(.4,1-p.y/40),s*1.3,0,0,7); ctx.fill();
+  if(p.boost>0 && p.state==='run'){
+    ctx.strokeStyle='rgba(255,204,0,.95)'; ctx.lineWidth=Math.max(2,s*.8); ctx.lineCap='round';
+    for(let k=0;k<3;k++){ const yy=py+ph*(.3+k*.22), l=s*(6+((performance.now()/40+k*7)%6));
+      ctx.beginPath(); ctx.moveTo(px0-s*2,yy); ctx.lineTo(px0-s*2-l,yy); ctx.stroke(); }
+  }
+  const blink=p.state==='stun' && Math.floor(performance.now()/90)%2;
+  if(!blink){
+    ctx.fillStyle=d.color; rr(px0-s*.6,py+ph*.42,pw+s*1.2,ph*.58,s*3); ctx.fill();
+    ctx.fillStyle='rgba(255,255,255,.25)'; rr(px0+s*.4,py+ph*.47,pw-s*.8,ph*.16,s*1.5); ctx.fill();
+    ctx.font=`${ph*.72}px ${EMOJI}`; ctx.textAlign='center'; ctx.textBaseline='middle';
+    ctx.fillText(d.av,px0+pw/2,py+ph*.3);
+    if(p.state==='stun'){ ctx.font=`${ph*.4}px ${EMOJI}`; ctx.fillText('💫',px0+pw/2,py-ph*.15); }
+  }
+  ctx.restore();
+  p.pops.forEach((o,k)=>{
+    const a=Math.max(0,1-o.t/1.2), fs=Math.max(14,s*4.6);
+    ctx.globalAlpha=a; ctx.font=`800 ${fs}px ${FONT}`; ctx.textBaseline='middle'; ctx.textAlign='center';
+    const tw=ctx.measureText(o.text).width+fs*1.1, tx=px0+pw+s*4+tw/2, ty=py-o.t*s*12-k*s*2;
+    ctx.fillStyle='rgba(255,255,255,.95)'; rr(tx-tw/2,ty-fs*.75,tw,fs*1.5,fs*.75); ctx.fill();
+    ctx.fillStyle=o.color; ctx.fillText(o.text,tx,ty+1);
+    ctx.globalAlpha=1;
+  });
+  ctx.restore();
+  if(i>0){ ctx.fillStyle='rgba(60,60,67,.18)'; ctx.fillRect(0,top,W,1); }
+}
+
+function draw(){
+  ctx.setTransform(DPR,0,0,DPR,0,0);
+  ctx.clearRect(0,0,W,H);
+  G.players.forEach(drawLane);
+}
+
+function updateTimer(){
+  $('#timer').textContent=fmtTime(G.timeLeft);
+  $('#timer').classList.toggle('low',G.timeLeft<=10);
+}
+function updateHud(){
+  G.players.forEach(p=>{
+    p.el.score.textContent=p.score;
+    p.el.streak.textContent=p.streak>=2?`🔥 ${p.streak}`:(p.boost>0&&p.state==='run'?'⚡':'');
+    if(G.online && G.rank && G.rank[1]>1) p.el.rank.textContent=`${G.rank[0]}-орын / ${G.rank[1]}`;
+  });
+}
+function setCount(text, go){ const c=$('#count'); c.innerHTML=`<span class="${go?'go':''}">${text}</span>`; c.classList.add('show'); }
+
+function loop(now){
+  raf=requestAnimationFrame(loop);
+  const dt=Math.min(.05,(now-lastT)/1000); lastT=now;
+  if(!G) return;
+  if(!G.paused && !G.over){
+    if(G.online){
+      const t=srvNow();
+      G.countdown=(G.online.startAt-t)/1000;
+      G.timeLeft=(G.online.startAt+G.dur*1000-t)/1000;
+    }else if(G.countdown>0) G.countdown-=dt;
+    if(G.countdown>0){
+      const cur=Math.ceil(G.countdown);
+      if(cur!==G.lastCd){ G.lastCd=cur; setCount(cur); sfx('jump'); }
+    }else{
+      if(!G.goShown){ G.goShown=true; setCount('Алға!',true); sfx('go'); setTimeout(()=>show('#count',false),650); }
+      if(!G.online) G.timeLeft-=dt;
+      G.players.forEach(p=>updatePlayer(p,dt));
+      updateTimer();
+      if(G.timeLeft<=0) endGame();
+    }
+  }
+  updateHud();
+  draw();
+}
+
+function endGame(){
+  if(!G||G.over) return;
+  G.over=true; sfx('end');
+  G.players.forEach(p=>p.el.panel.classList.remove('show'));
+  G.timeLeft=Math.max(0,G.timeLeft); updateTimer();
+  if(G.online){
+    netSendNow();
+    $('#bAgain').textContent='Келесі ойынды күту'; $('#bToMenu').style.display='none';
+    const me=G.players[0];
+    const local=[{id:NET.id,name:me.name,av:me.def.av,color:me.def.color,score:me.score,correct:me.correct,wrong:me.wrong,hits:me.hits,coins:me.coins}];
+    $('#res').innerHTML=resultsHTML(local,NET.id); $('#winner').textContent='Нәтиже жиналуда…';
+    const gid=G.online.gameId;
+    const fetchRes=async()=>{
+      try{ const st=await api('/api/state');
+        const list=st.players.filter(p=>p.gameId===gid).sort((a,b)=>b.score-a.score||b.correct-a.correct);
+        if(list.length && $('#end').classList.contains('show')){
+          $('#res').innerHTML=resultsHTML(list,NET.id);
+          const myPl=places(list)[list.findIndex(p=>p.id===NET.id)];
+          $('#winner').textContent = list.length>1 && myPl!==undefined ? `Сен ${myPl+1}-орындасың!` : winnerText(list);
+        }
+      }catch(e){}
+    };
+    setTimeout(fetchRes,1500); setTimeout(fetchRes,4000);
+  }else{
+    $('#bAgain').textContent='Қайта ойнау'; $('#bToMenu').style.display='';
+    const ranked=G.players.map(p=>({name:p.name,av:p.def.av,color:p.def.color,score:p.score,correct:p.correct,wrong:p.wrong,hits:p.hits,coins:p.coins}))
+      .sort((a,b)=>b.score-a.score||b.correct-a.correct);
+    $('#res').innerHTML=resultsHTML(ranked); $('#winner').textContent=winnerText(ranked);
+  }
+  setTimeout(()=>{ if(G&&G.over) show('#end'); },400);
+}
+
+function togglePause(force){
+  if(!G||G.over||G.online) return;
+  G.paused = force!==undefined ? force : !G.paused;
+  show('#pause',G.paused);
+}
+function hideAll(){ ['#setup','#join','#pause','#end'].forEach(s=>show(s,false)); show('#host',false); }
+
+$('#bPause').onclick=()=>togglePause();
+$('#bResume').onclick=()=>togglePause(false);
+$('#bMute').onclick=()=>{ muted=!muted; $('#bMute').textContent=muted?'🔇':'🔊'; };
+$('#bMenu').onclick=()=>{
+  if(G && !G.over && !confirm('Ойыннан шығу керек пе?')) return;
+  const wasOnline = G ? !!G.online : NET.joined;
+  stopGameView();
+  if(wasOnline && NET.joined) showJoin(); else showSetup();
+};
+$('#bAgain').onclick=()=>{ if(G&&G.online){ stopGameView(); showJoin(); } else startLocal(); };
+$('#bToMenu').onclick=()=>{ stopGameView(); showSetup(); };
+
+addEventListener('keydown',e=>{
+  if(!G){ if(e.code==='Enter' && $('#setup').classList.contains('show') && !/TEXTAREA|INPUT|SELECT/.test(e.target.tagName)) startLocal(); return; }
+  if(e.code==='Escape'){ togglePause(); return; }
+  if(G.online){
+    const p=G.players[0];
+    const map={Digit1:0,Digit2:1,Digit3:2,Numpad1:0,Numpad2:1,Numpad3:2,KeyQ:0,KeyW:1,KeyE:2};
+    if(e.code==='Space'||e.code==='ArrowUp'||e.code in map){
+      e.preventDefault(); if(G.over||G.countdown>0) return;
+      if(p.state==='question'){ if(!e.repeat && e.code in map) answer(p,map[e.code]); } else tryJump(p);
+    }
+    return;
+  }
+  for(const p of G.players){
+    const k=p.def.keys.indexOf(e.code); if(k<0) continue;
+    e.preventDefault();
+    if(G.paused||G.over||G.countdown>0) return;
+    if(p.state==='question'){ if(!e.repeat) answer(p,k); }
+    else tryJump(p);
+    return;
+  }
+});
+addEventListener('blur',()=>{ if(G&&!G.over&&!G.online&&G.countdown<=0) togglePause(true); });
+
+// ================= ЖЕЛІ (Wi-Fi режимі) =================
+let SERVER=null;
+const NET={id:store('ij_myid')||'',name:store('ij_myname')||'',av:'',color:'',joined:false,offset:0,offSet:false,
+  lastGame:-1,timer:0,busy:false};
+async function api(path, body){
+  const r=await fetch(path, body?{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}:{cache:'no-store'});
+  const j=await r.json().catch(()=>({}));
+  if(!r.ok){ const e=new Error(j.error||('HTTP '+r.status)); e.status=r.status; throw e; }
+  return j;
+}
+function srvNow(){ return Date.now()+NET.offset; }
+function syncClock(t0, serverNow){
+  const t1=Date.now(); if(!serverNow) return;
+  const est=serverNow-(t0+t1)/2;
+  NET.offset = NET.offSet ? NET.offset*.8+est*.2 : est; NET.offSet=true;
+}
+
+function showJoin(){
+  hideAll(); $('#topbar').style.display='none';
+  $('#myName').value=NET.name;
+  $('#joinForm').style.display=NET.joined?'none':'';
+  $('#joinLobby').style.display=NET.joined?'':'none';
+  if(NET.joined){ $('#myAv').textContent=NET.av; $('#myAv').style.setProperty('--c',NET.color||'#007AFF'); $('#myNameShow').textContent=NET.name; }
+  show('#join');
+  if(NET.joined) netTick();
+}
+async function doJoin(){
+  const name=$('#myName').value.trim() || NET.name;
+  if(!name){ $('#joinErr').textContent='Алдымен атыңды жаз'; $('#myName').focus(); return false; }
+  try{
+    const r=await api('/api/join',{id:NET.id,name});
+    Object.assign(NET,{id:r.id,name:r.name,av:r.av,color:r.color,joined:true});
+    store('ij_myid',r.id); store('ij_myname',r.name);
+    $('#joinErr').textContent='';
+    return true;
+  }catch(e){ $('#joinErr').textContent = e.status===403 ? 'Мұғалім сені бұл ойынға кіргізбейді 🚫' : 'Серверге қосылу мүмкін болмады. Wi-Fi-ды тексер.'; return false; }
+}
+$('#bJoin').onclick=async()=>{ try{ AC=AC||new (window.AudioContext||window.webkitAudioContext)(); }catch(e){}
+  if(await doJoin()) showJoin(); };
+$('#myName').addEventListener('input',()=>$('#joinErr').textContent='');
+$('#myName').addEventListener('keydown',e=>{ if(e.key==='Enter') $('#bJoin').click(); });
+$('#bRename').onclick=()=>{ NET.joined=false; clearTimeout(NET.timer); showJoin(); };
+$('#bLocalMode').onclick=()=>{ clearTimeout(NET.timer); if(NET.joined&&NET.id) api('/api/leave',{id:NET.id}).catch(()=>{}); NET.joined=false; showSetup(); };
+$('#bJoinMe').onclick=()=>showJoin();
+
+function netSendNow(){ clearTimeout(NET.timer); netTick(); }
+async function netTick(){
+  clearTimeout(NET.timer);
+  if(!NET.joined) return;
+  if(NET.busy){ NET.timer=setTimeout(netTick,300); return; }
+  NET.busy=true;
+  try{
+    const body={id:NET.id};
+    const inGame=G&&G.online;
+    if(inGame){ const p=G.players[0]; Object.assign(body,{gameId:G.online.gameId,score:p.score,correct:p.correct,wrong:p.wrong,hits:p.hits,coins:p.coins,x:Math.round(p.x)}); }
+    const t0=Date.now(); const r=await api('/api/update',body); syncClock(t0,r.now);
+    $('#connDot').classList.remove('off');
+    if(inGame && r.gameId===G.online.gameId && r.phase!=='lobby'){
+      G.rank=[r.rank,r.total];
+      if(r.phase==='end' && !G.over) endGame();
+    }else{
+      if(inGame && (r.phase==='lobby' || (r.phase==='play' && r.gameId!==G.online.gameId))){ stopGameView(); showJoin(); }
+      if(!G && r.phase==='play' && r.gameId!==NET.lastGame && srvNow() < r.startAt + r.dur*1000 - 3000){
+        await startOnline();
+      }else if(!G){
+        $('#lobbyMsg').textContent = r.phase==='play' ? 'Ойын жүріп жатыр — келесісін күт' : 'Мұғалім бастауын күт…';
+        try{ const st=await api('/api/state'); const on=st.players.filter(p=>p.online);
+          $('#lobbyCount').textContent=`Қосылғандар · ${on.length}`;
+          $('#lobbyNames').innerHTML=on.map(p=>`<span>${esc(p.av)} ${esc(p.name)}</span>`).join('');
+        }catch(e){}
+      }
+    }
+  }catch(e){
+    $('#connDot').classList.add('off');
+    if(e.status===410){ NET.joined=false; NET.id=''; store('ij_myid',''); if(G) stopGameView(); showJoin(); $('#joinErr').textContent='Мұғалім сені ойыннан шығарды'; }
+    else if(e.status===404){ NET.id=''; await doJoin(); }
+    else $('#lobbyMsg').textContent='Байланыс жоқ… қайта қосылуда';
+  }finally{ NET.busy=false; }
+  NET.timer=setTimeout(netTick, G&&G.online&&!G.over?500:1000);
+}
+async function startOnline(){
+  const t0=Date.now(); const g=await api('/api/game'); syncClock(t0,g.now);
+  const pool=(Array.isArray(g.questions)&&g.questions.length)?g.questions:BASE;
+  NET.lastGame=g.gameId;
+  const base=DEFS[Math.abs(hashStr(NET.id))%DEFS.length];
+  startGame({players:[{id:NET.id,name:NET.name,def:{...base,color:NET.color||base.color,av:NET.av||base.av,labels:['1','2','3']}}],
+    pool, dur:g.dur, seed:g.seed, online:{startAt:g.startAt,gameId:g.gameId}});
+}
+function hashStr(s){let h=0;for(const c of String(s))h=(h*31+c.charCodeAt(0))|0;return h}
+
+// ================= МҰҒАЛІМ ЭКРАНЫ =================
+const HOST={state:null,offset:0,timer:0,dur:+(store('ij_hdur')||180)||180};
+function hostPool(){ return buildPool($('#hqText'),$('#hqOnly'),$('#hqInfo')); }
+async function showHost(){
+  hideAll(); $('#topbar').style.display='none'; stopGameView(); show('#host');
+  bindQuestionEditor($('#hqText'),$('#hqOnly'),$('#hqDetails'),()=>{ $('#hPoolInfo').textContent=`Барлығы ${hostPool().length} сұрақ`; });
+  mountQEditor($('#hqEd'),$('#hqText'));
+  $('#hCopy').onclick=copyLink;
+  $('#hLink').onclick=()=>$('#hLink').select();
+  $('#hShare').onclick=()=>{ try{ navigator.share({title:'Білім жарысы',text:'Ойынға қосыл! (сол Wi-Fi желісінде)',url:HOST.url}); }catch(e){} };
+  segment($('#hDurSeg'),[...DURS,[420,'7 мин']],HOST.dur,v=>{HOST.dur=+v; store('ij_hdur',v);});
+  if(!SERVER.isHost){ $('#hWarn').style.display=''; $('#hWarn').textContent='⚠️ Мұғалім экранын сервер қосылған компьютерде ашыңыз: http://localhost:'+SERVER.port+'/host — басқа құрылғыдан ойынды басқаруға болмайды.'; }
+  const ips=SERVER.ips||[];
+  const url= ips.length ? `http://${ips[0]}:${SERVER.port}` : location.origin;
+  $('#hUrl').textContent=url.replace('http://','');
+  HOST.url=url; $('#hLink').value=url; $('#hShareWrap').style.display=navigator.share?'':'none';
+  $('#hUrlAlt').textContent= ips.length>1 ? 'Ашылмаса: '+ips.slice(1).map(i=>i+':'+SERVER.port).join(', ') : (ips.length?'Браузерге осы мекенжайды жазуға да болады':'⚠️ Wi-Fi мекенжайы табылмады');
+  drawQR(url);
+  hostTick();
+}
+function drawQR(url){
+  const box=$('#qr'); box.innerHTML='';
+  const make=()=>{ try{ new QRCode(box,{text:url,width:260,height:260,correctLevel:QRCode.CorrectLevel.M}); }catch(e){} };
+  if(window.QRCode) return make();
+  const sc=document.createElement('script');
+  sc.src='https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js';
+  sc.onload=make; sc.onerror=()=>{ box.innerHTML='<div class="muted center" style="padding:30px 10px">QR-код үшін интернет керек.<br>Мекенжайды тақтаға жазыңыз ↓</div>'; };
+  document.head.appendChild(sc);
+}
+$('#hFull').onclick=()=>{ try{ if(document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen(); }catch(e){} };
+async function copyLink(){
+  const b=$('#hCopy'), inp=$('#hLink');
+  try{ await navigator.clipboard.writeText(HOST.url); }
+  catch(e){ inp.select(); try{ document.execCommand('copy'); }catch(_){ } }
+  b.textContent='✓ Көшірілді'; clearTimeout(copyLink.t); copyLink.t=setTimeout(()=>b.textContent='📋 Көшіру',2000);
+}
+async function hostTick(){
+  clearTimeout(HOST.timer);
+  try{
+    const t0=Date.now(); const st=await api('/api/state'); const t1=Date.now();
+    HOST.offset=st.now-(t0+t1)/2; HOST.state=st; renderHost();
+    if(SERVER.isHost) $('#hWarn').style.display='none';
+  }catch(e){ $('#hWarn').style.display=''; $('#hWarn').textContent='⚠️ Серверге байланыс жоқ. start.bat терезесі ашық тұрғанын тексеріңіз.'; }
+  HOST.timer=setTimeout(hostTick,700);
+}
+function renderHost(){
+  const st=HOST.state; if(!st) return;
+  const order=['lobby','play','end'], idx=order.indexOf(st.phase);
+  document.querySelectorAll('#hSteps span').forEach((s,k)=>{ s.classList.toggle('on',k===idx); s.classList.toggle('done',k<idx); });
+  $('#hLobby').style.display=st.phase==='lobby'?'':'none';
+  $('#hPlay').style.display=st.phase==='play'?'':'none';
+  $('#hEnd').style.display=st.phase==='end'?'':'none';
+  const on=st.players.filter(p=>p.online);
+  if(st.phase==='lobby'){
+    $('#hCount').textContent=on.length;
+    $('#hPlayers').innerHTML = st.players.length ? st.players.map(p=>
+      `<span class="hp ${p.online?'':'off'}"><span class="tile" style="--c:${safeColor(p.color)}">${esc(p.av)}</span>${esc(p.name)}<button data-kick="${esc(p.id)}" aria-label="Шығару">✕</button></span>`).join('')
+      : '<div class="empty" style="width:100%"><b>Оқушыларды күтудеміз</b>Телефонмен QR-кодты сканерлесін</div>';
+    const bl=st.banned||[];
+    $('#hBannedWrap').style.display=bl.length?'':'none';
+    $('#hBanned').innerHTML=bl.map(b=>`<span class="hp off"><span class="tile" style="--c:#8E8E93">${esc(String(b.av||'🙂').slice(0,4))}</span>${esc(String(b.name||'?').slice(0,20))}<button class="unban" data-unban="${esc(b.key)}">↩ Қайтару</button></span>`).join('');
+    $('#hStart').disabled = !on.length || !SERVER.isHost;
+    $('#hStart').textContent = on.length ? `▶ Ойынды бастау · ${on.length} оқушы` : 'Оқушылар қосылғанын күтіңіз';
+  }else if(st.phase==='play'){
+    const now=Date.now()+HOST.offset, cd=(st.startAt-now)/1000, left=(st.startAt+st.dur*1000-now)/1000;
+    $('#hTimer').textContent = cd>0 ? Math.ceil(cd) : fmtTime(left);
+    $('#hTimer').classList.toggle('low', cd<=0 && left<=10);
+    $('#hTimerSub').textContent = cd>0 ? 'секундтан кейін басталады' : 'қалды';
+    const list=st.players.filter(p=>p.online||p.gameId===st.gameId).sort((a,b)=>b.score-a.score||b.correct-a.correct);
+    const max=Math.max(10,...list.map(p=>p.score)), pl=places(list);
+    $('#hBoard').innerHTML=list.map((p,k)=>`<div class="row ${p.online?'':'off'}"><span class="rank r${pl[k]+1}">${pl[k]+1}</span>
+        <span class="tile" style="--c:${safeColor(p.color)}">${esc(p.av)}</span>
+        <span class="grow"><b>${esc(p.name)}</b><div class="bar" style="--c:${safeColor(p.color)}"><i style="width:${Math.max(2,p.score/max*100)}%"></i></div></span>
+        <span class="score">${p.score}</span></div>`).join('')
+      || '<div class="empty"><b>Ешкім жоқ</b>Оқушылар әлі қосылмады</div>';
+  }else{
+    const list=st.players.filter(p=>p.gameId===st.gameId).sort((a,b)=>b.score-a.score||b.correct-a.correct);
+    $('#hRes').innerHTML=resultsHTML(list);
+    $('#hWinner').textContent = list.length===1 ? `${list[0].name} — ${list[0].score} ұпай 🏆` : (winnerText(list)||'Ешкім ойнаған жоқ');
+  }
+}
+// «✕» — алдымен сұрайды: шығару (қайта кіре алады) немесе бұғаттау
+let kickTarget=null;
+$('#hPlayers').addEventListener('click',e=>{ const b=e.target.closest('[data-kick]'); if(!b) return;
+  const p=((HOST.state&&HOST.state.players)||[]).find(x=>x.id===b.dataset.kick); if(!p) return;
+  kickTarget=p.id;
+  $('#kAv').textContent=p.av; $('#kAv').style.setProperty('--c',safeColor(p.color)); $('#kName').textContent=p.name;
+  show('#kickSheet'); });
+$('#kCancel').onclick=()=>{ kickTarget=null; show('#kickSheet',false); };
+$('#kickSheet').addEventListener('click',e=>{ if(e.target.id==='kickSheet') $('#kCancel').click(); });
+async function kickPlayer(ban){ const id=kickTarget; kickTarget=null; show('#kickSheet',false); if(!id) return;
+  try{ await api('/api/kick',{id,ban}); hostTick(); }catch(err){ alert(err.message); } }
+$('#kKick').onclick=()=>kickPlayer(false);
+$('#kBan').onclick=()=>kickPlayer(true);
+$('#hBanned').addEventListener('click',async e=>{ const b=e.target.closest('[data-unban]'); if(!b) return;
+  try{ await api('/api/unban',{key:b.dataset.unban}); hostTick(); }catch(err){ alert(err.message); } });
+async function hostStart(){
+  const pool=hostPool();
+  if(!pool.length){ alert('Сұрақ жоқ!'); return; }
+  try{ await api('/api/start',{dur:HOST.dur, questions:pool}); hostTick(); }catch(e){ alert(e.message); }
+}
+$('#hStart').onclick=hostStart;
+$('#hAgain').onclick=hostStart;
+$('#hStop').onclick=async()=>{ if(!confirm('Ойынды қазір аяқтау керек пе?')) return; try{ await api('/api/stop',{}); hostTick(); }catch(e){ alert(e.message); } };
+$('#hReset').onclick=async()=>{ try{ await api('/api/reset',{}); hostTick(); }catch(e){ alert(e.message); } };
+
+// ================= ІСКЕ ҚОСУ =================
+async function boot(){
+  resize();
+  if(location.protocol.startsWith('http')){
+    try{ const r=await fetch('/api/info',{cache:'no-store'}); if(r.ok){ const j=await r.json(); if(j && j.port) SERVER=j; } }catch(e){}
+  }
+  $('#wifiSrv').style.display=SERVER?'':'none';
+  $('#wifiNoSrv').style.display=SERVER?'none':'';
+  if(SERVER && location.pathname.startsWith('/host')) showHost();
+  else if(SERVER){
+    if(NET.name && NET.id){ if(await doJoin()) return showJoin(); }
+    showJoin();
+  }
+  else showSetup();
+}
+boot();
+</script>
+</body>
+</html>

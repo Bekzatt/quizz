@@ -1,0 +1,82 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "roomIndex": {
+      ".read": "auth != null",
+      "$code": {
+        ".write": "auth != null && (root.child('rooms/' + $code + '/meta').child('hostUid').val() === auth.uid || !root.child('rooms/' + $code + '/meta').exists() || ((root.child('rooms/' + $code + '/meta').child('hostOnline').val() !== true && root.child('rooms/' + $code + '/meta').child('active').isNumber() && root.child('rooms/' + $code + '/meta').child('active').val() < now - 7200000) || (!root.child('rooms/' + $code + '/meta').child('active').exists() && root.child('rooms/' + $code + '/meta').child('created').val() < now - 43200000)))",
+        ".validate": "!newData.exists() || ($code.matches(/^[0-9]{4}$/) && newData.isNumber())"
+      }
+    },
+    "rooms": {
+      "$code": {
+        ".read": "auth != null",
+        "meta": {
+          ".write": "auth != null && (!data.exists() || data.child('hostUid').val() === auth.uid || ((data.child('hostOnline').val() !== true && data.child('active').isNumber() && data.child('active').val() < now - 7200000) || (!data.child('active').exists() && data.child('created').val() < now - 43200000)))",
+          ".validate": "!newData.exists() || ($code.matches(/^[0-9]{4}$/) && newData.child('hostUid').val() === auth.uid && newData.child('created').isNumber() && (newData.child('created').val() === now || (data.exists() && data.child('hostUid').val() === auth.uid && newData.child('created').val() === data.child('created').val())))",
+          "hostOnline": {
+            ".validate": "newData.isBoolean()"
+          },
+          "locked": {
+            ".validate": "newData.isBoolean()"
+          },
+          "active": {
+            ".validate": "newData.isNumber() && newData.val() <= now"
+          }
+        },
+        "banned": {
+          "$uid": {
+            ".write": "auth != null && (root.child('rooms/' + $code + '/meta').child('hostUid').val() === auth.uid || ((root.child('rooms/' + $code + '/meta').child('hostOnline').val() !== true && root.child('rooms/' + $code + '/meta').child('active').isNumber() && root.child('rooms/' + $code + '/meta').child('active').val() < now - 7200000) || (!root.child('rooms/' + $code + '/meta').child('active').exists() && root.child('rooms/' + $code + '/meta').child('created').val() < now - 43200000)))",
+            ".validate": "!newData.exists() || (newData.child('name').isString() && newData.child('name').val().length <= 20)"
+          }
+        },
+        "players": {
+          "$uid": {
+            ".write": "auth != null && root.child('rooms/' + $code + '/meta').exists() && (($uid === auth.uid && !root.child('rooms/' + $code + '/banned/' + $uid).exists() && (data.exists() || root.child('rooms/' + $code + '/meta').child('locked').val() !== true)) || root.child('rooms/' + $code + '/meta').child('hostUid').val() === auth.uid || ((root.child('rooms/' + $code + '/meta').child('hostOnline').val() !== true && root.child('rooms/' + $code + '/meta').child('active').isNumber() && root.child('rooms/' + $code + '/meta').child('active').val() < now - 7200000) || (!root.child('rooms/' + $code + '/meta').child('active').exists() && root.child('rooms/' + $code + '/meta').child('created').val() < now - 43200000)))",
+            ".validate": "!newData.exists() || newData.hasChildren(['name', 'av', 'color'])",
+            "name": {
+              ".validate": "newData.isString() && newData.val().length >= 1 && newData.val().length <= 20"
+            },
+            "av": {
+              ".validate": "newData.isString() && newData.val().length >= 1 && newData.val().length <= 4 && !newData.val().contains('<') && !newData.val().contains('>') && !newData.val().contains('&') && !newData.val().contains('\"')"
+            },
+            "color": {
+              ".validate": "newData.isString() && newData.val().matches(/^#[0-9A-Fa-f]{6}$/)"
+            },
+            "score": {
+              ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 5000"
+            },
+            "correct": {
+              ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000"
+            },
+            "wrong": {
+              ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000"
+            },
+            "hits": {
+              ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000"
+            },
+            "coins": {
+              ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000"
+            },
+            "x": {
+              ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 200000"
+            },
+            "gameId": {
+              ".validate": "newData.isNumber() && newData.val() >= -1"
+            },
+            "online": {
+              ".validate": "newData.isBoolean()"
+            },
+            "$other": {
+              ".validate": false
+            }
+          }
+        },
+        "$other": {
+          ".validate": false
+        }
+      }
+    }
+  }
+}
