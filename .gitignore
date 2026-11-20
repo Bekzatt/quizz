@@ -1,6 +1,7 @@
 # Firebase: кэш деплоя, логи эмулятора и CLI
 .firebase/
 *-debug.log
+*.log
 firebase-debug.*.log
 database-debug.log
 ui-debug.log
