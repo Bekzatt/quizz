@@ -7,12 +7,14 @@ quizzOnline/
 ├─ public/index.html      ← сама игра (всё в одном файле)
 ├─ database.rules.json    ← правила безопасности базы
 ├─ firebase.json          ← настройки хостинга
-└─ .firebaserc            ← ID вашего проекта (заполнить)
+└─ .firebaserc            ← ID проекта Firebase
 ```
+
+Игра уже работает: **https://bilim-jarysy.web.app** (проект `informatika-jarysy`). Раздел ниже нужен, только если разворачиваете свою копию в другом Google-аккаунте.
 
 ---
 
-## Первый запуск (один раз, ~15 минут)
+## Своя копия с нуля (~15 минут)
 
 ### 1. Создать проект Firebase
 1. Откройте https://console.firebase.google.com и войдите своим Google-аккаунтом.
@@ -30,14 +32,15 @@ quizzOnline/
 
 > Без этого шага игра покажет «Firebase-те «Anonymous» кіру қосылмаған».
 
-### 4. Указать ID проекта
-Откройте файл `.firebaserc` и замените `SIZDIN-PROJECT-ID` на ID из шага 1.
+### 4. Указать свой проект
+- В `.firebaserc` замените `informatika-jarysy` на ID из шага 1.
+- В `firebase.json` уберите строку `"site": "bilim-jarysy",` — это имя занято нашим сайтом. Без неё игра загрузится на `https://ВАШ-ID.web.app`.
 
 ### 5. Загрузить игру в интернет
-Нужен Node.js (на вашем ПК уже есть). В PowerShell:
+Нужен Node.js. В PowerShell (версия 13 работает с Java 11; для эмулятора в v14+ нужна Java 21):
 
 ```bash
-npm install -g firebase-tools
+npm install -g firebase-tools@13
 ```
 
 ```bash
@@ -54,7 +57,7 @@ firebase deploy
 
 В конце будет ссылка вида **`https://ВАШ-ID.web.app`** — это адрес игры.
 
-> Наш проект уже загружен: **https://bilim-jarysy.web.app**. Старый адрес informatika-jarysy.web.app выключен.
+Обновить наш сайт после изменений: из папки `quizzOnline` выполнить `firebase deploy`. Старый адрес informatika-jarysy.web.app выключен.
 
 ---
 
