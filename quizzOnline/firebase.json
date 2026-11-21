@@ -3,7 +3,10 @@
     "site": "bilim-jarysy",
     "public": "public",
     "ignore": ["firebase.json", "**/.*"],
-    "rewrites": [{ "source": "**", "destination": "/index.html" }],
+    "rewrites": [
+      { "source": "/jarys/**", "destination": "/jarys/index.html" },
+      { "source": "**", "destination": "/index.html" }
+    ],
     "headers": [
       { "source": "**", "headers": [
         { "key": "Cache-Control", "value": "no-cache" },
