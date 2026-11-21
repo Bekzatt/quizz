@@ -895,9 +895,8 @@ const IMG_KEYS={bg:'og_img_bg',h0:'og_img_h0',h1:'og_img_h1'};
 const IMG_DEF={bg:'img/fon.jpg',h0:'img/aldar.webp',h1:'img/bai.webp'};
 const imgOwn=k=>store(IMG_KEYS[k])||'';
 const imgGet=k=>imgOwn(k)||IMG_DEF[k];
-// Әдепкі суреттерде екеуі де оңға қарайды → Бай (h1) әрқашан айналады, бір-біріне қарайды.
-// «Айналдыру» белгісі тек мұғалімнің өз суретіне қолданылады.
-const flipGet=k=>{ if(!imgOwn(k)) return k==='h1'; const v=store('og_flip_'+k); return v==null ? k==='h1' : v==='1'; };
+// Суреттер файлдағыдай көрсетіледі (әдепкі: Алдар оңға, Бай солға қарайды). Айналдыру — тек мұғалім «Айналдыру ↔» белгісін қойса.
+const flipGet=k=>store('og_flip_'+k)==='1';
 function loadImg(src){ return new Promise((res,rej)=>{ const im=new Image(); im.onload=()=>res(im); im.onerror=rej; im.src=src; }); }
 function removeBg(c){ // жиектен біркелкі түсті flood-fill арқылы мөлдір етеміз
   const x=c.getContext('2d'), W=c.width, H=c.height, d=x.getImageData(0,0,W,H), p=d.data;
@@ -936,7 +935,7 @@ function battleImagesUI(root){
   const render=()=>{ root.innerHTML=`<div class="group"><div class="lbl">Суреттер</div>
     <p class="muted" style="margin:0 0 10px">Әдепкі суреттерді өзіңіздікіне ауыстыруға болады (ChatGPT, Gemini т.б. салған 3D сурет). Кейіпкер — толық бойы, ақ фонда.</p>
     ${rows.map(([k,l])=>{ const v=imgGet(k), own=imgOwn(k); return `<div class="imgrow"><span class="thumb ${k==='bg'?'wide':''}" style="${v?`background-image:url(${v})`:''}">${v?'':'—'}</span>
-      <span class="grow"><b>${l}</b>${own?'':' <small class="muted">(әдепкі)</small>'}${k!=='bg'&&own?`<label class="chk" style="margin:4px 0 0;font-size:13px"><input type="checkbox" data-flip="${k}" ${flipGet(k)?'checked':''}> Айналдыру ↔</label>`:''}</span>
+      <span class="grow"><b>${l}</b>${own?'':' <small class="muted">(әдепкі)</small>'}${k!=='bg'?`<label class="chk" style="margin:4px 0 0;font-size:13px"><input type="checkbox" data-flip="${k}" ${flipGet(k)?'checked':''}> Айналдыру ↔</label>`:''}</span>
       <label class="btn gray sm">Таңдау<input type="file" accept="image/*" data-file="${k}" hidden></label>${own?`<button class="ibtn" data-del="${k}" aria-label="Әдепкіге қайтару">↺</button>`:''}</div>`; }).join('')}
     <label class="chk"><input type="checkbox" id="imgCut" ${store('og_imgcut')!=='0'?'checked':''}> Кейіпкердің ақ фонын автоматты өшіру</label>
     <div class="muted" id="imgMsg" style="margin-top:6px"></div></div>`;
