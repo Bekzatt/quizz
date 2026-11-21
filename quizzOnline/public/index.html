@@ -56,6 +56,7 @@ h1,h2,h3{font-family:var(--serif)}
   background:var(--orn) 0 100%/44px 11px repeat-x,var(--grain),var(--navy)}
 #topbar .title{font-family:var(--serif);font-weight:700;font-size:19px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;letter-spacing:.01em}
 #timer{position:absolute;left:50%;top:6px;transform:translateX(-50%);font-family:var(--serif);font-size:26px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--gold2)}
+@media (max-width:560px){ #topbar .title{flex:0 1 auto;max-width:calc(50% - 82px);font-size:16px} }
 #timer.low{color:#FF8A7A}
 #stage{position:fixed;left:0;right:0;top:56px;bottom:0;overflow:hidden}
 
@@ -372,11 +373,12 @@ details.bulk textarea{min-height:140px;margin-top:8px}
 /* ---------- 2. Арқан тарту ---------- */
 .tug{height:100%;display:flex;flex-direction:column}
 .tugscene{position:relative;flex:1 1 50%;min-height:0;background:url(img/fon.jpg) center 62%/cover,linear-gradient(#F3B562,#E9C98E 55%,#B88A52 55%)}
-.tugscene svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
-.tugscene{overflow:hidden}
-.tugscore{position:absolute;top:10px;left:0;right:0;display:flex;justify-content:space-between;padding:0 14px;font-family:var(--serif);font-weight:700;font-size:clamp(16px,2.6vw,28px);z-index:2}
-.tugscore span{display:flex;align-items:center;gap:10px;background:var(--grain),var(--c);color:#FFF4DC;border-radius:8px;padding:4px 14px 4px 6px;box-shadow:0 3px 0 rgba(0,0,0,.25)}
-.tugscore span b{background:rgba(0,0,0,.2);border-radius:5px;padding:0 8px;font-variant-numeric:tabular-nums}
+/* сурет команда атауларының астынан басталады және ені мен биіктігіне қарай сыйып тұрады (meet) — кең экранда батырлар үлкейіп кетпейді */
+.tugscene > svg{position:absolute;left:0;right:0;top:clamp(46px,7vh,70px);bottom:0;width:100%;height:calc(100% - clamp(46px,7vh,70px));overflow:visible}
+.tugscene{overflow:hidden;max-height:calc(31vw + 70px)} /* тар экранда сахна бос аспанмен ұзарып кетпейді — орын сұрақтарға қалады */.tugscore{position:absolute;top:10px;left:0;right:0;display:flex;justify-content:space-between;padding:0 14px;font-family:var(--serif);font-weight:700;font-size:clamp(16px,2.6vw,28px);z-index:2}
+.tugscore > span{display:flex;align-items:center;gap:10px;background:var(--grain),var(--c);color:#FFF4DC;border-radius:8px;padding:4px 14px 4px 6px;box-shadow:0 3px 0 rgba(0,0,0,.25)}
+.tugscore .badge{flex:none;box-shadow:inset 0 0 0 2px rgba(255,240,205,.45)}
+.tugscore > span b{background:rgba(0,0,0,.2);border-radius:5px;padding:0 8px;font-variant-numeric:tabular-nums}
 #rope{transition:transform .45s cubic-bezier(.3,1.4,.5,1)}
 .pullfx{position:absolute;top:26%;left:14%;font-family:var(--serif);font-weight:700;font-size:clamp(26px,4.4vw,54px);opacity:0;pointer-events:none;z-index:3;
   -webkit-text-stroke:3px #3A1E06;paint-order:stroke fill;text-shadow:0 4px 0 #3A1E06}
@@ -893,7 +895,9 @@ const IMG_KEYS={bg:'og_img_bg',h0:'og_img_h0',h1:'og_img_h1'};
 const IMG_DEF={bg:'img/fon.jpg',h0:'img/aldar.webp',h1:'img/bai.webp'};
 const imgOwn=k=>store(IMG_KEYS[k])||'';
 const imgGet=k=>imgOwn(k)||IMG_DEF[k];
-const flipGet=k=>{ const v=store('og_flip_'+k); return v==null ? k==='h1' : v==='1'; };
+// Әдепкі суреттерде екеуі де оңға қарайды → Бай (h1) әрқашан айналады, бір-біріне қарайды.
+// «Айналдыру» белгісі тек мұғалімнің өз суретіне қолданылады.
+const flipGet=k=>{ if(!imgOwn(k)) return k==='h1'; const v=store('og_flip_'+k); return v==null ? k==='h1' : v==='1'; };
 function loadImg(src){ return new Promise((res,rej)=>{ const im=new Image(); im.onload=()=>res(im); im.onerror=rej; im.src=src; }); }
 function removeBg(c){ // жиектен біркелкі түсті flood-fill арқылы мөлдір етеміз
   const x=c.getContext('2d'), W=c.width, H=c.height, d=x.getImageData(0,0,W,H), p=d.data;
@@ -932,7 +936,7 @@ function battleImagesUI(root){
   const render=()=>{ root.innerHTML=`<div class="group"><div class="lbl">Суреттер</div>
     <p class="muted" style="margin:0 0 10px">Әдепкі суреттерді өзіңіздікіне ауыстыруға болады (ChatGPT, Gemini т.б. салған 3D сурет). Кейіпкер — толық бойы, ақ фонда.</p>
     ${rows.map(([k,l])=>{ const v=imgGet(k), own=imgOwn(k); return `<div class="imgrow"><span class="thumb ${k==='bg'?'wide':''}" style="${v?`background-image:url(${v})`:''}">${v?'':'—'}</span>
-      <span class="grow"><b>${l}</b>${own?'':' <small class="muted">(әдепкі)</small>'}${k!=='bg'?`<label class="chk" style="margin:4px 0 0;font-size:13px"><input type="checkbox" data-flip="${k}" ${flipGet(k)?'checked':''}> Айналдыру ↔</label>`:''}</span>
+      <span class="grow"><b>${l}</b>${own?'':' <small class="muted">(әдепкі)</small>'}${k!=='bg'&&own?`<label class="chk" style="margin:4px 0 0;font-size:13px"><input type="checkbox" data-flip="${k}" ${flipGet(k)?'checked':''}> Айналдыру ↔</label>`:''}</span>
       <label class="btn gray sm">Таңдау<input type="file" accept="image/*" data-file="${k}" hidden></label>${own?`<button class="ibtn" data-del="${k}" aria-label="Әдепкіге қайтару">↺</button>`:''}</div>`; }).join('')}
     <label class="chk"><input type="checkbox" id="imgCut" ${store('og_imgcut')!=='0'?'checked':''}> Кейіпкердің ақ фонын автоматты өшіру</label>
     <div class="muted" id="imgMsg" style="margin-top:6px"></div></div>`;
@@ -1238,14 +1242,14 @@ function startTug(o){
       <path d="M-11 -72Q2 -76 14 -72" stroke="#E9C46A" stroke-width="2.2" fill="none"/>
       <path d="M-12 -68H15" stroke="#5E6670" stroke-width="3" stroke-linecap="round"/><path d="M9.5 -68v8" stroke="#5E6670" stroke-width="2.2"/>
       <path d="M2 -92V-100" stroke="#5E6670" stroke-width="2.6" stroke-linecap="round"/>
-      ${lead?`<path class="plume" d="M2 -100q-7-10-2-19q2 8 4 2q3 7 0 17z" fill="#F4F1E8" stroke="#BDB6A6" stroke-width="1"/>`:''}
+      <path class="plume" d="M2 -100q-7-10-2-19q2 8 4 2q3 7 0 17z" fill="#F4F1E8" stroke="#BDB6A6" stroke-width="1"/>
       <g class="arm"><path d="M0 -44L17 -23L32 -5" stroke="${c}" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
         <path d="M26 -12l7 6" stroke="#E9C46A" stroke-width="4"/><circle cx="33" cy="-4" r="6" fill="${sk}"/></g>
     </g></g>`; };
   const XS=[62,142,222], SC=1.25, ROPE_Y=Math.round(205-79*SC);
   stage.innerHTML=`<div class="tug">
     <div class="tugscene" id="tscene"><div class="tugscore">${T.map((t,i)=>`<span style="--c:${t.c}"><span class="badge" style="--c:${t.c};width:30px;height:30px">${t.av}</span>${esc(t.name)} <b id="ts${i}">0</b></span>`).join('')}</div>
-      <svg viewBox="0 0 1000 260" preserveAspectRatio="xMidYMax meet" id="tsvg">
+      <svg viewBox="-40 0 1080 250" preserveAspectRatio="xMidYMax meet" id="tsvg">
         <line x1="${500-10*STEP*U}" y1="150" x2="${500-10*STEP*U}" y2="232" stroke="${T[0].c}" stroke-width="5" stroke-dasharray="10 8"/>
         <line x1="${500+10*STEP*U}" y1="150" x2="${500+10*STEP*U}" y2="232" stroke="${T[1].c}" stroke-width="5" stroke-dasharray="10 8"/>
         <line x1="500" y1="140" x2="500" y2="236" stroke="#FFF4DC" stroke-width="5" stroke-dasharray="2 9" stroke-linecap="round"/>
