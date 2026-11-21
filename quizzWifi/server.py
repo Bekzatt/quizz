@@ -14,8 +14,8 @@ GAME_FILE = os.path.join(HERE, "bilim-jarysy.html")
 
 AVATARS = ["🦊", "🐼", "🐸", "🐯", "🐵", "🐨", "🐰", "🐻", "🦁", "🐙", "🦄", "🐲",
            "🐱", "🐶", "🦉", "🐢", "🐧", "🐷", "🐮", "🐔", "🦋", "🐝", "🐬", "🦖"]
-COLORS = ["#FF3B30", "#007AFF", "#34C759", "#AF52DE", "#FF9500", "#FF2D55",
-          "#30B0C7", "#5856D6", "#A2845E", "#00C7BE", "#FFCC00", "#32ADE6"]
+COLORS = ["#A8322A", "#1F5C8C", "#4C7A35", "#6A2E4E", "#B07A1C", "#A8324F",
+          "#1C7F8E", "#2E3F78", "#8A5A2B", "#3E7D6A", "#C2701C", "#2C3B63"]  # ұлттық түстер
 
 lock = threading.Lock()
 S = {"phase": "lobby", "gameId": 0, "seed": 0, "dur": 180, "startAt": 0,

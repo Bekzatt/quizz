@@ -3,22 +3,32 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="theme-color" content="#F2F2F7">
+<meta name="theme-color" content="#1E2A4A">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&family=PT+Serif:wght@400;700&display=swap" rel="stylesheet">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>Білім жарысы</title>
 <style>
 :root{
-  --bg:#F2F2F7; --card:#FFFFFF; --label:#000000; --label2:#3C3C4399; --label3:#3C3C434D; --sep:#C6C6C8;
-  --fill:#7676801F; --fill2:#74748014;
-  --blue:#007AFF; --green:#34C759; --red:#FF3B30; --orange:#FF9500; --yellow:#FFCC00;
-  --purple:#AF52DE; --indigo:#5856D6; --pink:#FF2D55; --teal:#30B0C7;
-  --r-lg:22px; --r-md:14px; --r-sm:10px;
-  --font:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Segoe UI Variable Text","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
-  --glass:rgba(255,255,255,.78);
+  /* Ұлттық стиль: киіз (крем), көк (индиго), қызыл, алтын — «Білім ойындары»-мен бірдей */
+  --felt:#EFE3CC; --paper:#FBF5E8; --ink:#231F1A; --ink2:#6A5A45; --line:#CBB48C;
+  --navy:#1E2A4A; --navy2:#2C3B63; --red2:#7E211B; --gold:#C9962B; --gold2:#E9C46A;
+  --bg:var(--felt); --card:var(--paper); --label:var(--ink); --label2:#6A5A45; --label3:#A8977C; --sep:var(--line);
+  --fill:rgba(107,66,38,.10); --fill2:rgba(107,66,38,.06);
+  --blue:#1F5C8C; --green:#4C7A35; --red:#A8322A; --orange:#C2701C; --yellow:#D9A520;
+  --purple:#6A2E4E; --indigo:#2E3F78; --pink:#A8324F; --teal:#1C8C9C;
+  --r-lg:12px; --r-md:10px; --r-sm:8px;
+  --serif:"PT Serif",Georgia,"Times New Roman",serif;
+  --font:"PT Sans","Segoe UI",Tahoma,Arial,sans-serif;
+  --glass:rgba(251,245,232,.94);
+  --orn:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='22' viewBox='0 0 44 22'%3E%3Cpath d='M22 21V13C22 6 14 3 10.5 7.5 8 11 12 14 14 11M22 13C22 6 30 3 33.5 7.5 36 11 32 14 30 11M0 21H44' fill='none' stroke='%23E9C46A' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+  --orn-red:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='22' viewBox='0 0 44 22'%3E%3Cpath d='M22 21V13C22 6 14 3 10.5 7.5 8 11 12 14 14 11M22 13C22 6 30 3 33.5 7.5 36 11 32 14 30 11M0 21H44' fill='none' stroke='%23A8322A' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+  --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .42 0 0 0 0 .3 0 0 0 0 .18 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;height:100%;background:var(--bg);color:var(--label);font-family:var(--font);
-  -webkit-font-smoothing:antialiased;overflow:hidden;user-select:none;-webkit-user-select:none;letter-spacing:-.01em}
+  -webkit-font-smoothing:antialiased;overflow:hidden;user-select:none;-webkit-user-select:none}
 button{font:inherit;cursor:pointer;color:inherit}
 input,textarea,select{font:inherit}
 
@@ -260,6 +270,148 @@ details.bulk[open] summary{margin-bottom:8px}
 .empty{color:var(--label2);text-align:center;padding:30px 10px}
 .empty b{display:block;color:var(--label);font-size:17px;margin-bottom:4px}
 @media (max-width:600px){ .large{font-size:28px} #topbar .title{display:none} .board{grid-template-columns:1fr} }
+
+/* ===== Ұлттық стиль (Білім ойындары-мен бірдей): киіз, ою-өрнек, алтын жіп ===== */
+body{background:var(--grain),var(--felt)}
+svg.i{width:1em;height:1em;vertical-align:-.14em;flex:none}
+.large,.url,.htimer,.code,h2,h3,.qtext,.score,.pod .pscore,.pod .pblock,#timer,#topbar .title{font-family:var(--serif)}
+.large{font-weight:700;letter-spacing:0;color:var(--navy)}
+.page > .large:first-child::before{content:'Информатика сабағына';display:block;font-family:var(--font);font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin-bottom:6px}
+h2{color:var(--navy)}
+/* батырмалар */
+.btn{position:relative;border-radius:10px;background:var(--red);color:#FFF4DC;font-weight:700;letter-spacing:.01em;box-shadow:0 3px 0 var(--red2);transition:transform .08s,box-shadow .08s}
+.btn::after{content:'';position:absolute;inset:4px;border:1.5px dashed rgba(233,196,106,.7);border-radius:7px;pointer-events:none}
+.btn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--red2);filter:none}
+.btn:disabled{opacity:.45}
+.btn.tinted{background:var(--navy);color:var(--gold2);box-shadow:0 3px 0 #121A30}
+.btn.tinted:active{box-shadow:0 1px 0 #121A30}
+.btn.gray{background:var(--paper);color:var(--ink);box-shadow:0 3px 0 var(--line),inset 0 0 0 1.5px var(--line)}
+.btn.gray::after{border-color:rgba(107,66,38,.25)}
+.btn.danger{background:#F4DDD2;color:var(--red2);box-shadow:0 3px 0 #D9A898,inset 0 0 0 1.5px #D9A898}
+.btn.danger::after{border-color:rgba(168,50,42,.28)}
+.btn svg.i{width:1.15em;height:1.15em}
+.link{color:var(--red);font-weight:700}
+.ibtn{border-radius:8px;background:var(--paper);color:var(--ink2);box-shadow:inset 0 0 0 1.5px var(--line)}
+.ibtn svg{width:18px;height:18px}
+/* жоғарғы жолақ */
+#topbar{height:52px;padding:0 12px 8px;background:var(--orn) 0 100%/44px 11px repeat-x,var(--grain),var(--navy);color:#F6E7C4;border:0;backdrop-filter:none;-webkit-backdrop-filter:none}
+#topbar .title{font-weight:700;font-size:19px}
+#timer{top:6px;color:var(--gold2);font-weight:700}
+#timer.low{color:#FF8A7A}
+#topbar .ibtn{background:rgba(255,255,255,.06);box-shadow:inset 0 0 0 1.5px rgba(233,196,106,.45);color:var(--gold2)}
+/* жолдар */
+.pill{background:var(--grain),var(--paper);backdrop-filter:none;-webkit-backdrop-filter:none;border-radius:8px;font-weight:700;box-shadow:inset 0 0 0 1.5px var(--line),0 2px 0 rgba(107,66,38,.18)}
+.hud .sc{color:var(--pc,var(--navy));font-family:var(--serif);font-size:1.15em}
+.hud .st{color:var(--gold);font-size:.9em}
+.hud .rk{color:var(--ink2)}
+.keys b{background:var(--paper);border-radius:4px;color:var(--ink2);box-shadow:inset 0 0 0 1px var(--line);font-family:Consolas,monospace;font-size:.9em}
+.jumpbtn{border-radius:10px;background:var(--grain),var(--pc,var(--navy));color:#FFF4DC;box-shadow:0 3px 0 rgba(0,0,0,.3)}
+.jumpbtn::after{content:'';position:absolute;inset:4px;border:1.5px dashed rgba(233,196,106,.7);border-radius:7px;pointer-events:none}
+.jumpbtn:active,.jumpbtn.press{transform:translateY(2px);filter:none;box-shadow:0 1px 0 rgba(0,0,0,.3)}
+.jumpbtn.wide{border-radius:12px}
+.panel{background:var(--grain),var(--paper);backdrop-filter:none;-webkit-backdrop-filter:none;border-radius:10px;padding:1.05em .9em .8em;
+  box-shadow:0 14px 36px rgba(60,35,15,.28),inset 0 0 0 1.5px var(--line)}
+.panel::before{content:'';position:absolute;left:0;right:0;top:0;height:.55em;background:var(--orn-red) 0 0/2.2em .55em repeat-x;border-radius:10px 10px 0 0;opacity:.9}
+.qhead{color:var(--red);font-weight:700;letter-spacing:.1em}
+.qtext{color:var(--navy)}
+.opt{background:#FFFDF7;border:1.5px solid var(--line);border-radius:10px;font-weight:700;box-shadow:0 3px 0 var(--line)}
+.opt:active{background:#FFFDF7;transform:translateY(2px);box-shadow:0 1px 0 var(--line)}
+.opt .k{border-radius:6px;background:var(--navy);color:var(--gold2)}
+.opt.ok{background:var(--green);border-color:#2F5A1F;color:#FFF4DC;box-shadow:0 3px 0 #2F5A1F}
+.opt.ok .k,.opt.bad .k{background:rgba(255,255,255,.2);color:#fff}
+.opt.ok::after,.opt.bad::after{color:#FFF4DC}
+.opt.bad{background:var(--red);border-color:var(--red2);color:#FFF4DC;box-shadow:0 3px 0 var(--red2)}
+.lane.solo .opts{gap:.45em;background:none;border-radius:0;overflow:visible}
+.lane.solo .opt{border-radius:10px;background:#FFFDF7}
+.lane.solo .opt + .opt{border-top:1.5px solid var(--line)}
+.lane.solo .opt.ok{background:var(--green)}
+.lane.solo .opt.bad{background:var(--red)}
+#count span{width:min(200px,42vw);min-width:0;height:min(200px,42vw);padding:0;border-radius:50%;background:var(--grain),var(--navy);color:var(--gold2);backdrop-filter:none;-webkit-backdrop-filter:none;
+  font-weight:700;letter-spacing:0;box-shadow:0 18px 50px rgba(30,22,12,.35),inset 0 0 0 6px var(--navy),inset 0 0 0 8px rgba(233,196,106,.6)}
+#count span.go{font-size:min(52px,11vw);color:var(--gold2);background:var(--grain),var(--red);box-shadow:0 18px 50px rgba(30,22,12,.35),inset 0 0 0 6px var(--red),inset 0 0 0 8px rgba(233,196,106,.6)}
+/* беттер */
+.overlay{background:var(--grain),var(--felt)}
+.overlay.modal{background:rgba(30,22,12,.55);backdrop-filter:none;-webkit-backdrop-filter:none}
+.sub,.gfoot,.muted{color:var(--ink2)}
+.ghead{color:var(--red);font-weight:700;letter-spacing:.1em;font-size:12.5px}
+.group{background:var(--paper);border-radius:10px;box-shadow:inset 0 0 0 1.5px var(--line)}
+.row + .row::before{border-top:1px dashed var(--line)}
+.row input[type=text]{color:var(--ink)}
+.tile{border-radius:50%;color:#FFF4DC;box-shadow:inset 0 0 0 2px rgba(255,240,205,.35)}
+.tile svg{width:60%;height:60%}
+.tile.lg{border-radius:50%}
+.kbd b{background:var(--fill);border-radius:4px;font-family:Consolas,monospace;color:var(--ink2)}
+.seg{background:transparent;padding:0;gap:8px;flex-wrap:wrap}
+.seg button,.seg span{min-height:42px;border:1.5px solid var(--line);background:#FFFDF7;border-radius:8px;font-size:15px;font-weight:700;color:var(--ink2);
+  display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.seg .on{background:var(--navy);border-color:var(--navy);color:var(--gold2);box-shadow:inset 0 0 0 3px var(--navy),inset 0 0 0 4.5px rgba(233,196,106,.6)}
+.seg.big button{min-height:50px;font-size:16px}
+.seg.steps span{color:var(--ink2)}
+.seg.steps .on{color:var(--gold2)}
+.seg.steps .done{color:var(--green);border-color:var(--green)}
+details.row summary::after{color:var(--ink2)}
+textarea{background:#FFFDF7;border:1.5px solid var(--line);border-radius:8px;font:15px/28px var(--font);padding-top:6px;
+  background-image:repeating-linear-gradient(transparent 0 27px,rgba(107,66,38,.08) 27px 28px)}
+code{background:var(--fill);border-radius:4px}
+.switch span{background:#D8CBB2}
+.num{background:var(--navy);color:var(--gold2);border-radius:6px;font-family:var(--serif)}
+.howto .h{background:var(--paper);border-radius:10px;box-shadow:inset 0 0 0 1.5px var(--line)}
+.howto .h b{font-family:var(--serif);color:var(--navy);font-size:16px}
+.howto .h small{color:var(--ink2)}
+.sheet{position:relative;background:var(--grain),var(--paper);border-radius:12px;padding-top:30px;box-shadow:0 24px 60px rgba(0,0,0,.4),inset 0 0 0 1.5px var(--line)}
+.sheet::before{content:'';position:absolute;left:0;right:0;top:0;height:16px;background:var(--orn) 0 0/44px 16px repeat-x,var(--red);border-radius:12px 12px 0 0}
+.bigicon{display:flex;justify-content:center;color:var(--navy)}
+.bigicon svg{width:52px;height:52px}
+/* нәтиже */
+.pod .pav{box-shadow:inset 0 0 0 3px rgba(255,240,205,.35),0 4px 0 rgba(107,66,38,.18)}
+.pod.p1 .pav{outline-color:var(--gold)}
+.pod .pname{color:var(--ink)}
+.pod .pscore{color:var(--navy);font-size:19px}
+.pod .pblock{border-radius:8px 8px 3px 3px;font-weight:700;color:#FFF4DC;position:relative}
+.pod .pblock::after{content:'';position:absolute;inset:5px;border:1.5px dashed rgba(255,240,205,.5);border-radius:5px;pointer-events:none}
+.pod.p1 .pblock{background:var(--grain),var(--gold)}
+.pod.p2 .pblock{background:var(--grain),var(--navy2)}
+.pod.p3 .pblock{background:var(--grain),#B5562A}
+.pod.me .pname{color:var(--red)}
+.rank{border-radius:6px;background:var(--fill);font-family:var(--serif)}
+.rank.r1{background:var(--gold);color:#FFF4DC}.rank.r2{background:var(--navy2);color:#FFF4DC}.rank.r3{background:#B5562A;color:#FFF4DC}
+.row.me{background:#FFF3CF}
+.bar{background:var(--fill)}
+.bar i{background:var(--c,var(--navy))}
+/* лобби */
+.bigav{box-shadow:inset 0 0 0 4px rgba(255,240,205,.35),0 6px 0 rgba(107,66,38,.18);color:var(--gold2)}
+.bigav svg{width:52%;height:52%}
+.status{background:var(--paper);box-shadow:inset 0 0 0 1.5px var(--line)}
+.chips span{background:var(--paper);border-radius:8px;box-shadow:inset 0 0 0 1.5px var(--line)}
+.field{background:#FFFDF7;border-radius:10px;box-shadow:inset 0 0 0 1.5px var(--line)}
+.field input{font-family:var(--serif);color:var(--navy)}
+.err{color:var(--red)}
+/* мұғалім экраны */
+#host{background:var(--grain),var(--felt)}
+.hcard{background:var(--grain),var(--paper);border-radius:12px;box-shadow:inset 0 0 0 1.5px var(--line)}
+.hcard h3{font-family:var(--serif);color:var(--navy);letter-spacing:0}
+#qr{border-radius:8px;box-shadow:inset 0 0 0 1.5px var(--line)}
+.url{color:var(--navy);letter-spacing:0}
+.code{color:var(--red)}
+.htimer{color:var(--navy);letter-spacing:0}
+.htimer.low{color:var(--red)}
+.board .row{background:var(--paper)}
+.hp{background:var(--paper);border-radius:8px;box-shadow:inset 0 0 0 1.5px var(--line)}
+.hp button{background:var(--fill);color:var(--ink2)}
+.hp .unban{color:var(--red)}
+.linkbox input{background:#FFFDF7;border:1.5px solid var(--line);border-radius:8px;color:var(--ink)}
+.qed .qform input[type=text]{background:#FFFDF7;border:1.5px solid var(--line);border-radius:8px;color:var(--ink)}
+.qed .qform input[type=text]:focus{box-shadow:0 0 0 2px rgba(201,150,43,.45)}
+.qf-row > span{border-radius:6px}
+.qlist{background:#FFFDF7;border-radius:8px;box-shadow:inset 0 0 0 1.5px var(--line)}
+.qitem + .qitem{border-top:1px dashed var(--line)}
+.qitem .num{border-radius:6px}
+.qitem.editing{background:#FFF3CF}
+.qitem .ok{color:#2F5A1F}.qitem .bad{color:var(--red2)}
+.qitem .ibtn svg{width:16px;height:16px}
+details.bulk summary{color:var(--red);font-weight:700}
+.warn{background:#F7E6C4;color:#7A4A12;border-radius:10px;box-shadow:inset 0 0 0 1.5px #E0C080}
+.empty b{font-family:var(--serif);color:var(--navy)}
 </style>
 </head>
 <body>
@@ -267,9 +419,9 @@ details.bulk[open] summary{margin-bottom:8px}
   <span class="title">Білім жарысы</span>
   <span id="timer">0:00</span>
   <div class="right">
-    <button class="ibtn" id="bPause" aria-label="Пауза">⏸</button>
-    <button class="ibtn" id="bMute" aria-label="Дыбыс">🔊</button>
-    <button class="ibtn" id="bMenu" aria-label="Шығу">✕</button>
+    <button class="ibtn" id="bPause" aria-label="Пауза"><i data-ic="pause"></i></button>
+    <button class="ibtn" id="bMute" aria-label="Дыбыс"><i data-ic="snd"></i></button>
+    <button class="ibtn" id="bMenu" aria-label="Шығу"><i data-ic="close"></i></button>
   </div>
 </div>
 <canvas id="cv"></canvas>
@@ -283,8 +435,8 @@ details.bulk[open] summary{margin-bottom:8px}
     <p class="sub">Кедергілерден секіріп өт, сұрақтарға жауап бер, ең көп ұпай жина.</p>
 
     <div class="seg big" id="modeSeg">
-      <button data-tab="local" class="on">📱 Бір құрылғыда</button>
-      <button data-tab="wifi">🌐 Онлайн</button>
+      <button data-tab="local" class="on"><i data-ic="phone"></i> Бір құрылғыда</button>
+      <button data-tab="wifi"><i data-ic="globe"></i> Онлайн</button>
     </div>
 
     <div class="ghead">Қалай ойнау керек</div>
@@ -302,10 +454,10 @@ details.bulk[open] summary{margin-bottom:8px}
       <div class="ghead">Сұрақтар</div>
       <div class="group">
         <details class="row" id="qDetails">
-          <summary><span class="tile" style="--c:var(--orange)">✏️</span><span class="grow">Өз сұрақтарым<small id="poolInfo"></small></span></summary>
+          <summary><span class="tile" style="--c:var(--orange)"><i data-ic="edit"></i></span><span class="grow">Өз сұрақтарым<small id="poolInfo"></small></span></summary>
           <div class="inner">
             <div class="qed" id="qEd"></div>
-            <details class="bulk"><summary>📋 Көп сұрақты мәтінмен қою (Word/Excel-ден)</summary>
+            <details class="bulk"><summary><i data-ic="copy"></i> Көп сұрақты мәтінмен қою (Word/Excel-ден)</summary>
               <p class="qhint">Әр жолға бір сұрақ: <code>Сұрақ | Дұрыс | Қате | Қате</code></p>
               <textarea id="qText" placeholder="Python: 3 + 4 * 2 = ? | 11 | 14 | 10"></textarea>
             </details>
@@ -315,7 +467,7 @@ details.bulk[open] summary{margin-bottom:8px}
         </details>
       </div>
 
-      <div class="actions"><button class="btn wide" id="bStart">▶ Бастау</button></div>
+      <div class="actions"><button class="btn wide" id="bStart">Бастау</button></div>
     </div>
 
     <div id="tabWifi" style="display:none">
@@ -326,8 +478,8 @@ details.bulk[open] summary{margin-bottom:8px}
         <div class="row"><span class="num">3</span><span class="grow">Мұғалім <b>«Бастау»</b> басады<small>Барлығы бір уақытта бастайды</small></span></div>
       </div>
       <div class="gfoot">Барлығына интернет керек (Wi-Fi немесе мобильді). Мұғалім экраны кез келген телефонда да ашылады.</div>
-      <div class="actions"><button class="btn wide" id="bHostNew">🖥 Мұғалім: бөлме ашу</button>
-        <button class="btn tinted wide" id="bJoinMe">📱 Оқушы: кодпен кіру</button></div>
+      <div class="actions"><button class="btn wide" id="bHostNew"><i data-ic="monitor"></i> Мұғалім: бөлме ашу</button>
+        <button class="btn tinted wide" id="bJoinMe"><i data-ic="phone"></i> Оқушы: кодпен кіру</button></div>
     </div>
   </div>
 </div>
@@ -336,7 +488,7 @@ details.bulk[open] summary{margin-bottom:8px}
 <div class="overlay" id="join">
   <div class="page" style="max-width:460px">
     <div id="joinForm">
-      <div class="bigav" style="--c:var(--blue)">🏁</div>
+      <div class="bigav" style="--c:var(--navy)"><i data-ic="flag"></i></div>
       <div class="large center">Ойынға қосыл</div>
       <p class="sub center">Бөлме кодын және атыңды жаз</p>
       <div class="field"><input type="text" id="myRoom" inputmode="numeric" maxlength="6" placeholder="Бөлме коды" autocomplete="off"></div>
@@ -367,7 +519,7 @@ details.bulk[open] summary{margin-bottom:8px}
     <p class="muted" style="margin:0 0 16px;font-size:14px;line-height:1.45"><b>Шығару</b> — қайта кіре алады.<br><b>Бұғаттау</b> — бұл бөлмеге кіре алмайды (кейін қайтаруға болады).</p>
     <div style="display:grid;gap:8px">
       <button class="btn tinted wide" id="kKick">Шығару</button>
-      <button class="btn danger wide" id="kBan">🚫 Бұғаттау</button>
+      <button class="btn danger wide" id="kBan"><i data-ic="ban"></i> Бұғаттау</button>
       <button class="btn gray wide" id="kCancel">Болдырмау</button>
     </div>
   </div>
@@ -376,7 +528,7 @@ details.bulk[open] summary{margin-bottom:8px}
 <!-- Пауза -->
 <div class="overlay modal" id="pause">
   <div class="sheet small">
-    <div style="font-size:44px">⏸</div>
+    <div class="bigicon"><i data-ic="pause"></i></div>
     <h2 style="margin:6px 0 4px">Пауза</h2>
     <p class="muted" style="margin:0 0 18px">Жалғастыру үшін Esc немесе батырманы басыңыз</p>
     <button class="btn wide" id="bResume">Жалғастыру</button>
@@ -401,9 +553,9 @@ details.bulk[open] summary{margin-bottom:8px}
   <div class="hbar">
     <div class="large">Білім жарысы</div>
     <div class="seg steps" id="hSteps"><span data-ph="lobby">1 · Қосылу</span><span data-ph="play">2 · Ойын</span><span data-ph="end">3 · Нәтиже</span></div>
-    <button class="btn gray" id="hNew" style="height:40px;padding:0 16px;font-size:15px">＋ Жаңа бөлме</button>
-    <button class="btn danger" id="hClose" style="height:40px;padding:0 16px;font-size:15px">✕ Бөлмені жабу</button>
-    <button class="btn gray" id="hFull" style="height:40px;padding:0 16px;font-size:15px">⛶ Толық экран</button>
+    <button class="btn gray" id="hNew" style="height:40px;padding:0 16px;font-size:15px"><i data-ic="plus"></i> Жаңа бөлме</button>
+    <button class="btn danger" id="hClose" style="height:40px;padding:0 16px;font-size:15px"><i data-ic="close"></i> Бөлмені жабу</button>
+    <button class="btn gray" id="hFull" style="height:40px;padding:0 16px;font-size:15px"><i data-ic="fs"></i> Толық экран</button>
   </div>
   <div class="hwrap">
     <div class="hcard" id="hJoinCard">
@@ -412,11 +564,11 @@ details.bulk[open] summary{margin-bottom:8px}
       <div id="qr"></div>
       <div class="muted center" style="font-size:13px;text-transform:uppercase;letter-spacing:.04em;font-weight:600">Бөлме коды</div>
       <div class="code" id="hCode">····</div>
-      <button class="btn gray" id="hLock">🔒 Бөлмені құлыптау</button>
-      <div class="lockmsg">🔒 Бөлме құлыпталған — жаңа оқушы кіре алмайды. Қосылғандар ойнай береді.</div>
-      <div class="linkbox"><input type="text" id="hLink" readonly aria-label="Ойынға сілтеме"><button class="btn tinted" id="hCopy">📋 Көшіру</button></div>
+      <button class="btn gray" id="hLock"><i data-ic="lock"></i> Бөлмені құлыптау</button>
+      <div class="lockmsg"><i data-ic="lock"></i> Бөлме құлыпталған — жаңа оқушы кіре алмайды. Қосылғандар ойнай береді.</div>
+      <div class="linkbox"><input type="text" id="hLink" readonly aria-label="Ойынға сілтеме"><button class="btn tinted" id="hCopy"><i data-ic="copy"></i> Көшіру</button></div>
       <div class="muted center" style="font-size:13px;margin-top:6px">Сілтемені WhatsApp/Telegram арқылы оқушыларға жіберуге болады</div>
-      <div class="center" id="hShareWrap" style="display:none;margin-top:4px"><button class="link" id="hShare">↗ Бөлісу</button></div>
+      <div class="center" id="hShareWrap" style="display:none;margin-top:4px"><button class="link" id="hShare"><i data-ic="share"></i> Бөлісу</button></div>
       <div class="muted center" id="hUrl" style="font-size:13px;margin-top:6px;word-break:break-all"></div>
     </div>
     <div>
@@ -427,7 +579,7 @@ details.bulk[open] summary{margin-bottom:8px}
           <h3>Қосылған оқушылар · <span id="hCount">0</span></h3>
           <div class="chips" id="hPlayers" style="justify-content:flex-start;margin-top:12px"></div>
           <div id="hBannedWrap" style="display:none;margin-top:16px">
-            <div class="muted" style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.03em;margin-bottom:6px">🚫 Бұғатталғандар</div>
+            <div class="muted" style="font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.03em;margin-bottom:6px"><i data-ic="ban"></i> Бұғатталғандар</div>
             <div class="chips" id="hBanned" style="justify-content:flex-start"></div>
           </div>
         </div>
@@ -436,10 +588,10 @@ details.bulk[open] summary{margin-bottom:8px}
         <div class="ghead">Сұрақтар</div>
         <div class="group">
           <details class="row" id="hqDetails">
-            <summary><span class="tile" style="--c:var(--orange)">✏️</span><span class="grow">Өз сұрақтарым<small id="hPoolInfo"></small></span></summary>
+            <summary><span class="tile" style="--c:var(--orange)"><i data-ic="edit"></i></span><span class="grow">Өз сұрақтарым<small id="hPoolInfo"></small></span></summary>
             <div class="inner">
               <div class="qed" id="hqEd"></div>
-              <details class="bulk"><summary>📋 Көп сұрақты мәтінмен қою (Word/Excel-ден)</summary>
+              <details class="bulk"><summary><i data-ic="copy"></i> Көп сұрақты мәтінмен қою (Word/Excel-ден)</summary>
                 <p class="qhint">Әр жолға бір сұрақ: <code>Сұрақ | Дұрыс | Қате | Қате</code></p>
                 <textarea id="hqText" placeholder="Python: 3 + 4 * 2 = ? | 11 | 14 | 10"></textarea>
               </details>
@@ -448,7 +600,7 @@ details.bulk[open] summary{margin-bottom:8px}
             </div>
           </details>
         </div>
-        <div class="actions"><button class="btn wide" id="hStart" disabled style="height:56px;font-size:19px">▶ Ойынды бастау</button></div>
+        <div class="actions"><button class="btn wide" id="hStart" disabled style="height:56px;font-size:19px">Ойынды бастау</button></div>
       </div>
       <!-- 2. Ойын -->
       <div id="hPlay" style="display:none">
@@ -466,7 +618,7 @@ details.bulk[open] summary{margin-bottom:8px}
           <div class="large center" id="hWinner" style="font-size:30px"></div>
           <div id="hRes"></div>
           <div class="actions">
-            <button class="btn" id="hAgain">🔁 Қайта бастау</button>
+            <button class="btn" id="hAgain"><i data-ic="again"></i> Қайта бастау</button>
             <button class="btn gray" id="hReset">Оқушылар тізіміне</button>
           </div>
         </div>
@@ -477,6 +629,30 @@ details.bulk[open] summary{margin-bottom:8px}
 
 <script>
 "use strict";
+// ================= БЕЛГІЛЕР (қолмен салынған SVG, интерфейсте эмодзи жоқ) =================
+const PATHS={
+  play:'<path d="M16 10l22 14-22 14z"/>', pause:'<path d="M17 11v26M31 11v26"/>', close:'<path d="M13 13l22 22M35 13L13 35"/>',
+  snd:'<path d="M6 18h7l10-8v28l-10-8H6z"/><path d="M30 18c3 3 3 9 0 12M35 13c6 6 6 16 0 22"/>',
+  mute:'<path d="M6 18h7l10-8v28l-10-8H6z"/><path d="M31 19l10 10M41 19L31 29"/>',
+  phone:'<rect x="14" y="5" width="20" height="38" rx="4"/><path d="M21 37h6"/>',
+  wifi:'<path d="M6 19c10-9 26-9 36 0M12 26c7-6 17-6 24 0M18 33c3.5-3 8.5-3 12 0"/><circle cx="24" cy="39" r="1.5"/>',
+  globe:'<circle cx="24" cy="24" r="18"/><path d="M6 24h36M24 6c-6 6-6 30 0 36M24 6c6 6 6 30 0 36"/>',
+  edit:'<path d="M10 38l2-9 20-20 7 7-20 20zM28 13l7 7"/>',
+  copy:'<rect x="15" y="15" width="24" height="26" rx="3"/><path d="M33 15V9a2 2 0 0 0-2-2H11a2 2 0 0 0-2 2v24a2 2 0 0 0 2 2h4"/>',
+  check:'<path d="M10 25l9 9 19-20"/>', plus:'<path d="M24 10v28M10 24h28"/>',
+  monitor:'<rect x="5" y="8" width="38" height="26" rx="3"/><path d="M17 42h14M24 34v8"/>',
+  flag:'<path d="M12 43V6M12 8h24l-5 8 5 8H12"/>', ban:'<circle cx="24" cy="24" r="17"/><path d="M12 12l24 24"/>',
+  share:'<path d="M20 10H10v28h28V28M28 8h12v12M40 8L22 26"/>', fs:'<path d="M6 17V6h11M31 6h11v11M42 31v11H31M17 42H6V31"/>',
+  lock:'<rect x="10" y="21" width="28" height="21" rx="3"/><path d="M16 21v-6a8 8 0 0 1 16 0v6"/>',
+  unlock:'<rect x="10" y="21" width="28" height="21" rx="3"/><path d="M16 21v-6a8 8 0 0 1 15.5-2.5"/>',
+  again:'<path d="M38 18A15 15 0 1 0 39 30"/><path d="M39 8v10H29"/>', trash:'<path d="M9 13h30M19 13V8h10v5M13 13l2 28h18l2-28"/>',
+  virus:'<circle cx="24" cy="24" r="11"/><path d="M24 13V6M24 42v-7M13 24H6M42 24h-7M16 16l-5-5M37 37l-5-5M16 32l-5 5M37 11l-5 5"/>',
+  gate:'<path d="M9 43V19Q24 3 39 19v24"/><path d="M19.5 21c0-6 9.5-6 9.5 0 0 4-5 4-5 9"/><path d="M24 35v.5"/>',
+  coin:'<circle cx="24" cy="24" r="17"/><path d="M16 16h16M16 21.5h16M24 21.5V35"/>',
+};
+const ic=(n,sw=3)=>`<svg class="i" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${PATHS[n]}</svg>`;
+document.querySelectorAll('i[data-ic]').forEach(e=>e.outerHTML=ic(e.dataset.ic));
+
 // ================= СҰРАҚТАР =================
 // Формат: Сұрақ | Дұрыс | Қате | Қате
 const BASE_Q = `
@@ -529,18 +705,18 @@ function parseQuestions(text){
 }
 const BASE = parseQuestions(BASE_Q);
 
-// ================= ОЙЫНШЫЛАР (iOS түстері) =================
+// ================= ОЙЫНШЫЛАР (ұлттық түстер) =================
 const DEFS = [
-  {color:'#FF3B30', sky:['#FFE5E3','#FFF8F7'], ground:'#FFD3CF', edge:'#FFB0A8', keys:['KeyQ','KeyW','KeyE'], labels:['Q','W','E'], av:'🦊'},
-  {color:'#007AFF', sky:['#DCEBFF','#F5F9FF'], ground:'#CDE8C6', edge:'#9BD38E', keys:['KeyZ','KeyX','KeyC'], labels:['Z','X','C'], av:'🐼'},
-  {color:'#34C759', sky:['#DDF6E3','#F6FDF8'], ground:'#F2E4C8', edge:'#E2C893', keys:['KeyI','KeyO','KeyP'], labels:['I','O','P'], av:'🐸'},
-  {color:'#AF52DE', sky:['#F1E3FA','#FBF7FE'], ground:'#CFEFF2', edge:'#95D9E0', keys:['ArrowLeft','ArrowDown','ArrowRight'], labels:['←','↓','→'], av:'🐯'},
+  {color:'#1F5C8C', sky:['#D3E0E8','#F6F0E2'], ground:'#D8C59B', edge:'#B79B66', keys:['KeyQ','KeyW','KeyE'], labels:['Q','W','E'], av:'🦊'},
+  {color:'#A8322A', sky:['#EFD9CB','#FBF3E6'], ground:'#D6B98C', edge:'#B48E5A', keys:['KeyZ','KeyX','KeyC'], labels:['Z','X','C'], av:'🐼'},
+  {color:'#4C7A35', sky:['#DAE5CF','#F7F2E3'], ground:'#CDBF8E', edge:'#A99656', keys:['KeyI','KeyO','KeyP'], labels:['I','O','P'], av:'🐸'},
+  {color:'#B07A1C', sky:['#F1E2BF','#FBF5E8'], ground:'#D9C08F', edge:'#B8995C', keys:['ArrowLeft','ArrowDown','ArrowRight'], labels:['←','↓','→'], av:'🐯'},
 ];
 const DURS=[[60,'1 мин'],[120,'2 мин'],[180,'3 мин'],[300,'5 мин']];
 const HOWTO_HTML=`<div class="howto">
-  <div class="h"><span class="tile lg" style="--c:#5856D6">👾</span><span><b>Секіріп өт</b><small>Вирусқа соғылсаң −3 ұпай</small></span></div>
-  <div class="h"><span class="tile lg" style="--c:#007AFF">❓</span><span><b>Жауап бер</b><small>Дұрыс жауап +10 ұпай және ⚡ жылдамдық</small></span></div>
-  <div class="h"><span class="tile lg" style="--c:#FF9500;color:#fff;font-weight:800">₸</span><span><b>Теңге жина</b><small>Әр теңге +1, қатарынан дұрыс — бонус 🔥</small></span></div>
+  <div class="h"><span class="tile lg" style="--c:#6A2E4E">${ic('virus',3.4)}</span><span><b>Секіріп өт</b><small>Вирусқа соғылсаң −3 ұпай</small></span></div>
+  <div class="h"><span class="tile lg" style="--c:var(--navy)">${ic('gate',3.4)}</span><span><b>Жауап бер</b><small>Дұрыс жауап +10 ұпай және жылдамдық</small></span></div>
+  <div class="h"><span class="tile lg" style="--c:var(--gold)">${ic('coin',3.4)}</span><span><b>Теңге жина</b><small>Әр теңге +1, қатарынан дұрыс жауапқа бонус</small></span></div>
 </div>`;
 document.querySelectorAll('.howto-slot').forEach(e=>e.innerHTML=HOWTO_HTML);
 
@@ -548,7 +724,7 @@ document.querySelectorAll('.howto-slot').forEach(e=>e.innerHTML=HOWTO_HTML);
 const SPEED=40, GRAV=320, JUMP=130, PW=7, PH=12, BOOST=1.6;
 // Көрініс өлшемдері: ойыншы суретінің үлкейтуі және теңге радиусы
 const PLAYER_SCALE=1.45, COIN_R=4.2;
-const FONT='-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Roboto,sans-serif';
+const FONT='"PT Sans","Segoe UI",Tahoma,Arial,sans-serif';
 const EMOJI='"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif';
 
 // ================= КӨМЕКШІЛЕР =================
@@ -587,7 +763,7 @@ function resultsHTML(list, meId){
       <div class="pname">${esc(p.name)}</div><div class="pscore">${p.score}</div><div class="pblock">${pl[k]+1}</div></div>`; }).join('');
   const rows=list.map((p,k)=>`<div class="row ${p.id&&p.id===meId?'me':''}"><span class="rank r${pl[k]+1}">${pl[k]+1}</span>
       <span class="tile" style="--c:${safeColor(p.color)}">${esc(p.av)}</span>
-      <span class="grow"><b>${esc(p.name)}</b><small>✅ ${p.correct} дұрыс · ❌ ${p.wrong} қате · 👾 ${p.hits} · ${p.coins} ₸</small></span>
+      <span class="grow"><b>${esc(p.name)}</b><small>${p.correct} дұрыс · ${p.wrong} қате · ${p.hits} вирус · ${p.coins} ₸</small></span>
       <span class="score">${p.score}</span></div>`).join('');
   return `<div class="podium">${pod}</div><div class="group" style="margin-top:14px;background:var(--bg)">${rows}</div>`;
 }
@@ -595,7 +771,7 @@ function winnerText(list){
   if(!list.length) return 'Ойын аяқталды';
   if(list.length===1) return `${list[0].score} ұпай жинадың!`;
   const top=list.filter(p=>p.score===list[0].score);
-  return top.length>1 ? `Тең түсті: ${top.map(p=>p.name).join(', ')} 🤝` : `${list[0].name} жеңді 🏆`;
+  return top.length>1 ? `Тең түсті: ${top.map(p=>p.name).join(', ')}` : `${list[0].name} жеңді!`;
 }
 
 // Дыбыс
@@ -639,7 +815,7 @@ function mountQEditor(root, textEl){
       <div class="qf-row ok"><span>✓</span><input type="text" class="qf-a" maxlength="80" placeholder="Дұрыс жауап" autocomplete="off"></div>
       <div class="qf-row bad"><span>✕</span><input type="text" class="qf-w1" maxlength="80" placeholder="Қате жауап" autocomplete="off"></div>
       <div class="qf-row bad"><span>✕</span><input type="text" class="qf-w2" maxlength="80" placeholder="Тағы бір қате жауап (міндетті емес)" autocomplete="off"></div>
-      <div class="qf-actions"><button type="button" class="btn qf-add">＋ Сұрақ қосу</button><button type="button" class="btn gray qf-cancel" hidden>Болдырмау</button></div>
+      <div class="qf-actions"><button type="button" class="btn qf-add">${ic('plus')} Сұрақ қосу</button><button type="button" class="btn gray qf-cancel" hidden>Болдырмау</button></div>
       <div class="err qf-err"></div>
     </div>
     <div class="qlist"></div>`;
@@ -658,10 +834,10 @@ function mountQEditor(root, textEl){
     const it=items();
     q('.qlist').innerHTML = it.length ? it.map((x,k)=>`<div class="qitem ${x.i===editIdx?'editing':''}"><span class="num">${k+1}</span>
         <span class="grow"><b>${esc(x.q)}</b><small><span class="ok">✓ ${esc(x.a)}</span> · ${x.w.map(w=>`<span class="bad">✕ ${esc(w)}</span>`).join(' · ')}</small></span>
-        <button type="button" class="ibtn" data-edit="${x.i}" aria-label="Өзгерту">✎</button><button type="button" class="ibtn" data-del="${x.i}" aria-label="Өшіру">🗑</button></div>`).join('')
+        <button type="button" class="ibtn" data-edit="${x.i}" aria-label="Өзгерту">${ic('edit')}</button><button type="button" class="ibtn" data-del="${x.i}" aria-label="Өшіру">${ic('trash')}</button></div>`).join('')
       : '<div class="muted qempty">Әзірге өз сұрағыңыз жоқ — жоғарыдағы формамен қосыңыз</div>';
   }
-  function resetForm(){ F.forEach(s=>q(s).value=''); editIdx=-1; q('.qf-add').textContent='＋ Сұрақ қосу'; q('.qf-cancel').hidden=true; q('.qf-err').textContent=''; render(); }
+  function resetForm(){ F.forEach(s=>q(s).value=''); editIdx=-1; q('.qf-add').innerHTML=ic('plus')+' Сұрақ қосу'; q('.qf-cancel').hidden=true; q('.qf-err').textContent=''; render(); }
   function fail(t,sel){ q('.qf-err').textContent=t; q(sel).focus(); }
   q('.qf-add').onclick=()=>{
     const [qq,a,w1,w2]=F.map(s=>clean(q(s).value));
@@ -681,7 +857,7 @@ function mountQEditor(root, textEl){
     const ed=e.target.closest('[data-edit]'), del=e.target.closest('[data-del]');
     if(ed){ const x=items().find(y=>y.i===+ed.dataset.edit); if(!x) return;
       q('.qf-q').value=x.q; q('.qf-a').value=x.a; q('.qf-w1').value=x.w[0]||''; q('.qf-w2').value=x.w[1]||'';
-      editIdx=x.i; q('.qf-add').textContent='✓ Сақтау'; q('.qf-cancel').hidden=false; render(); q('.qf-q').focus(); }
+      editIdx=x.i; q('.qf-add').innerHTML=ic('check')+' Сақтау'; q('.qf-cancel').hidden=false; render(); q('.qf-q').focus(); }
     if(del){ const i=+del.dataset.del; if(!confirm('Бұл сұрақты өшіру керек пе?')) return;
       const L=lines(); L.splice(i,1); if(editIdx===i) { editIdx=-1; resetForm(); } else if(editIdx>i) editIdx--; save(L); }
   });
@@ -709,7 +885,7 @@ function renderSetup(){
   updatePoolInfo();
 }
 function saveNames(){ document.querySelectorAll('#pList input').forEach(inp=>names[+inp.dataset.i]=inp.value.trim()); store('ij_names',JSON.stringify(names)); }
-segment($('#modeSeg'),[['local','📱 Бір құрылғыда'],['wifi','🌐 Онлайн']],'local',v=>{
+segment($('#modeSeg'),[['local',ic('phone')+' Бір құрылғыда'],['wifi',ic('globe')+' Онлайн']],'local',v=>{
   $('#tabLocal').style.display=v==='local'?'':'none';
   $('#tabWifi').style.display=v==='wifi'?'':'none';
 });
@@ -754,7 +930,7 @@ function startGame(o){
       <div class="hud"><span class="pill"><span class="av">${esc(d.av)}</span><span class="nm">${esc(pp.name)}</span></span>
         <span class="pill"><span class="sc">0</span></span><span class="pill st"></span><span class="pill rk"></span></div>
       <div class="keys">${d.labels.map(l=>`<b>${l}</b>`).join('')}</div>
-      <button class="jumpbtn">⬆ Секіру</button>
+      <button class="jumpbtn">Секіру</button>
       <div class="panel"><div class="qhead">Сұрақ</div><div class="qtext"></div><div class="opts"></div></div>`;
     lanes.appendChild(lane);
     const p={i,def:d,name:pp.name,id:pp.id,x:0,y:0,vy:0,score:0,streak:0,correct:0,wrong:0,hits:0,coins:0,
@@ -811,7 +987,7 @@ function askQuestion(p){
   p.qn++;
   p.opts=shuffle([{t:q.a,ok:true},...q.w.map(t=>({t,ok:false}))]);
   p.state='question'; p.qAge=0;
-  p.el.qhead.textContent=`Сұрақ ${p.qn}`+(p.streak>=2?` · 🔥 қатарынан ${p.streak}`:'');
+  p.el.qhead.textContent=`Сұрақ ${p.qn}`+(p.streak>=2?` · қатарынан ${p.streak}`:'');
   p.el.qtext.textContent=q.q;
   p.el.opts.innerHTML=p.opts.map((o,k)=>`<button class="opt" data-k="${k}"><span class="k">${G.online?(k+1):p.def.labels[k]}</span><span class="t">${esc(o.t)}</span></button>`).join('');
   p.el.panel.classList.add('show');
@@ -827,12 +1003,12 @@ function answer(p,k){
     const bonus=Math.min(p.streak,5)*2, pts=10+bonus;
     p.score+=pts; p.correct++; p.streak++; p.boost=3;
     p.el.qhead.textContent = bonus ? `Дұрыс! +10 және бонус +${bonus}` : 'Дұрыс! +10 ұпай';
-    pop(p, `+${pts}`, '#34C759'); sfx('ok');
+    pop(p, `+${pts}`, '#4C7A35'); sfx('ok');
     p.t=0.9;
   }else{
     btns[k].classList.add('bad');
     p.wrong++; p.streak=0; p.el.qhead.textContent='Қате — дұрыс жауап жасылмен белгіленді';
-    pop(p,'Қате','#FF3B30'); sfx('bad');
+    pop(p,'Қате','#A8322A'); sfx('bad');
     p.t=1.9;
   }
   p.res.set(p.gateIdx, ok);
@@ -842,7 +1018,7 @@ function answer(p,k){
 function hit(p){
   p.hits++; p.streak=0; p.score=Math.max(0,p.score-3);
   p.state='stun'; p.t=0.9; p.boost=0;
-  pop(p,'−3','#FF3B30'); sfx('hit');
+  pop(p,'−3','#A8322A'); sfx('hit');
   if(navigator.vibrate) try{navigator.vibrate(100)}catch(e){}
 }
 function pop(p,text,color){ p.pops.push({text,color,t:0}); }
@@ -864,31 +1040,85 @@ function updatePlayer(p,dt){
     }else if(o.type==='block'){
       if(p.x+PW-1.2>o.x && p.x+1.2<o.x+o.w && p.y<o.h-1){ p.done.add(i); hit(p); return; }
     }else if(o.type==='coin'){
-      if(Math.abs(p.x+PW/2-o.x)<COIN_R+3.5 && Math.abs(p.y+PH/2-o.y)<COIN_R+7){ p.done.add(i); p.coins++; p.score++; sfx('coin'); pop(p,'+1','#FF9500'); }
+      if(Math.abs(p.x+PW/2-o.x)<COIN_R+3.5 && Math.abs(p.y+PH/2-o.y)<COIN_R+7){ p.done.add(i); p.coins++; p.score++; sfx('coin'); pop(p,'+1','#9A6E18'); }
     }
   }
 }
 
 // ================= СУРЕТ САЛУ =================
 function rr(x,y,w,h,r){ctx.beginPath();ctx.roundRect?ctx.roundRect(x,y,w,h,r):ctx.rect(x,y,w,h);}
+function drawVirus(x,y,w,h,s,t){ // x,y — сол жақ үстіңгі бұрыш
+  const cx=x+w/2, cy=y+h/2, r=Math.min(w,h)/2, n=9;
+  ctx.fillStyle='#6A2E4E'; ctx.strokeStyle='#6A2E4E'; ctx.lineWidth=Math.max(1.5,s*.9); ctx.lineCap='round';
+  for(let k=0;k<n;k++){ const a=k/n*Math.PI*2+t, x1=cx+Math.cos(a)*r*.8, y1=cy+Math.sin(a)*r*.8, x2=cx+Math.cos(a)*r*1.18, y2=cy+Math.sin(a)*r*1.18;
+    ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke(); ctx.beginPath(); ctx.arc(x2,y2,Math.max(1.2,r*.13),0,7); ctx.fill(); }
+  ctx.beginPath(); ctx.ellipse(cx,cy,r*.86,r*.86,0,0,7); ctx.fill();
+  ctx.fillStyle='rgba(255,240,205,.16)'; ctx.beginPath(); ctx.ellipse(cx-r*.25,cy-r*.3,r*.38,r*.24,-.5,0,7); ctx.fill();
+  ctx.fillStyle='#FBF5E8'; [-1,1].forEach(d=>{ ctx.beginPath(); ctx.ellipse(cx+d*r*.3,cy-r*.05,r*.2,r*.24,0,0,7); ctx.fill(); });
+  ctx.fillStyle='#231F1A'; [-1,1].forEach(d=>{ ctx.beginPath(); ctx.arc(cx+d*r*.27,cy,r*.1,0,7); ctx.fill(); });
+  ctx.strokeStyle='#231F1A'; ctx.lineWidth=Math.max(1,r*.08); [-1,1].forEach(d=>{ ctx.beginPath(); ctx.moveTo(cx+d*r*.48,cy-r*.42); ctx.lineTo(cx+d*r*.14,cy-r*.28); ctx.stroke(); });
+  ctx.beginPath(); ctx.arc(cx,cy+r*.5,r*.22,Math.PI*1.15,Math.PI*1.85); ctx.stroke();
+}
+function drawRunner(x,y,w,h,col,ph,air,stun){ // x,y — сол жақ үстіңгі бұрыш, h — бойы
+  const cx=x+w/2, hr=h*.17, hy=y+hr, bodyT=y+hr*1.9, bodyB=y+h*.7, sw=Math.sin(ph)*(air?.25:1);
+  ctx.lineCap='round'; ctx.lineJoin='round';
+  // аяқтар
+  ctx.strokeStyle='#2B2218'; ctx.lineWidth=w*.2;
+  [[1,0],[-1,0]].forEach(([d])=>{ const a=air?(d>0?.7:-.4):sw*d*.75; ctx.beginPath(); ctx.moveTo(cx,bodyB-h*.04);
+    const kx=cx+Math.sin(a)*h*.17, ky=bodyB+h*.13; ctx.lineTo(kx,ky); ctx.lineTo(kx+Math.sin(a-.5)*h*.13+(d>0?w*.12:0),y+h-w*.1); ctx.stroke(); });
+  // артқы қол
+  ctx.strokeStyle=shade(col,-.25); ctx.lineWidth=w*.19;
+  ctx.beginPath(); ctx.moveTo(cx,bodyT+h*.06); ctx.lineTo(cx-Math.sin(sw)*h*.16-w*.05,bodyT+h*.22); ctx.stroke();
+  // шапан
+  ctx.fillStyle=col; rr(cx-w*.42,bodyT,w*.84,bodyB-bodyT+h*.04,w*.22); ctx.fill();
+  ctx.fillStyle='#C9962B'; ctx.fillRect(cx-w*.42,bodyT+(bodyB-bodyT)*.55,w*.84,Math.max(1.5,h*.045));
+  ctx.strokeStyle='rgba(255,240,205,.55)'; ctx.lineWidth=Math.max(1,w*.05); ctx.beginPath(); ctx.moveTo(cx+w*.06,bodyT+h*.02); ctx.lineTo(cx+w*.06,bodyB); ctx.stroke();
+  // алдыңғы қол
+  ctx.strokeStyle=col; ctx.lineWidth=w*.19;
+  ctx.beginPath(); ctx.moveTo(cx,bodyT+h*.06); ctx.lineTo(cx+Math.sin(sw)*h*.16+w*.08,bodyT+h*.22); ctx.stroke();
+  ctx.fillStyle='#E2AE82'; ctx.beginPath(); ctx.arc(cx+Math.sin(sw)*h*.16+w*.08,bodyT+h*.24,w*.11,0,7); ctx.fill();
+  // бас
+  ctx.fillStyle='#E2AE82'; ctx.beginPath(); ctx.arc(cx+w*.04,hy,hr,0,7); ctx.fill();
+  ctx.fillStyle='#231F1A';
+  if(stun){ ctx.font=`700 ${hr*.8}px sans-serif`; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText('×',cx+w*.2,hy); }
+  else { ctx.beginPath(); ctx.arc(cx+w*.2,hy-hr*.05,Math.max(1,hr*.13),0,7); ctx.fill(); }
+  ctx.fillStyle='#D98C6E'; ctx.beginPath(); ctx.arc(cx+w*.14,hy+hr*.35,hr*.16,0,7); ctx.fill();
+  // тақия
+  ctx.fillStyle='#231F1A'; ctx.beginPath(); ctx.moveTo(cx-hr*.92+w*.04,hy-hr*.2); ctx.quadraticCurveTo(cx+w*.04,hy-hr*1.75,cx+hr*.92+w*.04,hy-hr*.2); ctx.closePath(); ctx.fill();
+  ctx.strokeStyle='#E9C46A'; ctx.lineWidth=Math.max(1,hr*.14); ctx.beginPath(); ctx.moveTo(cx-hr*.8+w*.04,hy-hr*.28); ctx.lineTo(cx+hr*.8+w*.04,hy-hr*.28); ctx.stroke();
+  ctx.fillStyle='#E9C46A'; ctx.beginPath(); ctx.arc(cx+w*.04,hy-hr*.85,Math.max(1,hr*.17),0,7); ctx.fill();
+}
+function shade(hex,k){ const n=parseInt(hex.slice(1),16); let r=n>>16,g=n>>8&255,b=n&255;
+  const f=v=>Math.round(k<0?v*(1+k):v+(255-v)*k); return `rgb(${f(r)},${f(g)},${f(b)})`; }
 function drawLane(p,i){
-  const top=i*LH, s=SC, gy=top+DH*.86, px0=W*.16, d=p.def;
+  const top=i*LH, s=SC, gy=top+DH*.86, px0=W*.16, d=p.def, now=performance.now();
   ctx.save(); ctx.beginPath(); ctx.rect(0,top,W,LH); ctx.clip();
   const g=ctx.createLinearGradient(0,top,0,gy); g.addColorStop(0,d.sky[0]); g.addColorStop(1,d.sky[1]);
   ctx.fillStyle=g; ctx.fillRect(0,top,W,gy-top);
   const span=Math.max(W*.55,s*120);
-  ctx.fillStyle='rgba(255,255,255,.85)';
-  let off=(p.x*s*.12)%span;
-  for(let k=-1;k<Math.ceil(W/span)+2;k++){ const cx=k*span-off+span*.3, cy=top+DH*.3+((k&1)?DH*.08:0);
+  // алыстағы таулар (ақ шыңдар)
+  let off=(p.x*s*.06)%span;
+  for(let k=-1;k<Math.ceil(W/span)+2;k++){ const bx=k*span-off, h1=DH*.42, h2=DH*.3;
+    ctx.fillStyle='rgba(30,42,74,.16)'; ctx.beginPath(); ctx.moveTo(bx,gy); ctx.lineTo(bx+span*.28,gy-h1); ctx.lineTo(bx+span*.46,gy-h1*.62); ctx.lineTo(bx+span*.66,gy-h2); ctx.lineTo(bx+span,gy); ctx.fill();
+    ctx.fillStyle='rgba(251,245,232,.85)'; ctx.beginPath(); ctx.moveTo(bx+span*.28,gy-h1); ctx.lineTo(bx+span*.24,gy-h1*.84); ctx.lineTo(bx+span*.29,gy-h1*.88); ctx.lineTo(bx+span*.33,gy-h1*.82); ctx.fill(); }
+  // бұлттар
+  ctx.fillStyle='rgba(255,252,244,.8)'; off=(p.x*s*.12)%span;
+  for(let k=-1;k<Math.ceil(W/span)+2;k++){ const cx=k*span-off+span*.3, cy=top+DH*.22+((k&1)?DH*.08:0);
     rr(cx-s*12,cy-s*3,s*26,s*7,s*3.5); ctx.fill(); rr(cx-s*4,cy-s*7,s*13,s*8,s*4); ctx.fill(); }
-  ctx.fillStyle='rgba(0,0,0,.035)';
-  off=(p.x*s*.3)%span;
-  for(let k=-1;k<Math.ceil(W/span)+2;k++){ ctx.beginPath(); ctx.ellipse(k*span-off,gy,span*.45,DH*.26,0,Math.PI,0); ctx.fill(); }
+  // жақын төбелер + киіз үй
+  off=(p.x*s*.3)%(span*2);
+  for(let k=-1;k<Math.ceil(W/span/2)+2;k++){ const bx=k*span*2-off;
+    ctx.fillStyle='rgba(107,66,38,.10)'; ctx.beginPath(); ctx.ellipse(bx,gy,span*.5,DH*.2,0,Math.PI,0); ctx.fill();
+    const yx=bx+span*1.15, yw=s*16, yh=s*9;
+    ctx.fillStyle='rgba(251,245,232,.95)'; rr(yx-yw/2,gy-yh,yw,yh,s); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(yx-yw/2-s,gy-yh+s*.5); ctx.quadraticCurveTo(yx,gy-yh-s*8,yx+yw/2+s,gy-yh+s*.5); ctx.fill();
+    ctx.fillStyle='#A8322A'; ctx.fillRect(yx-yw/2,gy-yh*.62,yw,Math.max(1.5,s*.9));
+    ctx.fillStyle='#6B4226'; rr(yx-s*2,gy-s*5.5,s*4,s*5.5,s*.6); ctx.fill(); }
   ctx.fillStyle=d.ground; ctx.fillRect(0,gy,W,top+LH-gy);
   ctx.fillStyle=d.edge; ctx.fillRect(0,gy,W,Math.max(3,s*1.1));
-  ctx.fillStyle='rgba(255,255,255,.45)';
-  const st=s*12; off=(p.x*s)%st;
-  for(let x=-off;x<W;x+=st){ rr(x,gy+s*3,st*.35,Math.max(2,s*.9),s); ctx.fill(); }
+  // жердегі өрнек-жол
+  const st=s*12; off=(p.x*s)%st; ctx.strokeStyle='rgba(107,66,38,.28)'; ctx.lineWidth=Math.max(1.2,s*.6); ctx.lineCap='round';
+  for(let x=-off;x<W;x+=st){ const yy=gy+s*4.2; ctx.beginPath(); ctx.moveTo(x,yy); ctx.lineTo(x+st*.25,yy-s*1.6); ctx.lineTo(x+st*.5,yy); ctx.stroke(); }
 
   const wx0=p.x-px0/s-15, wx1=p.x+(W-px0)/s+15;
   for(let j=Math.max(0,p.ci-25);j<G.items.length;j++){
@@ -896,62 +1126,56 @@ function drawLane(p,i){
     const sx=px0+(o.x-p.x)*s, done=p.done.has(j);
     if(o.type==='block'){
       ctx.globalAlpha=done?.3:1;
-      ctx.fillStyle='rgba(0,0,0,.08)'; rr(sx+s*.6,gy-o.h*s+s*.8,o.w*s,o.h*s,s*2); ctx.fill();
-      ctx.fillStyle='#5856D6'; rr(sx,gy-o.h*s,o.w*s,o.h*s,s*2); ctx.fill();
-      ctx.fillStyle='rgba(255,255,255,.18)'; rr(sx+s*.8,gy-o.h*s+s*.8,o.w*s-s*1.6,o.h*s*.35,s*1.4); ctx.fill();
-      const fs=Math.min(o.w,o.h)*s*.8;
-      ctx.font=`${fs}px ${EMOJI}`; ctx.textAlign='center'; ctx.textBaseline='middle';
-      ctx.fillText('👾',sx+o.w*s/2,gy-o.h*s/2);
+      ctx.fillStyle='rgba(60,35,15,.14)'; ctx.beginPath(); ctx.ellipse(sx+o.w*s/2,gy+s*.4,o.w*s*.6,s*1.2,0,0,7); ctx.fill();
+      drawVirus(sx,gy-o.h*s,o.w*s,o.h*s,s,now/900+j);
       ctx.globalAlpha=1;
     }else if(o.type==='coin'){
       if(done) continue;
-      const cy=gy-o.y*s, r=s*COIN_R, bob=Math.sin(performance.now()/250+j)*s*.6;
-      ctx.fillStyle='#FF9500'; ctx.beginPath(); ctx.arc(sx,cy+bob,r,0,7); ctx.fill();
-      ctx.fillStyle='#FFCC00'; ctx.beginPath(); ctx.arc(sx,cy+bob-s*.3,r*.82,0,7); ctx.fill();
-      ctx.fillStyle='#fff'; ctx.font=`700 ${r*1.15}px ${FONT}`; ctx.textAlign='center'; ctx.textBaseline='middle';
-      ctx.fillText('₸',sx,cy+bob-s*.2);
+      const cy=gy-o.y*s, r=s*COIN_R, bob=Math.sin(now/250+j)*s*.6;
+      ctx.fillStyle='#9A6E18'; ctx.beginPath(); ctx.arc(sx,cy+bob+s*.4,r,0,7); ctx.fill();
+      ctx.fillStyle='#E9C46A'; ctx.beginPath(); ctx.arc(sx,cy+bob,r,0,7); ctx.fill();
+      ctx.strokeStyle='#C9962B'; ctx.lineWidth=Math.max(1,s*.5); ctx.beginPath(); ctx.arc(sx,cy+bob,r*.74,0,7); ctx.stroke();
+      ctx.fillStyle='#7A4A1A'; ctx.font=`700 ${r*1.15}px ${FONT}`; ctx.textAlign='center'; ctx.textBaseline='middle';
+      ctx.fillText('₸',sx,cy+bob+s*.1);
     }else if(o.type==='gate'){
-      const res=p.res.get(j), col=res===true?'#34C759':res===false?'#FF3B30':'#007AFF';
+      const res=p.res.get(j), col=res===true?'#4C7A35':res===false?'#A8322A':'#1E2A4A';
       const gh=40*s, inner=o.w*s+PW*s;
       ctx.fillStyle=col;
-      rr(sx-s*1.2,gy-gh,s*2.4,gh,s*1.2); ctx.fill(); rr(sx+inner-s*1.2,gy-gh,s*2.4,gh,s*1.2); ctx.fill();
-      rr(sx-s*4,gy-gh-s*8,inner+s*8,s*9,s*4.5); ctx.fill();
-      ctx.fillStyle='#fff'; ctx.font=`800 ${s*6}px ${FONT}`; ctx.textAlign='center'; ctx.textBaseline='middle';
-      ctx.fillText(res===true?'✓':res===false?'✕':'?', sx+inner/2, gy-gh-s*3.4);
-      if(!done){ ctx.fillStyle='rgba(0,122,255,.1)'; ctx.fillRect(sx+s*1.2,gy-gh,inner-s*2.4,gh); }
+      rr(sx-s*1.4,gy-gh,s*2.8,gh,s*.8); ctx.fill(); rr(sx+inner-s*1.4,gy-gh,s*2.8,gh,s*.8); ctx.fill();
+      ctx.beginPath(); ctx.moveTo(sx-s*5,gy-gh); ctx.quadraticCurveTo(sx+inner/2,gy-gh-s*13,sx+inner+s*5,gy-gh); ctx.lineTo(sx+inner+s*5,gy-gh+s*2.5); ctx.lineTo(sx-s*5,gy-gh+s*2.5); ctx.fill();
+      ctx.strokeStyle='#E9C46A'; ctx.lineWidth=Math.max(1,s*.55); ctx.setLineDash([s*1.2,s*1]);
+      ctx.beginPath(); ctx.moveTo(sx-s*3.6,gy-gh+s*1.2); ctx.quadraticCurveTo(sx+inner/2,gy-gh-s*10.4,sx+inner+s*3.6,gy-gh+s*1.2); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle='#E9C46A'; ctx.font=`700 ${s*6.5}px ${FONT}`; ctx.textAlign='center'; ctx.textBaseline='middle';
+      ctx.fillText(res===true?'✓':res===false?'✕':'?', sx+inner/2, gy-gh-s*3.2);
+      if(!done){ ctx.fillStyle='rgba(201,150,43,.12)'; ctx.fillRect(sx+s*1.4,gy-gh+s*2.5,inner-s*2.8,gh-s*2.5); }
     }
   }
 
   const ph=PH*s*PLAYER_SCALE, pw=PW*s*PLAYER_SCALE, onG=p.y<=0.01, running=p.state==='run'&&onG;
-  const bob=running?Math.abs(Math.sin(p.x*.5))*s*1.4:0;
+  const bob=running?Math.abs(Math.sin(p.x*.5))*s*1.0:0;
   const py=gy-p.y*s-ph-bob;
-  ctx.save(); ctx.translate(PW*s/2-pw/2,0); // үлкен суретті хитбокс ортасына туралау
-  ctx.fillStyle='rgba(0,0,0,.12)'; ctx.beginPath();
+  ctx.save(); ctx.translate(PW*s/2-pw/2,0);
+  ctx.fillStyle='rgba(60,35,15,.16)'; ctx.beginPath();
   ctx.ellipse(px0+pw/2,gy+s*.6,pw*.75*Math.max(.4,1-p.y/40),s*1.3,0,0,7); ctx.fill();
   if(p.boost>0 && p.state==='run'){
-    ctx.strokeStyle='rgba(255,204,0,.95)'; ctx.lineWidth=Math.max(2,s*.8); ctx.lineCap='round';
-    for(let k=0;k<3;k++){ const yy=py+ph*(.3+k*.22), l=s*(6+((performance.now()/40+k*7)%6));
+    ctx.strokeStyle='rgba(201,150,43,.95)'; ctx.lineWidth=Math.max(2,s*.8); ctx.lineCap='round';
+    for(let k=0;k<3;k++){ const yy=py+ph*(.3+k*.22), l=s*(6+((now/40+k*7)%6));
       ctx.beginPath(); ctx.moveTo(px0-s*2,yy); ctx.lineTo(px0-s*2-l,yy); ctx.stroke(); }
   }
-  const blink=p.state==='stun' && Math.floor(performance.now()/90)%2;
-  if(!blink){
-    ctx.fillStyle=d.color; rr(px0-s*.6,py+ph*.42,pw+s*1.2,ph*.58,s*3); ctx.fill();
-    ctx.fillStyle='rgba(255,255,255,.25)'; rr(px0+s*.4,py+ph*.47,pw-s*.8,ph*.16,s*1.5); ctx.fill();
-    ctx.font=`${ph*.72}px ${EMOJI}`; ctx.textAlign='center'; ctx.textBaseline='middle';
-    ctx.fillText(d.av,px0+pw/2,py+ph*.3);
-    if(p.state==='stun'){ ctx.font=`${ph*.4}px ${EMOJI}`; ctx.fillText('💫',px0+pw/2,py-ph*.15); }
-  }
+  const blink=p.state==='stun' && Math.floor(now/90)%2;
+  if(!blink) drawRunner(px0,py,pw,ph,d.color,running?p.x*.35:0,!onG,p.state==='stun');
   ctx.restore();
   p.pops.forEach((o,k)=>{
     const a=Math.max(0,1-o.t/1.2), fs=Math.max(14,s*4.6);
-    ctx.globalAlpha=a; ctx.font=`800 ${fs}px ${FONT}`; ctx.textBaseline='middle'; ctx.textAlign='center';
+    ctx.globalAlpha=a; ctx.font=`700 ${fs}px ${FONT}`; ctx.textBaseline='middle'; ctx.textAlign='center';
     const tw=ctx.measureText(o.text).width+fs*1.1, tx=px0+pw+s*4+tw/2, ty=py-o.t*s*12-k*s*2;
-    ctx.fillStyle='rgba(255,255,255,.95)'; rr(tx-tw/2,ty-fs*.75,tw,fs*1.5,fs*.75); ctx.fill();
+    ctx.fillStyle='rgba(251,245,232,.96)'; rr(tx-tw/2,ty-fs*.75,tw,fs*1.5,fs*.3); ctx.fill();
+    ctx.strokeStyle='rgba(107,66,38,.35)'; ctx.lineWidth=1; ctx.stroke();
     ctx.fillStyle=o.color; ctx.fillText(o.text,tx,ty+1);
     ctx.globalAlpha=1;
   });
   ctx.restore();
-  if(i>0){ ctx.fillStyle='rgba(60,60,67,.18)'; ctx.fillRect(0,top,W,1); }
+  if(i>0){ ctx.fillStyle='#1E2A4A'; ctx.fillRect(0,top-1,W,3); }
 }
 
 function draw(){
@@ -967,7 +1191,7 @@ function updateTimer(){
 function updateHud(){
   G.players.forEach(p=>{
     p.el.score.textContent=p.score;
-    p.el.streak.textContent=p.streak>=2?`🔥 ${p.streak}`:(p.boost>0&&p.state==='run'?'⚡':'');
+    p.el.streak.textContent=p.streak>=2?`×${p.streak}`:(p.boost>0&&p.state==='run'?'жылдам':'');
     if(G.online && G.rank && G.rank[1]>1) p.el.rank.textContent=`${G.rank[0]}-орын / ${G.rank[1]}`;
   });
 }
@@ -1028,7 +1252,7 @@ function hideAll(){ ['#setup','#join','#pause','#end'].forEach(s=>show(s,false))
 
 $('#bPause').onclick=()=>togglePause();
 $('#bResume').onclick=()=>togglePause(false);
-$('#bMute').onclick=()=>{ muted=!muted; $('#bMute').textContent=muted?'🔇':'🔊'; };
+$('#bMute').onclick=()=>{ muted=!muted; $('#bMute').innerHTML=ic(muted?'mute':'snd'); };
 $('#bMenu').onclick=()=>{
   if(G && !G.over && !confirm('Ойыннан шығу керек пе?')) return;
   const wasOnline = G ? !!G.online : NET.joined;
@@ -1063,7 +1287,7 @@ addEventListener('blur',()=>{ if(G&&!G.over&&!G.online&&G.countdown<=0) togglePa
 
 // ================= ОНЛАЙН (Firebase) =================
 const AVATARS=["🦊","🐼","🐸","🐯","🐵","🐨","🐰","🐻","🦁","🐙","🦄","🐲","🐱","🐶","🦉","🐢","🐧","🐷","🐮","🐔","🦋","🐝","🐬","🦖"];
-const COLORS=["#FF3B30","#007AFF","#34C759","#AF52DE","#FF9500","#FF2D55","#30B0C7","#5856D6","#A2845E","#00C7BE","#FFCC00","#32ADE6"];
+const COLORS=["#A8322A","#1F5C8C","#4C7A35","#6A2E4E","#B07A1C","#A8324F","#1C7F8E","#2E3F78","#8A5A2B","#3E7D6A","#C2701C","#2C3B63"];
 const FBV='10.12.2';
 let FB=null, fbPromise=null;
 function fbInit(){ if(!fbPromise) fbPromise=fbInitInner().catch(e=>{ fbPromise=null; throw e; }); return fbPromise; }
@@ -1120,10 +1344,10 @@ async function doJoin(){
     const fb=await fbInit();
     const meta=(await fb.get(fb.r(`rooms/${room}/meta`))).val();
     if(!meta){ joinErr('Мұндай бөлме жоқ. Кодты тексер.'); return false; }
-    if((await fb.get(fb.r(`rooms/${room}/banned/${fb.uid}`))).exists()){ joinErr('Мұғалім сені бұл бөлмеге кіргізбейді 🚫'); return false; }
+    if((await fb.get(fb.r(`rooms/${room}/banned/${fb.uid}`))).exists()){ joinErr('Мұғалім сені бұл бөлмеге кіргізбейді'); return false; }
     const players=cleanPlayers((await fb.get(fb.r(`rooms/${room}/players`))).val());
     const me=players[fb.uid], k=Object.keys(players).length;
-    if(meta.locked===true && !me){ joinErr('Бөлме құлыпталған 🔒 Мұғалімнен ашуын сұра'); return false; }
+    if(meta.locked===true && !me){ joinErr('Бөлме құлыпталған. Мұғалімнен ашуын сұра'); return false; }
     const okAv=me && AVATARS.includes(me.av);
     const data={name, online:true, av: okAv?me.av:AVATARS[k%AVATARS.length], color: me?me.color:COLORS[k%COLORS.length]};
     if(!me) Object.assign(data,{score:0,correct:0,wrong:0,hits:0,coins:0,x:0,gameId:-1});
@@ -1258,7 +1482,7 @@ async function showHost(){
     if(!code) code=await createRoom();
     openHostRoom(code);
     cleanupStaleRooms().catch(e=>console.warn('cleanup',e));
-  }catch(e){ console.error(e); $('#hUrl').textContent=''; hostWarn('⚠️ '+fbErrText(e)); }
+  }catch(e){ console.error(e); $('#hUrl').textContent=''; hostWarn(''+fbErrText(e)); }
 }
 // Тасталған бөлмелерді тазалау: мұғалім экраны 2 сағаттан артық жабық тұрса (ереже де осыны тексереді)
 const STALE_MS=2*3600*1000, OLD_MS=12*3600*1000;
@@ -1284,7 +1508,7 @@ async function copyLink(){
   const b=$('#hCopy'), inp=$('#hLink');
   try{ await navigator.clipboard.writeText(HOST.url); }
   catch(e){ inp.select(); try{ document.execCommand('copy'); }catch(_){ } }
-  b.textContent='✓ Көшірілді'; clearTimeout(copyLink.t); copyLink.t=setTimeout(()=>b.textContent='📋 Көшіру',2000);
+  b.innerHTML=ic('check')+' Көшірілді'; clearTimeout(copyLink.t); copyLink.t=setTimeout(()=>b.innerHTML=ic('copy')+' Көшіру',2000);
 }
 async function createRoom(){
   // 12 сағаттан ескі бөлмелерді қайта қолдануға болады (ережеде тексеріледі)
@@ -1334,7 +1558,7 @@ function openHostRoom(code){
   const url=`${location.origin}/?room=${code}`;
   HOST.url=url;
   $('#hCode').textContent=code; $('#hUrl').textContent=`Немесе сайтқа кіріп, кодты жазыңыз: ${location.host}`;
-  $('#hLink').value=url; $('#hCopy').textContent='📋 Көшіру';
+  $('#hLink').value=url; $('#hCopy').innerHTML=ic('copy')+' Көшіру';
   $('#hShareWrap').style.display=navigator.share?'':'none';
   drawQR(url);
   HOST.unsub.push(FB.onValue(FB.r(`rooms/${code}/banned`),s=>{ HOST.banned=s.val()||{}; scheduleHost(); }));
@@ -1343,7 +1567,7 @@ function openHostRoom(code){
     // Бөлме жоғалды (ұзақ уақыт офлайн болып тазаланған) — жаңасын ашамыз
     if((!m || m.hostUid!==FB.uid) && HOST.code===code && !HOST.closing){
       stopHostRoom(); hostWarn('ℹ️ Бұрынғы бөлме жабылған еді — жаңа бөлме ашылды');
-      createRoom().then(openHostRoom).catch(e=>hostWarn('⚠️ '+fbErrText(e)));
+      createRoom().then(openHostRoom).catch(e=>hostWarn(''+fbErrText(e)));
       return;
     }
     HOST.meta=m; scheduleHost(); }));
@@ -1353,7 +1577,7 @@ function openHostRoom(code){
       HOST.wasOn=true; hostWarn('');
       FB.onDisconnect(metaRef).update({hostOnline:false,active:FB.serverTimestamp()}).catch(()=>{});
       markOnline();
-    } else if(HOST.wasOn) hostWarn('⚠️ Интернет байланысы жоқ — қайта қосылуда…');
+    } else if(HOST.wasOn) hostWarn('Интернет байланысы жоқ — қайта қосылуда…');
   }));
   HOST.timer=setInterval(hostClock,250);
 }
@@ -1381,7 +1605,7 @@ function renderHost(){
   const m=HOST.meta; if(!m) return;
   const locked=m.locked===true;
   $('#hJoinCard').classList.toggle('locked',locked);
-  $('#hLock').textContent = locked ? '🔓 Бөлмені ашу' : '🔒 Бөлмені құлыптау';
+  $('#hLock').innerHTML = locked ? ic('unlock')+' Бөлмені ашу' : ic('lock')+' Бөлмені құлыптау';
   const order=['lobby','play','end'], idx=order.indexOf(m.phase);
   document.querySelectorAll('#hSteps span').forEach((s,k)=>{ s.classList.toggle('on',k===idx); s.classList.toggle('done',k<idx); });
   $('#hLobby').style.display=m.phase==='lobby'?'':'none';
@@ -1397,7 +1621,7 @@ function renderHost(){
     $('#hBannedWrap').style.display=bl.length?'':'none';
     $('#hBanned').innerHTML=bl.map(([id,b])=>`<span class="hp off"><span class="tile" style="--c:#8E8E93">${esc(String((b&&b.av)||'🙂').slice(0,4))}</span>${esc(String((b&&b.name)||'?').slice(0,20))}<button class="unban" data-unban="${esc(id)}">↩ Қайтару</button></span>`).join('');
     $('#hStart').disabled = !on.length;
-    $('#hStart').textContent = on.length ? `▶ Ойынды бастау · ${on.length} оқушы` : 'Оқушылар қосылғанын күтіңіз';
+    $('#hStart').textContent = on.length ? `Ойынды бастау · ${on.length} оқушы` : 'Оқушылар қосылғанын күтіңіз';
   }else if(m.phase==='play'){
     hostClock();
     const list=all.filter(p=>p.online||p.gameId===m.gameId).sort((a,b)=>b.score-a.score||b.correct-a.correct);
@@ -1410,7 +1634,7 @@ function renderHost(){
   }else{
     const list=all.filter(p=>p.gameId===m.gameId).sort((a,b)=>b.score-a.score||b.correct-a.correct);
     $('#hRes').innerHTML=resultsHTML(list);
-    $('#hWinner').textContent = list.length===1 ? `${list[0].name} — ${list[0].score} ұпай 🏆` : winnerText(list);
+    $('#hWinner').textContent = list.length===1 ? `${list[0].name} — ${list[0].score} ұпай` : winnerText(list);
   }
 }
 // «✕» — алдымен сұрайды: шығару (қайта кіре алады) немесе бұғаттау
