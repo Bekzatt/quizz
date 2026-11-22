@@ -9,6 +9,36 @@
         ".validate": "!newData.exists() || ($code.matches(/^[0-9]{4}$/) && newData.isNumber())"
       }
     },
+    "users": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid && auth.provider !== 'anonymous'",
+        ".write": "auth != null && auth.uid === $uid && auth.provider !== 'anonymous'",
+        ".validate": "newData.hasChildren(['q'])",
+        "q": {
+          ".validate": "newData.isString() && newData.val().length <= 100000"
+        },
+        "qonly": {
+          ".validate": "newData.isBoolean()"
+        },
+        "sets": {
+          ".validate": "newData.isString() && newData.val().length <= 500 && newData.val().matches(/^[a-z0-9,-]*$/)"
+        },
+        "at": {
+          ".validate": "newData.isNumber() && newData.val() <= now"
+        },
+        "$other": {
+          ".validate": false
+        }
+      }
+    },
+    "stats": {
+      "$day": {
+        "$ev": {
+          ".write": "auth != null && $day.matches(/^20[0-9][0-9]-[01][0-9]-[0-3][0-9]$/) && $ev.matches(/^(visit|login|room|online|local|join|g_[a-z]{3,10})$/)",
+          ".validate": "newData.isNumber() && ((!data.exists() && newData.val() === 1) || (data.isNumber() && newData.val() === data.val() + 1))"
+        }
+      }
+    },
     "rooms": {
       "$code": {
         ".read": "auth != null",

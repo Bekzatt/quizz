@@ -54,6 +54,14 @@ const BASE = parseQuestions(BASE_Q);
 // Мұғалімнің өз сұрақтары — тек басты беттегі формадан қосылады/өзгертіледі (index.html → «Сұрақтар»).
 const ownQuestionsText=()=>{ try{ return localStorage.getItem('ij_q')||''; }catch(e){ return ''; } };
 const ownOnly=()=>{ try{ return localStorage.getItem('ij_qonly')==='1'; }catch(e){ return false; } };
-// Ойында қолданылатын барлық сұрақ: кірістірілген + өз сұрақтарыңыз (немесе «Тек өз сұрақтарым»)
-function questionPool(){ const own=parseQuestions(ownQuestionsText()); return (ownOnly() && own.length) ? own : BASE.concat(own); }
+// Ойында қолданылатын барлық сұрақ:
+//   «Тек өз сұрақтарым» → тек өз сұрақтарыңыз;
+//   дайын жинақ таңдалса (sets.js, 'ij_sets') → сол жинақтар + өз сұрақтарыңыз;
+//   әйтпесе → кірістірілген BASE + өз сұрақтарыңыз.
+function questionPool(){
+  const own=parseQuestions(ownQuestionsText());
+  if(ownOnly() && own.length) return own;
+  const fromSets=(typeof selectedSetIds==='function') ? selectedSetIds().flatMap(setQuestions) : [];
+  return (fromSets.length ? fromSets : BASE).concat(own);
+}
 function ownQuestionCount(){ return parseQuestions(ownQuestionsText()).length; }

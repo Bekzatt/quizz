@@ -140,6 +140,35 @@ details.bulk summary svg{width:16px;height:16px;color:var(--red)}
 .section details.bulk summary::after{content:none}
 details.bulk textarea{min-height:140px;margin-top:8px}
 
+/* ---------- аккаунт және дайын жинақтар ---------- */
+.ibtn.acct.on{background:var(--gold);color:var(--navy);border-color:var(--gold2);font-family:var(--serif);font-weight:700;font-size:18px}
+.acctbox{display:flex;align-items:center;gap:12px;margin:14px 0 6px;padding:12px 14px;border-radius:10px;background:#FFFDF7;box-shadow:inset 0 0 0 1.5px var(--line);flex-wrap:wrap}
+.acctbox[hidden]{display:none}
+.acctbox .av{flex:none;width:42px;height:42px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:var(--paper);color:var(--navy);box-shadow:inset 0 0 0 1.5px var(--line)}
+.acctbox .av svg{width:24px;height:24px}
+.acctbox .av.on{background:var(--navy);color:var(--gold2);font-family:var(--serif);font-weight:700;font-size:20px;box-shadow:none}
+.acctbox .grow{flex:1;min-width:200px}
+.acctbox b{display:block;font-size:16px;color:var(--navy)}
+.acctbox small{display:block;font-size:14px;color:var(--ink2);margin-top:2px}
+.btn.sm{height:42px;font-size:15px;padding:0 16px}
+.btn.sm svg{width:18px;height:18px}
+.subj{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.subj button{height:38px;padding:0 14px;border-radius:8px;border:0;background:#FFFDF7;color:var(--ink);font-size:15px;font-weight:700;cursor:pointer;box-shadow:inset 0 0 0 1.5px var(--line)}
+.subj button.on{background:var(--navy);color:var(--gold2);box-shadow:none}
+.setlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px}
+.setrow{background:#FFFDF7;border-radius:10px;box-shadow:inset 0 0 0 1.5px var(--line);padding:10px 12px}
+.setrow.on{box-shadow:inset 0 0 0 2px var(--red);background:#FFF6E4}
+.setrow label{display:flex;align-items:flex-start;gap:10px;cursor:pointer}
+.setrow input{accent-color:var(--red);width:20px;height:20px;flex:none;margin-top:2px}
+.setrow b{display:block;font-size:16px;color:var(--navy);line-height:1.25}
+.setrow small{display:block;font-size:13px;color:var(--ink2);margin-top:2px}
+.setrow details{margin:6px 0 0 30px}
+.setrow details summary{cursor:pointer;color:var(--red);font-size:14px;font-weight:700;list-style:none;font-family:var(--font)}
+.setrow details summary::-webkit-details-marker{display:none}
+.section .setrow details summary::after{content:none}
+.setrow ol{margin:6px 0 0;padding-left:20px;font-size:14px;color:var(--ink);line-height:1.4}
+.setrow ol .ok{color:#2F5A1F}
+
 /* ---------- баптау ---------- */
 .setup{height:100%;overflow:auto;padding:26px 18px 48px}
 .setup .wrap{max-width:600px;margin:0 auto}
@@ -492,6 +521,7 @@ details.bulk textarea{min-height:140px;margin-top:8px}
   <button class="ibtn" id="back" aria-label="Мәзір" hidden></button>
   <div class="title" id="title">Білім ойындары</div>
   <div id="timer"></div>
+  <button class="ibtn acct" id="acct" aria-label="Кіру" hidden></button>
   <button class="ibtn" id="mute" aria-label="Дыбыс"></button>
   <button class="ibtn" id="fs" aria-label="Толық экран"></button>
 </div>
@@ -499,10 +529,12 @@ details.bulk textarea{min-height:140px;margin-top:8px}
 <div class="overlay" id="ov"><div class="sheet" id="sheet"></div></div>
 
 <script src="questions.js"></script>
+<script src="sets.js"></script>
+<script src="fb.js"></script>
 <script>
 "use strict";
 // «Білім жарысы» — бөлек бет jarys/index.html (6-карточка). Сайтта ескі сілтемелер (/?room=1234, /?host) сол бетке өтеді.
-const SITE=/\.web\.app$|\.firebaseapp\.com$/.test(location.hostname) || (/^(localhost|127\.0\.0\.1)$/.test(location.hostname) && location.port==='5000');
+const SITE=ON_SITE; // fb.js
 if(SITE && /[?&](room|host)\b/.test(location.search)) location.replace('/jarys/'+location.search);
 // Сұрақтар (BASE_Q, parseQuestions, BASE) — ортақ файлда: questions.js
 
@@ -522,6 +554,9 @@ const PATHS={
   mute:'<path d="M6 18h7l10-8v28l-10-8H6z"/><path d="M31 19l10 10M41 19L31 29"/>',
   fs:'<path d="M6 17V6h11M31 6h11v11M42 31v11H31M17 42H6V31"/>',
   back:'<path d="M30 8L14 24l16 16"/>',
+  user:'<circle cx="24" cy="16" r="8"/><path d="M8 42c2-9 8-13 16-13s14 4 16 13"/>',
+  layers:'<path d="M24 6L4 16l20 10 20-10z"/><path d="M4 24l20 10 20-10M4 32l20 10 20-10"/>',
+  cloud:'<path d="M14 38h22a8 8 0 0 0 0-16 11 11 0 0 0-21-3 9 9 0 0 0-1 19z"/>',
   plus:'<path d="M24 10v28M10 24h28"/>', check:'<path d="M10 25l9 9 19-20"/>',
   edit:'<path d="M10 38l2-9 20-20 7 7-20 20zM28 13l7 7"/>', trash:'<path d="M9 13h30M19 13V8h10v5M13 13l2 28h18l2-28"/>',
   copy:'<rect x="15" y="15" width="24" height="26" rx="3"/><path d="M33 15V9a2 2 0 0 0-2-2H11a2 2 0 0 0-2 2v24a2 2 0 0 0 2 2h4"/>',
@@ -804,19 +839,25 @@ function showMenu(){
   stopGame(); setTop('Білім ойындары',false);
   const own=parseQuestions(store('ij_q')||'');
   stage.innerHTML=`<div class="menu"><div class="wrap">
-    <header class="mhead"><span class="shan">${ic('shan',2.2)}</span><div><span class="kick">Информатика сабағына</span><h1>Білім ойындары</h1>
-      <p>Тақтада бүкіл сынып болып ойнауға арналған алты ойын. Сұрақтар ортақ — төменнен өз сұрақтарыңызды қосыңыз.</p></div></header>
+    <header class="mhead"><span class="shan">${ic('shan',2.2)}</span><div><span class="kick">Сабаққа арналған</span><h1>Білім ойындары</h1>
+      <p>Тақтада бүкіл сынып болып ойнауға арналған алты ойын. Төменнен пән бойынша дайын жинақты таңдаңыз немесе өз сұрақтарыңызды қосыңыз — олар барлық ойынға ортақ.</p></div></header>
     <div class="cards">${Object.entries(GAMES).map(([id,g],k)=>`<button class="gcard${k===0?' big':''}" data-g="${id}" style="--c:${g.c};--c2:${g.c2}">
       ${k===0?`<span class="duo"><img src="${imgGet('h0')}" alt="" onerror="this.remove()"><img src="${imgGet('h1')}" alt="" class="${flipGet('h1')?'fl':''}" onerror="this.remove()"></span>`:''}
       <span class="ic">${ic(g.icon,2.4)}</span><b>${g.title}</b><small>${g.desc}</small><span class="tag">${g.tag}</span></button>`).join('')}</div>
+    <details class="section" id="setsec"><summary>${ic('layers',2.6)}<span id="setsum">Дайын жинақтар</span></summary>
+      <p class="muted">Пәнді таңдап, керек жинақты белгілеңіз — ойындар сол сұрақтардан құрылады. Бірнеше жинақ таңдауға болады. Ештеңе таңдалмаса — информатикадан 40 аралас сұрақ.</p>
+      <div class="subj" id="subj"></div>
+      <div class="setlist" id="setlist"></div>
+    </details>
     <details class="section" id="qsec"><summary>${ic('book',2.6)}<span id="qsum">Сұрақтар (${getPool().length})</span></summary>
-      <p class="muted">Өз сұрағыңызды осында қосыңыз — ол барлық 6 ойында шығады (Білім жарысы онлайн да). Сұрақтар осы браузерде сақталады.</p>
+      <div class="acctbox" id="acctBox" hidden></div>
+      <p class="muted">Өз сұрағыңызды осында қосыңыз — ол барлық 6 ойында шығады (Білім жарысы онлайн да).</p>
       <div class="qed" id="qEd"></div>
       <details class="bulk"><summary>${ic('copy',2.8)} Көп сұрақты мәтінмен қою (Word/Excel-ден)</summary>
         <p class="muted">Әр жолға бір сұрақ: <b>Сұрақ | Дұрыс жауап | Қате | Қате</b>. Excel/Word кестесінен бағандарды көшіріп қоюға да болады.</p>
         <textarea id="qText" placeholder="Python: 3 + 4 * 2 = ? | 11 | 14 | 10"></textarea>
       </details>
-      <label class="chk"><input type="checkbox" id="qOnly"> Тек өз сұрақтарым (кірістірілген 40 сұрақсыз)</label>
+      <label class="chk"><input type="checkbox" id="qOnly"> Тек өз сұрақтарым (дайын жинақтарсыз)</label>
       <div class="muted" id="qInfo" style="margin-top:6px"></div>
     </details></div></div>`;
   stage.querySelectorAll('[data-g]').forEach(b=>b.onclick=()=>{ const g=GAMES[b.dataset.g]; if(g.href) location.href=g.href; else showSetup(b.dataset.g); });
@@ -824,10 +865,27 @@ function showMenu(){
   ta.value=store('ij_q')||''; only.checked=store('ij_qonly')==='1'; if(own.length||location.hash==='#q') $('#qsec').open=true;
   const qed=mountQEditor($('#qEd'),ta);
   if(location.hash==='#q') setTimeout(()=>$('#qsec').scrollIntoView({block:'start'}),50);
-  const info=()=>{ const n=parseQuestions(ta.value).length; $('#qInfo').textContent=`Өз сұрақтарыңыз: ${n} · Ойында барлығы: ${getPool().length}`;
-    $('#qsum').textContent=`Сұрақтар (${getPool().length})`; };
-  window.onstorage=e=>{ if(e.key==='ij_q'&&document.body.contains(ta)){ qed.reload(); info(); } };
-  ta.oninput=()=>{ store('ij_q',ta.value); info(); }; only.onchange=()=>{ store('ij_qonly',only.checked?'1':'0'); info(); }; info();
+  const info=()=>{ const n=parseQuestions(ta.value).length, sel=selectedSetIds();
+    $('#qInfo').textContent=`Өз сұрақтарыңыз: ${n} · Ойында барлығы: ${getPool().length}`;
+    $('#qsum').textContent=`Сұрақтар (${getPool().length})`;
+    $('#setsum').textContent= sel.length ? `Дайын жинақтар · таңдалды: ${sel.length}` : 'Дайын жинақтар'; };
+  window.onstorage=e=>{ if(['ij_q','ij_qonly','ij_sets'].includes(e.key)&&document.body.contains(ta)){ only.checked=store('ij_qonly')==='1'; qed.reload(); renderSets(); info(); } };
+  ta.oninput=()=>{ store('ij_q',ta.value); info(); cloudSave(); }; only.onchange=()=>{ store('ij_qonly',only.checked?'1':'0'); info(); cloudSave(); };
+  // Дайын жинақтар (sets.js)
+  let subj=store('og_subj')||''; if(subj && !SET_SUBJECTS.includes(subj)) subj='';
+  const sel0=selectedSetIds(); if(sel0.length && !location.hash) $('#setsec').open=true;
+  function renderSets(){
+    const sel=selectedSetIds();
+    $('#subj').innerHTML=['',...SET_SUBJECTS].map(x=>`<button type="button" data-subj="${esc(x)}" class="${x===subj?'on':''}">${x?esc(x):'Барлығы'}</button>`).join('');
+    $('#setlist').innerHTML=SETS.filter(t=>!subj||t.subj===subj).map(t=>`<div class="setrow ${sel.includes(t.id)?'on':''}">
+        <label><input type="checkbox" data-set="${t.id}" ${sel.includes(t.id)?'checked':''}><span class="grow"><b>${esc(setLabel(t))}</b><small>${esc(t.subj)} · ${t.qs.length} сұрақ</small></span></label>
+        <details><summary>Көру</summary><ol>${t.qs.map(q=>`<li>${esc(q.q)} <span class="ok">— ${esc(q.a)}</span></li>`).join('')}</ol></details></div>`).join('');
+  }
+  $('#subj').onclick=e=>{ const b=e.target.closest('[data-subj]'); if(!b) return; subj=b.dataset.subj; store('og_subj',subj); renderSets(); };
+  $('#setlist').onchange=e=>{ const c=e.target.closest('[data-set]'); if(!c) return;
+    const sel=selectedSetIds().filter(id=>id!==c.dataset.set); if(c.checked) sel.push(c.dataset.set);
+    store('ij_sets',sel.join(',')); renderSets(); info(); cloudSave(); };
+  renderSets(); info(); renderAcct();
 }
 
 function showSetup(id){
@@ -860,7 +918,7 @@ function showSetup(id){
 function startGame(id,o){
   stopGame(); lastGame={id,o}; const g=GAMES[id]; setTop(g.title,true);
   if(getPool().length<1){ alert('Сұрақтар жоқ'); return showMenu(); }
-  cur={running:true}; g.start(o);
+  cur={running:true}; track('g_'+id); g.start(o);
 }
 
 // ================= 1. БАТЫРЛАР ШАЙҚАСЫ =================
@@ -1500,7 +1558,101 @@ function startWheel(o){
   renderTeams(); requestAnimationFrame(size);
 }
 
+// ================= АККАУНТ (Google) — өз сұрақтарыңызды бұлтта сақтау =================
+// Тек сайтта (fb.js → ON_SITE). Сұрақтар бұрынғыдай localStorage-та (ij_q, ij_qonly, ij_sets) — ойындар соны оқиды;
+// кірген мұғалімде олар users/{uid} ішіне де сақталады және басқа компьютерде кіргенде жүктеледі.
+const ACC={user:null, loaded:false, status:'', saveT:0};
+const accName=()=>{ const u=ACC.user; return u ? String(u.displayName||u.email||'Мұғалім') : ''; };
+function renderAcct(){
+  const b=$('#acct'); if(!b) return;
+  b.hidden=!ON_SITE;
+  if(ACC.user){ b.classList.add('on'); b.innerHTML=`<span>${esc((accName().trim()[0]||'?').toUpperCase())}</span>`; b.title=accName(); b.setAttribute('aria-label','Аккаунт: '+accName()); }
+  else { b.classList.remove('on'); b.innerHTML=ic('user'); b.title='Google арқылы кіру'; b.setAttribute('aria-label','Кіру'); }
+  const box=$('#acctBox'); if(!box) return;
+  box.hidden=!ON_SITE; if(!ON_SITE) return;
+  box.innerHTML = ACC.user
+    ? `<span class="av on">${esc((accName().trim()[0]||'?').toUpperCase())}</span><span class="grow"><b>${esc(accName())}</b><small id="accSt">${esc(ACC.status||'Сұрақтарыңыз аккаунтта сақталады — кез келген компьютерде кіріп ашасыз')}</small></span><button type="button" class="btn gray sm" id="aOut">Шығу</button>`
+    : `<span class="av">${ic('cloud',2.6)}</span><span class="grow"><b>Сұрақтарыңызды сақтаңыз</b><small>Google арқылы кірсеңіз, сұрақтарыңыз жоғалмайды және кез келген компьютерде ашылады. Ойнау үшін кіру міндетті емес.</small></span><button type="button" class="btn sm" id="aIn">${ic('user',2.8)} Google арқылы кіру</button>`;
+  const i=$('#aIn'), o=$('#aOut'); if(i) i.onclick=signIn; if(o) o.onclick=signOutAcc;
+}
+function setAccStatus(t){ ACC.status=t; const e=$('#accSt'); if(e) e.textContent=t; }
+$('#acct').onclick=()=>{ if(ACC.user){ showMenu(); const q=$('#qsec'); if(q){ q.open=true; q.scrollIntoView({block:'start'}); } } else signIn(); };
+function authErr(e){
+  const c=String((e&&e.code)||e&&e.message||'');
+  if(/operation-not-allowed|configuration-not-found/.test(c)) return 'Google арқылы кіру Firebase-те әлі қосылмаған (README.md қараңыз).';
+  if(/unauthorized-domain/.test(c)) return 'Бұл сайт Firebase-тегі рұқсат етілген домендер тізімінде жоқ (README.md қараңыз).';
+  if(/network/.test(c)) return 'Интернет байланысы жоқ. Қайта көріңіз.';
+  return 'Кіру мүмкін болмады: '+c;
+}
+async function signIn(){
+  try{
+    const fb=FB||await fbInit(), A=fb.A, prov=new A.GoogleAuthProvider();
+    prov.setCustomParameters({prompt:'select_account'});
+    try{ await A.signInWithPopup(fb.auth,prov); }
+    catch(e){
+      if(/popup-blocked|operation-not-supported-in-this-environment/.test(e.code||'')) return A.signInWithRedirect(fb.auth,prov);
+      throw e;
+    }
+    track('login');
+  }catch(e){ if(/popup-closed-by-user|cancelled-popup-request/.test(String(e&&e.code))) return; console.warn(e); alert(authErr(e)); }
+}
+async function signOutAcc(){
+  if(!confirm('Аккаунттан шығу керек пе?\nСұрақтарыңыз аккаунтта сақталып қалады, ал бұл компьютерден өшіріледі.')) return;
+  await cloudSaveNow();
+  ['ij_q','ij_qonly','ij_sets'].forEach(k=>{ try{ localStorage.removeItem(k); }catch(e){} });
+  ACC.user=null; ACC.loaded=false;
+  try{ await FB.A.signOut(FB.auth); }catch(e){}
+  refreshMenu();
+}
+const normQ=l=>l.toLowerCase().replace(/\s+/g,' ').trim();
+function mergeQ(a,b){
+  const L=String(a||'').split(/\r?\n/).map(x=>x.trim()).filter(Boolean), seen=new Set(L.map(normQ));
+  String(b||'').split(/\r?\n/).map(x=>x.trim()).filter(Boolean).forEach(l=>{ const k=normQ(l); if(!seen.has(k)){ seen.add(k); L.push(l); } });
+  return L.join('\n');
+}
+async function cloudLoad(){
+  const uid=ACC.user.uid; setAccStatus('Сұрақтар жүктелуде…');
+  try{
+    const d=(await FB.get(FB.r(`users/${uid}`))).val()||{};
+    const cloudQ=typeof d.q==='string'?d.q:'', merged=mergeQ(cloudQ, store('ij_q')||'');
+    store('ij_q',merged);
+    if(typeof d.qonly==='boolean') store('ij_qonly',d.qonly?'1':'0');
+    if(typeof d.sets==='string' && d.sets) store('ij_sets',d.sets);
+    ACC.loaded=true; ACC.status='';
+    if(merged!==cloudQ || typeof d.qonly!=='boolean' || typeof d.sets!=='string') await cloudSaveNow(true);
+  }catch(e){ console.warn(e); ACC.status='Бұлтпен байланыс жоқ — сұрақтар әзірге осы браузерде'; }
+  refreshMenu();
+}
+function cloudSave(){ if(!ACC.user||!ACC.loaded) return; clearTimeout(ACC.saveT); setAccStatus('Сақталуда…'); ACC.saveT=setTimeout(()=>cloudSaveNow(),1200); }
+async function cloudSaveNow(quiet){
+  clearTimeout(ACC.saveT); if(!ACC.user||!ACC.loaded||!FB) return;
+  const data={q:(store('ij_q')||'').slice(0,100000), qonly:store('ij_qonly')==='1', sets:(store('ij_sets')||'').slice(0,500), at:FB.serverTimestamp()};
+  try{ await FB.set(FB.r(`users/${ACC.user.uid}`),data); if(!quiet) setAccStatus('Сақталды ✓'); }
+  catch(e){ console.warn(e); setAccStatus('Сақталмады — интернетті тексеріңіз'); }
+}
+// Мәзір ашық болса — сұрақтарды қайта салу (ашық бөлімдер мен айналдыру орны сақталады)
+function refreshMenu(){
+  const m=stage.querySelector('.menu'); if(!m){ renderAcct(); return; }
+  const top=m.scrollTop, open=['setsec','qsec'].filter(id=>$('#'+id)&&$('#'+id).open);
+  showMenu(); open.forEach(id=>$('#'+id).open=true);
+  const m2=stage.querySelector('.menu'); if(m2) m2.scrollTop=top;
+}
+async function initAccount(){
+  renderAcct(); if(!ON_SITE) return;
+  try{
+    const fb=await fbInit();
+    fb.A.onAuthStateChanged(fb.auth,u=>{
+      if(!u){ fb.A.signInAnonymously(fb.auth).catch(()=>{}); return; }
+      fb.user=u; fb.uid=u.uid;
+      if(u.isAnonymous){ if(ACC.user){ ACC.user=null; ACC.loaded=false; renderAcct(); } else renderAcct(); return; }
+      if(ACC.user && ACC.user.uid===u.uid) return;
+      ACC.user=u; ACC.loaded=false; renderAcct(); cloudLoad();
+    });
+  }catch(e){ console.warn('firebase',e); }
+}
+
 showMenu();
+initAccount(); trackVisit();
 </script>
 </body>
 </html>

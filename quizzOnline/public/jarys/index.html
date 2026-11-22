@@ -609,6 +609,8 @@ details.bulk summary{color:var(--red);font-weight:700}
 </div>
 
 <script src="../questions.js"></script>
+<script src="../sets.js"></script>
+<script src="../fb.js"></script>
 <script>
 "use strict";
 // ================= БЕЛГІЛЕР (қолмен салынған SVG, интерфейсте эмодзи жоқ) =================
@@ -752,6 +754,7 @@ function startLocal(){
   saveNames();
   const pool=localPool();
   if(!pool.length){ alert('Сұрақ жоқ! Кемінде бір сұрақ жазыңыз.'); return; }
+  track('local');
   startGame({
     players: DEFS.slice(0,nPlayers).map((d,i)=>({def:d, name:names[i]||('Ойыншы '+(i+1))})),
     pool, dur:localDur, seed:(Math.random()*1e9)|0
@@ -1147,27 +1150,7 @@ addEventListener('blur',()=>{ if(G&&!G.over&&!G.online&&G.countdown<=0) togglePa
 // ================= ОНЛАЙН (Firebase) =================
 const AVATARS=["🦊","🐼","🐸","🐯","🐵","🐨","🐰","🐻","🦁","🐙","🦄","🐲","🐱","🐶","🦉","🐢","🐧","🐷","🐮","🐔","🦋","🐝","🐬","🦖"];
 const COLORS=["#A8322A","#1F5C8C","#4C7A35","#6A2E4E","#B07A1C","#A8324F","#1C7F8E","#2E3F78","#8A5A2B","#3E7D6A","#C2701C","#2C3B63"];
-const FBV='10.12.2';
-let FB=null, fbPromise=null;
-function fbInit(){ if(!fbPromise) fbPromise=fbInitInner().catch(e=>{ fbPromise=null; throw e; }); return fbPromise; }
-async function fbInitInner(){
-  const emu=/^(localhost|127\.0\.0\.1)$/.test(location.hostname) && location.port==='5000';
-  const base=`https://www.gstatic.com/firebasejs/${FBV}/`;
-  const [appM,authM,dbM]=await Promise.all(['firebase-app.js','firebase-auth.js','firebase-database.js'].map(f=>import(base+f)));
-  let cfg=null;
-  try{ const r=await fetch('/__/firebase/init.json',{cache:'no-store'}); if(r.ok) cfg=await r.json(); }catch(e){}
-  if(!cfg || !cfg.projectId) throw new Error('noconfig');
-  if(emu) cfg={apiKey:'demo-key',authDomain:'localhost',...cfg};
-  if(!cfg.databaseURL) cfg.databaseURL=`https://${cfg.projectId}-default-rtdb.firebaseio.com`;
-  const app=appM.initializeApp(cfg);
-  const auth=authM.getAuth(app);
-  const db=dbM.getDatabase(app);
-  if(emu){ authM.connectAuthEmulator(auth,'http://127.0.0.1:9099',{disableWarnings:true}); dbM.connectDatabaseEmulator(db,'127.0.0.1',9000); }
-  const cred=await authM.signInAnonymously(auth);
-  FB={...dbM, db, uid:cred.user.uid, offset:0, r:p=>dbM.ref(db,p)};
-  dbM.onValue(dbM.ref(db,'.info/serverTimeOffset'),s=>{ FB.offset=s.val()||0; });
-  return FB;
-}
+// FBV, fbInit, FB, track — ортақ файлда: ../fb.js
 function srvNow(){ return Date.now()+(FB?FB.offset:0); }
 function fbErrText(e){
   if(e && e.message==='noconfig') return 'Онлайн режим тек Firebase сайтында жұмыс істейді (README.md қараңыз).';
@@ -1212,6 +1195,7 @@ async function doJoin(){
     if(!me) Object.assign(data,{score:0,correct:0,wrong:0,hits:0,coins:0,x:0,gameId:-1});
     await fb.update(fb.r(`rooms/${room}/players/${fb.uid}`),data);
     Object.assign(NET,{uid:fb.uid,room,name,av:data.av,color:data.color,joined:true,meta});
+    if(!me) track('join');
     store('ij_myname',name); store('ij_room',room);
     subscribeRoom();
     return true;
@@ -1378,6 +1362,7 @@ async function createRoom(){
     }catch(e){ if(isPerm(e)) continue; throw e; }
     await clearRoomChildren(code);
     await FB.set(FB.r(`roomIndex/${code}`),FB.serverTimestamp());
+    track('room');
     return code;
   }
   throw new Error('Бос бөлме табылмады');
@@ -1524,7 +1509,7 @@ async function hostStart(){
   const upd={'meta/phase':'play','meta/gameId':(m.gameId||0)+1,'meta/seed':Math.floor(Math.random()*1e9),
     'meta/dur':HOST.dur,'meta/startAt':Math.round(srvNow()+5000),'meta/questions':pool};
   scoreReset(upd,false);
-  try{ await FB.update(FB.r(`rooms/${HOST.code}`),upd); }catch(e){ alert('Бастау мүмкін болмады: '+e.message); }
+  try{ await FB.update(FB.r(`rooms/${HOST.code}`),upd); track('online'); }catch(e){ alert('Бастау мүмкін болмады: '+e.message); }
 }
 $('#hStart').onclick=hostStart;
 $('#hAgain').onclick=hostStart;
