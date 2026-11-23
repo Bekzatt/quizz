@@ -1,6 +1,6 @@
 // ================= FIREBASE — басты бет пен «Білім жарысы» үшін ортақ =================
 // Тек сайтта жұмыс істейді (Firebase Hosting немесе эмулятор :5000). Файлды екі рет басып ашқанда — FB жоқ, бәрі офлайн.
-// Кіру: Google аккаунты болса — сол (сұрақтар бұлтта сақталады), болмаса — анонимді (ойын үшін жеткілікті).
+// Кіру — анонимді (тіркелу жоқ): ойын бөлмелері мен статистика үшін жеткілікті.
 const FBV='10.12.2';
 const ON_SITE=/\.web\.app$|\.firebaseapp\.com$/.test(location.hostname) || (/^(localhost|127\.0\.0\.1)$/.test(location.hostname) && location.port==='5000');
 let FB=null, fbPromise=null;
@@ -19,17 +19,16 @@ async function fbInitInner(){
   const auth=authM.getAuth(app);
   const db=dbM.getDatabase(app);
   if(emu){ authM.connectAuthEmulator(auth,'http://127.0.0.1:9099',{disableWarnings:true}); dbM.connectDatabaseEmulator(db,'127.0.0.1',9000); }
-  // Бұрын кірген пайдаланушы (Google немесе анонимді) болса — соны қолданамыз, Google кірісін жоғалтпау үшін
+  // Бұрын кірген анонимді пайдаланушы болса — соны қолданамыз (мұғалім бөлмесі сол uid-ке байланған)
   const prev=await new Promise(res=>{ const off=authM.onAuthStateChanged(auth,u=>{ off(); res(u); }); });
   const user=prev || (await authM.signInAnonymously(auth)).user;
   FB={...dbM, db, auth, A:authM, uid:user.uid, user, offset:0, r:p=>dbM.ref(db,p)};
   dbM.onValue(dbM.ref(db,'.info/serverTimeOffset'),s=>{ FB.offset=s.val()||0; });
   return FB;
 }
-const isGoogleUser=()=>!!(FB && FB.user && !FB.user.isAnonymous);
 
 // ---------- Сайт статистикасы (жеке дерек жоқ: тек күн сайынғы санауыштар) ----------
-// Firebase Console → Realtime Database → stats/ЖЖЖЖ-АА-КК: visit (бір браузер күніне бір рет), login, g_* (ойын басталды), room, online, local, join.
+// Firebase Console → Realtime Database → stats/ЖЖЖЖ-АА-КК: visit (бір браузер күніне бір рет), g_* (ойын басталды), room, online, local, join.
 function track(ev){
   if(!ON_SITE) return;
   const d=new Date(), day=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
