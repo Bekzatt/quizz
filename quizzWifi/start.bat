@@ -17,3 +17,4 @@ exit /b 1
 :run
 %PY% server.py --open
 pause
+
